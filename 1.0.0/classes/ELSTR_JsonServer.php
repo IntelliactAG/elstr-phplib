@@ -7,10 +7,11 @@
  */
 
 
-class ELSTR_RestClient extends Zend_Http_Client {
+class ELSTR_JsonServer extends Zend_Json_Server {
     public function __construct() {
-       parent::__construct();
-    }    
+        parent::__construct();
+    }
+
 }
 
 ?>
