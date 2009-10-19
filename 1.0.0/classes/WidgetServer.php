@@ -9,7 +9,7 @@ require_once ('ArticleWidgetServer.php');
  * @version 1.0
  * @created 19-Okt-2009 17:14:59
  */
-class ELSTR_WidgetServer extends ExamleWidgetServer
+class ELSTR_WidgetServer
 {
 
 	var $m_ELSTR_JsonServer;
