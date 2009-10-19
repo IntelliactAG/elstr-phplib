@@ -4,12 +4,12 @@ require_once ('IService.php');
 /**
  * @author nyffenegger
  * @version 1.0
- * @created 19-Okt-2009 17:04:27
+ * @created 19-Okt-2009 17:14:58
  */
-class HTTPClient extends IService
+class ELSTR_HTTPClient extends ELSTR_IService
 {
 
-	function HTTPClient()
+	function ELSTR_HTTPClient()
 	{
 	}
 

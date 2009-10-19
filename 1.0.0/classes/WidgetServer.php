@@ -7,19 +7,19 @@ require_once ('ArticleWidgetServer.php');
 /**
  * @author egli
  * @version 1.0
- * @created 19-Okt-2009 17:10:39
+ * @created 19-Okt-2009 17:14:59
  */
-class WidgetServer extends ExamleWidgetServer
+class ELSTR_WidgetServer extends ExamleWidgetServer
 {
 
-	var $m_JsonServer;
-	var $m_EnterpriseApplication;
+	var $m_ELSTR_JsonServer;
+	var $m_ELSTR_EnterpriseApplication;
 	var $m_Zend_Session;
 
 	/**
 	 * Load all Applications into Applications Array
 	 */
-	function WidgetServer()
+	function ELSTR_WidgetServer()
 	{
 	}
 

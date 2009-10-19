@@ -4,12 +4,12 @@
 /**
  * @author nyffenegger
  * @version 1.0
- * @created 19-Okt-2009 17:04:27
+ * @created 19-Okt-2009 17:14:58
  */
-class IService
+class ELSTR_IService
 {
 
-	function IService()
+	function ELSTR_IService()
 	{
 	}
 
