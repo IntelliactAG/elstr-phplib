@@ -1,7 +1,7 @@
 <?php
 require_once ('ELSTR_JsonServer.php');
-require_once ('..\..\..\..\..\..\Temp\ELSTR_Application.php');
-require_once ('..\..\..\zf\1.8.2\Zend\Session.php');
+require_once ('ELSTR_Application.php');
+require_once ('Zend/Session.php');
 
 /**
  * @author egli
