@@ -1,7 +1,8 @@
 <?php
 
 /**
- * ELSTR
+ * ELSTER specific implementation of the Zend_Http_Client
+ * 
  * @author Marco Egli
  * @copyright 2009 Intelliact AG
  */

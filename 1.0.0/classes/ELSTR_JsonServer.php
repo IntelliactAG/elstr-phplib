@@ -4,17 +4,12 @@
 /**
  * Class to create ELSTR specific JSON data
  * 
- * @author nyffenegger
+ * @author Marco Egli, Felix Nyffenegger
  * @version 1.0
  * @created 19-Okt-2009 17:14:59
  */
 class ELSTR_JsonServer extends Zend_Json_Server
 {
-
-	function _construct()
-	{
-	}
-
     /**
      * Override:
      * Handle request

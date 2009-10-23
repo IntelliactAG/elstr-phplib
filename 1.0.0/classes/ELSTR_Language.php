@@ -1,6 +1,7 @@
 <?php 
 /**
- * ELSTR
+ * Class to handle multi language strings
+ * 
  * @author Marco Egli
  * @copyright 2009 Intelliact AG
  */
