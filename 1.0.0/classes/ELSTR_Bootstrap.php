@@ -50,6 +50,15 @@
 			return $m_acl;
 		}
 
+
+		/**
+		 * Initialize the Authadapter for ESLTR applications
+		 * @return  
+		 */
+		protected function _initAuthAdapter() {
+			// DB Tabel (in ELSTRDB) und LDAP initialization from Configuration			
+		}
+		
 		/**
 		 * Initialize the User
 		 * @return  ELSTR_User
@@ -61,10 +70,11 @@
 			if(Zend_Session::namespaceIsset('ELSTR_Auth')) {				
 				$sessionAuth = new Zend_Session_Namespace('ELSTR_Auth'); 
 				$username = $sessionAuth->username;
-				$m_user = new ELSTR_User($username);				
+				$m_user = new ELSTR_User($username);			
+				// Here or in User constructor load credentials form the session	
 			}
 			else {
-				$m_user = new ELSTR_User('guest');
+				$m_user = new ELSTR_User('anonymous');
 			}
 			return $m_user;
 		}				

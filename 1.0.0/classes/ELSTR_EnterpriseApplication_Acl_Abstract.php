@@ -13,7 +13,7 @@
 	abstract class ELSTR_EnterpriseApplication_Acl_Abstract extends ELSTR_EnterpriseApplication_Abstract
 	{
 		protected $m_acl;
-		protected $m_user;
+		
 		
 		/**
 		 * Create an ACL controler for this applications
@@ -56,7 +56,7 @@
 						// check on method ressource is defined
 						if ($this->m_acl->has($service.'_'.$method))
 							// check on method ressource is defineds
-							if ($this->m_acl->isAllowed($username, $service.'_'.$method)) {					
+							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {					
 								$response = parent::call($service, $method, $params);						
 							}
 							else {

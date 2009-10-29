@@ -36,6 +36,10 @@
 					$response['message'] = 'Servcie is not registered: ';
 					$response['code'] = '1004';
 					break;
+				case 1005: 
+					$response['message'] = 'No password provided: ';
+					$response['code'] = '1005';
+					break;
 			}
 			return $response;
 		}

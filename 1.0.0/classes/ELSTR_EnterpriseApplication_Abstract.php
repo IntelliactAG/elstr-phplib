@@ -16,21 +16,50 @@
 	 */
 	abstract class ELSTR_EnterpriseApplication_Abstract
 	{
-		var $m_services;
-		var $m_authAdapter;
+		protected $m_services;
+		protected $m_authAdapter;
+		protected $m_user;
 		
-		function __construct() {
-			$m_authAdapter = $this->_initAuthAdapter();
-			$m_services = array();
-			$m_services = $this->_initServices();
+		function __construct($user = null) {
+			$this->m_user = $user;
+			$this->m_authAdapter = $this->_initAuthAdapter();
+			$this->_initServices();
 		}
 		
 		/**
-		 * Performs an authentication attempt
-		 * @return Zend_Auth_Result
+		 * Performs an authentication attempt, first check if credetials are present,
+		 * then check if is authenticated allreadey then try to authenticated.
+		 * 
+		 * @return true if authentication attempt was successful
 		 */
-		function authenticate()
+		protected function _authenticate()
 		{
+			if (isset($this->m_authAdapter)) {
+				// Cehck if a user is present
+				if (isset($this->m_user)) {
+					//Check if credentials are present
+					$credentials = $this->m_user->getCredetials(get_class($this)); 
+					if (isset($credentials)) {
+						// Check if a password is present
+						if ($credentials->getPassword() != NULL_EMPTY_STRING) {
+							// do authentication attempt
+							// $this->m_authAdapter->authenticate()
+						}
+						else {
+							return false;
+						}
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				return true;	
+			}
 		}
 	
 		/** 
@@ -49,7 +78,8 @@
 		abstract protected function _initServices();
 		
 		/**
-		 * Call a service method
+		 * Call a service method, if application needs authentication, the current user will be
+		 * authenticated, if credentials are present. If not an error response will be fired.
 		 * 
 		 * @return 
 		 * @param $service String Classname of the service definition (ELSTR_Service_Abstract)
@@ -57,12 +87,21 @@
 		 * @param $params Array List of parameter for the method
 		 */
 		public function call($service, $method, $params) {
-			if (array_key_exists($service, $this->m_services)) {
-				return $this->m_services[$service]->call($method, $params);
+			// Handle authentications
+			$isauth = $this->_authenticate();			
+			if ($isauth) {
+				if (array_key_exists($service, $this->m_services)) {
+					return $this->m_services[$service]->call($method, $params);
+				}
+				else {
+					$response = ELSTR_ErrorResponse::create(1004);
+					$response['details'] = $service.' @ '.get_class($this);
+					return $response;
+				}
 			}
-			else {
-				$response = ELSTR_ErrorResponse::create(1004);
-				$response['details'] = $service.' @ '.get_class($this);
+			else  {
+				$response = ELSTR_ErrorResponse::create(1005);
+				$response['details'] = get_class($this);
 				return $response;
 			}
 		}

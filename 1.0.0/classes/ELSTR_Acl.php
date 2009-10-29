@@ -10,18 +10,17 @@
 
 class ELSTR_Acl extends Zend_Acl
 {
-
 	function loadFromDB()
 	{
 		//TODO: Here, load the ACL from Database
 		
 		// [DEBUG] For now, just add some dummy data			
-		$this->addRole(new Zend_Acl_Role('role_guest'))
-		    ->addRole(new Zend_Acl_Role('role_member'), 'role_guest')
+		$this->addRole(new Zend_Acl_Role('role_anonymous'))
+		    ->addRole(new Zend_Acl_Role('role_member'), 'role_anonymous')
 		    ->addRole(new Zend_Acl_Role('role_admin'));
 		
 		//create admin and guest user			
-		$this->addRole(new Zend_Acl_Role('guest'), 'role_guest');
+		$this->addRole(new Zend_Acl_Role('anonymous'), 'role_anonymous');
 		$this->addRole(new Zend_Acl_Role('member'), 'role_member');
 		$this->addRole(new Zend_Acl_Role('admin'), 'role_admin');
 		
@@ -31,10 +30,10 @@ class ELSTR_Acl extends Zend_Acl
 		$this->add(new Zend_Acl_Resource('EXAMPLE_Service_YQL_pizzaService'));
 				
 		//set rights
-		$this->deny('role_guest', 'EXAMPLE_Application_YAHOO');
+		$this->deny('role_anonymous', 'EXAMPLE_Application_YAHOO');
 		$this->allow('role_member', 'EXAMPLE_Application_YAHOO');
 		$this->allow('role_member', 'EXAMPLE_Service_YQL');
-		$this->deny('role_member', 'EXAMPLE_Service_YQL_pizzaService');
+		$this->deny('role_member', 'pizzaService@EXAMPLE_Service_YQL');
 		$this->allow('role_admin');			
 	}
 
