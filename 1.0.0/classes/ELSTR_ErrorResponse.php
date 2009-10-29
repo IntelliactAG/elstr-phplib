@@ -9,6 +9,8 @@
 		/**
 		 * This function globally creats error messages based on a defined code
 		 * 
+		 * Todo: Load messages from language file
+		 * 
 		 * @return Array error object to return to the service consumer
 		 * @param $code Object
 		 */

@@ -5,7 +5,7 @@
 	/**
 	 * This as an example of a custom application, using http authentication
 	 * 
-	 * @author Felix Nyffenegger
+	 * @author Marco Egli
 	 */
 	class ELSTR_Application_OracleE6 extends ELSTR_EnterpriseApplication_Acl_Abstract
 	{

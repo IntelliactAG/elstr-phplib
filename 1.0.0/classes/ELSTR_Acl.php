@@ -28,13 +28,15 @@ class ELSTR_Acl extends Zend_Acl
 		$this->add(new Zend_Acl_Resource('EXAMPLE_Application_YAHOO'));
 		$this->add(new Zend_Acl_Resource('EXAMPLE_Service_YQL'));
 		$this->add(new Zend_Acl_Resource('pizzaService@EXAMPLE_Service_YQL'));
-				
+        $this->add(new Zend_Acl_Resource('ELSTR_Service_OracleE6'));
+		$this->add(new Zend_Acl_Resource('ELSTR_Application_OracleE6'));
+        		
 		//set rights
 		$this->deny('role_anonymous', 'EXAMPLE_Application_YAHOO');
 		$this->allow('role_member', 'EXAMPLE_Application_YAHOO');
 		$this->allow('role_member', 'EXAMPLE_Service_YQL');
 		$this->deny('role_member', 'pizzaService@EXAMPLE_Service_YQL');
-		$this->allow('role_admin');			
+		$this->allow('role_admin');		        
 	}
 
 }
