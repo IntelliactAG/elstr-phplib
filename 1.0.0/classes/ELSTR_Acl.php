@@ -27,7 +27,7 @@ class ELSTR_Acl extends Zend_Acl
 		//add ressources
 		$this->add(new Zend_Acl_Resource('EXAMPLE_Application_YAHOO'));
 		$this->add(new Zend_Acl_Resource('EXAMPLE_Service_YQL'));
-		$this->add(new Zend_Acl_Resource('EXAMPLE_Service_YQL_pizzaService'));
+		$this->add(new Zend_Acl_Resource('pizzaService@EXAMPLE_Service_YQL'));
 				
 		//set rights
 		$this->deny('role_anonymous', 'EXAMPLE_Application_YAHOO');
