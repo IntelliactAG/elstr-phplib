@@ -37,6 +37,7 @@ class ELSTR_Acl extends Zend_Acl
 		$this->allow('role_member', 'EXAMPLE_Service_YQL');
 		$this->deny('role_member', 'pizzaService@EXAMPLE_Service_YQL');
 		$this->allow('role_admin');		        
+        $this->allow('role_anonymous'); 
 	}
 
 }

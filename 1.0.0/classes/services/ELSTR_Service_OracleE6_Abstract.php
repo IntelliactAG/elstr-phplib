@@ -6,7 +6,7 @@ require_once ('ELSTR_Service_Abstract.php');
  *
  * @author Marco Egli
  */
-class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
+class ELSTR_Service_OracleE6_Abstract extends ELSTR_Service_Abstract {
     /**
      *
      * @return
@@ -14,16 +14,6 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     function __construct() {
         parent::__construct();
         
-    }
-    /**
-     * This is a very simple REST Get service, asking for Pizza services
-     *
-     * @return Array Resultser
-     */
-    protected function hello_world() {
-    
-        return array("hello",
-                 "world");
     }
     
     // Invokes an axalant procedure via IctConnector
