@@ -6,7 +6,7 @@ require_once ('ELSTR_Service_Abstract.php');
  *
  * @author Marco Egli
  */
-class ELSTR_Service_OracleE6_Abstract extends ELSTR_Service_Abstract {
+class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     /**
      *
      * @return
@@ -19,7 +19,7 @@ class ELSTR_Service_OracleE6_Abstract extends ELSTR_Service_Abstract {
     // Invokes an axalant procedure via IctConnector
     // $argArray: array containing function name and arguments for IctConnector
     // dies on error
-    function invokeConnectorProcedure($argArray) {
+    protected function invokeConnectorProcedure($argArray) {
         global $gSessionID;
         global $gThisServer;
         global $gTimeoutSeconds;
