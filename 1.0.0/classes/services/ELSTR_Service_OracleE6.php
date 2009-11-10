@@ -7,6 +7,13 @@ require_once ('ELSTR_Service_Abstract.php');
  * @author Marco Egli
  */
 class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
+
+    private $gRemoteAddress;
+    private $gSessionID;
+    private $gTimeoutSeconds;
+    private $gThisServer;
+    private $gFileCache;
+    
     /**
      *
      * @return
@@ -14,29 +21,36 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     function __construct() {
         parent::__construct();
         
+        $this->gRemoteAddress = "tcp://vm-0027:9010";
+        $this->gSessionID = "1000004244";
+        $this->gTimeoutSeconds = "60.0";
+        $this->gThisServer = "webServer";
+        $this->gFileCache = array();
     }
+
     
     // Invokes an axalant procedure via IctConnector
     // $argArray: array containing function name and arguments for IctConnector
     // dies on error
-    protected function invokeConnectorProcedure($argArray) {
-        global $gSessionID;
-        global $gThisServer;
-        global $gTimeoutSeconds;
-        global $gRequestID;
-        global $gIgnoreOutput;
-        $gSessionID = $argArray[1];
+    protected function invokeConnectorProcedure($plmFunction, $plmParameters) {
+    
+        $argArray = array($plmFunction,
+                 $this->gSessionID);
+        
+        array_push($argArray, $plmParameters);
+        
+        //$this->gSessionID = $argArray[1];
         $lastStatus = "noStatus";
-        $timeLimit = time() + $gTimeoutSeconds;
+        $timeLimit = time() + $this->gTimeoutSeconds;
         //echo "invokeConnectorProcedure: $argArray<BR>"; // for debugging only
         
-        $httpGet = encodeHttpGet($argArray);
+        $httpGet = $this->encodeHttpGet($argArray);
         //echo "invokeConnectorProcedure '$httpGet'<BR>"; // for debugging only
         
         // send request to connector
-        $data = getHttpResponse($httpGet);
+        $data = $this->getHttpResponse($httpGet);
         if ($data[0] < 0) {
-            showFatalError("Error", $data[1], $data[0]);
+            $this->showFatalError("Error", $data[1], $data[0]);
         }
         // request could be handled by connector directly
         if (($data[0] == 200) || ($data[0] == 2000)) {
@@ -47,10 +61,10 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         // wait for complete status
         do {
             if (time() > $timeLimit) {
-                echo "<H3>Request timed out</H3>Connector is responding but request $gRequestID in session $gSessionID was not handled within $gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
+                echo "<H3>Request timed out</H3>Connector is responding but request $gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
                 exit();
             }
-            $answer = getConnectorStatus($gRequestID);
+            $answer = $this->getConnectorStatus($gRequestID);
             $status = $answer[0];
             if ($status < 0) {
                 showFatalError("Error", $answer[1], $status);
@@ -58,12 +72,12 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
             //echo "status: $status"; // for debugging only
             $lastStatus = $status;
         } while (($status < 2000) && ($status != 200)); //end do
-        if ($gIgnoreOutput) {
-            $xmlData = "";
-        } else {
-            $xmlData = getFileFromConnector($gRequestID);
-        }
-        return $xmlData;
+        
+        $xmlData = $this->getFileFromConnector($gRequestID);
+        
+        $resultArray = (Array ) new SimpleXMLElement($xmlData);
+        
+        return $resultArray;
     }
     
     /**      
@@ -72,11 +86,11 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * dies on error
      */
     private function encodeHttpGet($argArray) {
-        global $gThisServer;
+    
         if (count($argArray) < 1) {
             showFatalError("PHP error", "Invalid function call encodeUrl($argArray)", -7010);
         }
-        $serverUrl = rawurlencode($gThisServer);
+        $serverUrl = rawurlencode($this->gThisServer);
         $url = "GET /$argArray[0]&$serverUrl";
         for ($i = 1; $i < count($argArray); $i = $i + 1) {
             $argUrl = rawurlencode($argArray[$i]);
@@ -90,21 +104,20 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * Send data to connector and interprete answer
      */
     private function getHttpResponse($request) {
-        global $gRemoteAddress;
-        
-        $fp = stream_socket_client($gRemoteAddress, $errno, $errstr, 4);
+    
+        $fp = stream_socket_client($this->gRemoteAddress, $errno, $errstr, 4);
         if (!$fp) {
             return array(-7000,
                      "Could not connect to Intelliact Connector");
         }
         
-        $contentHeader = getHttpResponseHeader($request, $fp);
+        $contentHeader = $this->getHttpResponseHeader($request, $fp);
         $statusCode = $contentHeader[0];
         $statusText = $contentHeader[1];
         $contentLength = $contentHeader[2];
         $contentType = $contentHeader[3];
         
-        $content = getHttpResponseContent($statusCode, $contentLength, $fp);
+        $content = $this->getHttpResponseContent($statusCode, $contentLength, $fp);
         
         $statusCode = $content[0];
         $data = $content[1];
@@ -132,13 +145,11 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * @return
      */
     private function getConnectorStatus($requestID) {
-        global $gThisServer;
-        global $gSessionID;
-        
-        $httpGet = encodeHttpGet(array("getStatus", $gSessionID, $requestID));
+    
+        $httpGet = $this->encodeHttpGet(array("getStatus", $this->gSessionID, $requestID));
         //echo "getConnectorStatus '$httpGet'<BR>"; // for debugging only
         
-        $answer = getHttpResponse($httpGet);
+        $answer = $this->getHttpResponse($httpGet);
         //displayHttpInfo($answer); // for debugging only
         if ($answer[0] < 0) {
             showFatalError("Error", $answer[1], $answer[0]);
@@ -170,7 +181,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         $contentLength = 0;
         $statusCode = -7100; //default
         
-        saveDataToFile($request, 'sentMessage.bin'); // for debugging only
+        $this->saveDataToFile($request, 'sentMessage.bin'); // for debugging only
         
         $numChar = strlen($request);
         $numWrittten = fwrite($fp, $request, $numChar);
@@ -225,15 +236,15 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                 $iLoop = $iLoop + 1;
             }
             
-            $contentType = getHttpValue($header, "Content-Type:");
+            $contentType = $this->getHttpValue($header, "Content-Type:");
             
-            $http = getHttpValue($header, "HTTP");
+            $http = $this->getHttpValue($header, "HTTP");
             $statusCodeStr = trim(substr($http, 4));
             $iBlank = strpos($statusCodeStr, ' ');
             $statusCode = trim(substr($statusCodeStr, 0, $iBlank));
             $statusText = trim(substr($statusCodeStr, $iBlank));
             
-            $contentLength = getHttpValue($header, "Content-Length:");
+            $contentLength = $this->getHttpValue($header, "Content-Length:");
             //echo "$contentLength1:$contentLength<BR>";// for debugging only
             $contentLength = (int) $contentLength;
             
@@ -366,5 +377,85 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         fwrite($fp, $data, strlen($data));
         fclose($fp);
     }
+    
+    /**
+     *
+     * @param object $header
+     * @param object $tag
+     * @return
+     */
+    private function getHttpValue($header, $tag) {
+        $iStart = strpos(strtolower($header), strtolower($tag));
+        if ($iStart === false) {
+            return "";
+        }
+        $value = substr($header, $iStart + strlen($tag));
+        //$iEnd = strpos($header,10);
+        //echo("getHttpValue: iEnd:$iEnd<BR>");
+        //if ($iEnd===false) { $iEnd=strlen($value); }
+        $iEnd = $this->findChar($value, 10);
+        if ($iEnd == -1) {
+            $iEnd = strlen($value);
+        }
+        
+        $value = substr($value, 0, $iEnd);
+        
+        $value = trim($value);
+        return $value;
+    }
+    
+    /**
+     *
+     * @param object $text
+     * @param object $char
+     * @return
+     */
+    private function findChar($text, $char) {
+        $iEnd = -1;
+        for ($i = 0; $i < strlen($text); $i++) {
+            $ch = substr($text, $i, 1);
+            $iOrd = ord($ch);
+            if (ord($ch) == $char) {
+                $iEnd = $i;
+                break;
+            }
+        }
+        return $iEnd;
+    }
+    
+    /**
+     *
+     * @param object $requestID
+     * @param object $fileName [optional]
+     * @param object $useCache [optional]
+     * @return
+     */
+    private function getFileFromConnector($requestID, $fileName = "", $useCache = false) {
+    
+        if ($useCache) {
+            $data = $this->gFileCache[$fileName];
+            if ($data) {
+                return $data;
+            }
+        }
+        
+        if ($fileName == "") {
+            $httpGet = $this->encodeHttpGet(array("getFile", $this->gSessionID, $requestID));
+        } else {
+            $httpGet = $this->encodeHttpGet(array("getFile", $this->gSessionID, $requestID, $fileName));
+        }
+        
+        $answer = $this->getHttpResponse($httpGet);
+        if ($answer[0] < 0) {
+            $this->showFatalError("Error", $answer[1], $answer[0]);
+        }
+        
+        if ($useCache) {
+            $this->gFileCache[$fileName] = $answer[1];
+        }
+        return $answer[1];
+        
+    }
+    
 }
 ?>

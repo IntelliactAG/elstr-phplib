@@ -42,7 +42,8 @@
 		 * @param $method String Name of the method to call
 		 * @param $params Array List of parameter for the method
 		 */
-		public function call($service, $method, $params) {	
+        //public function call($service, $method, $params) {
+		public function call($service, $method) {	
 			$response = array();
 			if ($this->m_user == null || $this->m_acl == null) {
 				$response = ELSTR_ErrorResponse::create(1000);
@@ -57,14 +58,15 @@
 						if ($this->m_acl->has($service.'_'.$method))
 							// check on method ressource is defineds
 							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {					
-								$response = parent::call($service, $method, $params);						
+								$response = parent::call(func_get_args());						
 							}
 							else {
 								$response = ELSTR_ErrorResponse::create(1003);
 								$response['message'] .= $method.'@'.$service;
 							}
 						else {
-							$response = parent::call($service, $method, $params);	
+						    //$response = parent::call($service, $method, $params);
+							$response = parent::call(func_get_args());	
 						}
 					}
 					else {

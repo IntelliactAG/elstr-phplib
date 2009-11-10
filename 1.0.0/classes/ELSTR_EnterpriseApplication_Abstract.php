@@ -86,7 +86,7 @@
 		 * @param $method String Name of the method to call
 		 * @param $params Array List of parameter for the method
 		 */
-		public function call($service, $method, $params) {
+		public function call($service, $method) {
 			// Handle authentications
 			$isauth = $this->_authenticate();			
 			if ($isauth) {
