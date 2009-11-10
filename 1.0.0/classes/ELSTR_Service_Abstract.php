@@ -31,7 +31,8 @@
 		public function call($function, $params) {
 			//TODO: Check if function is present
 			if ($params != null) {
-				return call_user_func_array($this->$function, $params);
+				$resultArray = call_user_func_array(array($this, $function), $params);
+                return $resultArray;
 			}
 			else {
 				return $this->$function();

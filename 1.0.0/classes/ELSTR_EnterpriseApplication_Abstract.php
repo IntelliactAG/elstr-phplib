@@ -88,24 +88,24 @@
 		 */
 		public function call($service, $method) {
 			// Handle authentications
-			$isauth = $this->_authenticate();			
+			$isauth = $this->_authenticate();
+            $response = array();			
 			if ($isauth) {
 				if (array_key_exists($service, $this->m_services)) {
 					// Get all parameters expect the furst two
 					$params = array_slice(func_get_args(), 2);
-					return $this->m_services[$service]->call($method, $params);
+					$response = $this->m_services[$service]->call($method, $params);                                     
 				}
 				else {
 					$response = ELSTR_ErrorResponse::create(1004);
 					$response['details'] = $service.' @ '.get_class($this);
-					return $response;
 				}
 			}
 			else  {
 				$response = ELSTR_ErrorResponse::create(1005);
 				$response['details'] = get_class($this);
-				return $response;
 			}
+            return $response;
 		}
 		
 		/**

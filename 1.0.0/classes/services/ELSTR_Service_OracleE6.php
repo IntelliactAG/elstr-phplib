@@ -18,13 +18,13 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      *
      * @return
      */
-    function __construct() {
+    function __construct($remoteAddress, $sessionID, $timeoutSeconds, $thisServer) {
         parent::__construct();
         
-        $this->gRemoteAddress = "tcp://vm-0027:9010";
-        $this->gSessionID = "1000004244";
-        $this->gTimeoutSeconds = "60.0";
-        $this->gThisServer = "webServer";
+        $this->gRemoteAddress = $remoteAddress;
+        $this->gSessionID = $sessionID;
+        $this->gTimeoutSeconds = $timeoutSeconds;
+        $this->gThisServer = $thisServer;
         $this->gFileCache = array();
     }
 
@@ -37,7 +37,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         $argArray = array($plmFunction,
                  $this->gSessionID);
         
-        array_push($argArray, $plmParameters);
+        $argArray = array_merge($argArray, $plmParameters);
         
         //$this->gSessionID = $argArray[1];
         $lastStatus = "noStatus";
@@ -74,9 +74,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         } while (($status < 2000) && ($status != 200)); //end do
         
         $xmlData = $this->getFileFromConnector($gRequestID);
-        
-        $resultArray = (Array ) new SimpleXMLElement($xmlData);
-        
+        $resultArray = (Array) new SimpleXMLElement($xmlData);
         return $resultArray;
     }
     

@@ -41,7 +41,7 @@
 		 * @param $service String Classname of the service definition (ELSTR_Service_Abstract)
 		 * @param $method String Name of the method to call
 		 * @param $params Array List of parameter for the method
-		 */
+		 */               
         //public function call($service, $method, $params) {
 		public function call($service, $method) {	
 			$response = array();
@@ -57,8 +57,12 @@
 						// check on method ressource is defined
 						if ($this->m_acl->has($service.'_'.$method))
 							// check on method ressource is defineds
-							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {					
-								$response = parent::call(func_get_args());						
+							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {		
+                                 $args = func_get_args();
+                                 $response = call_user_func_array(array($this, 'parent::call'), $args);			
+								 print_r($response);
+                                // for PHP 5.3 we should wirte as follows (?) Ref: http://us2.php.net/manual/en/function.call-user-func-array.php
+                                // $response = call_user_func_array('parent::call', func_get_args());						
 							}
 							else {
 								$response = ELSTR_ErrorResponse::create(1003);
@@ -66,7 +70,8 @@
 							}
 						else {
 						    //$response = parent::call($service, $method, $params);
-							$response = parent::call(func_get_args());	
+                            $args = func_get_args();
+                            $response = call_user_func_array(array($this, 'parent::call'), $args);                            
 						}
 					}
 					else {

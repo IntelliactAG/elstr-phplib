@@ -24,7 +24,7 @@
          * @return
          */
         protected function _initServices() {
-            $this->registerService(new ELSTR_Service_OracleE6());
+            $this->registerService(new ELSTR_Service_OracleE6("tcp://vm-0027:9010", "1000004244", "60.0", "webServer"));
         }
     }
 ?>
