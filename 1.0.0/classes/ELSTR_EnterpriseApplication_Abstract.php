@@ -91,6 +91,8 @@
 			$isauth = $this->_authenticate();			
 			if ($isauth) {
 				if (array_key_exists($service, $this->m_services)) {
+					// Get all parameters expect the furst two
+					$params = array_slice(func_get_args(), 2);
 					return $this->m_services[$service]->call($method, $params);
 				}
 				else {
