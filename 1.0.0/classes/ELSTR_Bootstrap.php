@@ -62,7 +62,7 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
      */
     protected function _initLanguage() {
     
-        $languageOptions = $this->getApplication()->getOption("language");
+        /*$languageOptions = $this->getApplication()->getOption("language");
         $textTranslations = new Zend_Translate('tmx', APPLICATION_PATH.$languageOptions['file'], $languageOptions['default']);
         
         $sessionLanguage = new Zend_Session_Namespace('ELSTR_Language');      
@@ -78,7 +78,7 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         }
         $textTranslations->setLocale($sessionLanguage->language);
         
-        return $textTranslations;
+        return $textTranslations;*/
     }
     
     /**

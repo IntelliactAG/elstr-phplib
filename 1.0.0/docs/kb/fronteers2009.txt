@@ -1,0 +1,22 @@
+Interessante Punkte aus Fronteers (Things to keep in mind)
+==========================================================
+
+Molly / Mobile Browsing
+-----------------------
+
+- Selektion des richtigen CSS Files aufgrund des medientyps:
+  Bsp: <link media="print" />
+  Problem: Wird von diversen Browsern verschieden unterstützt..
+  
+- Debuging in Opera: Dragonfly
+
+Peter
+-----
+
+- Gute Lösung um komplexere Webapps auf Mobiles zu portieren: W3C Widgets
+  - Ist erst im kommen (S60 Opera, MS Moniles)
+  - Sehr einfach zu realisieren (source + icon + config.xml in ein zip stellen und endung .wdg ändern)
+  
+
+- http://interact.webstandards.org/
+- opera.com/company/education/curriculum
