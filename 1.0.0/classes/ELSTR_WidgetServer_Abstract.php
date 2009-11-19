@@ -30,6 +30,14 @@
 		abstract protected function _initApplications($acl, $user);
 		
 		/**
+		 * This function will be called by the RequestHandler. Inside the handle
+		 * function the response musst be generated and returned
+		 * 
+		 * @return void
+		 */
+		abstract public function handle();
+		
+		/**
 		 * Register an application for this WidgetServer
 		 * Carefull: yet, only one instance of an application can be registered at a time
 		 * 
