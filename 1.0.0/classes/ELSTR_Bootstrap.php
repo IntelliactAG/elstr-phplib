@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once 'ELSTR_Acl.php';
 require_once 'ELSTR_User.php';
 
@@ -20,23 +20,23 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
     public function __construct($application) {
         parent::__construct($application);
     }
-    
+
     /**
      * Run the application
      *   *
      * @return void
      */
     public function run() {
-    
+
     }
-    
+
     /**
      * Initialize the Session
      */
     protected function _initSession() {
         Zend_Session::start();
     }
-    
+
     /**
      * Initialize the ACL
      * @return  ELSTR_Acl
@@ -47,7 +47,7 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         return $m_acl;
     }
 
-    
+
     /**
      * Initialize the Authadapter for ESLTR applications
      * @return
@@ -55,17 +55,17 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
     protected function _initAuthAdapter() {
         // DB Tabel (in ELSTRDB) und LDAP initialization from Configuration
     }
-    
+
     /**
      * Initialize the Language
      * @return Zend_Translate
      */
     protected function _initLanguage() {
-    
-        /*$languageOptions = $this->getApplication()->getOption("language");
+
+        $languageOptions = $this->getApplication()->getOption("language");
         $textTranslations = new Zend_Translate('tmx', APPLICATION_PATH.$languageOptions['file'], $languageOptions['default']);
-        
-        $sessionLanguage = new Zend_Session_Namespace('ELSTR_Language');      
+
+        $sessionLanguage = new Zend_Session_Namespace('ELSTR_Language');
         if (!isset($sessionLanguage->language)) {
             $locale = new Zend_Locale();
             Zend_Registry::set('Zend_Locale', $locale);
@@ -77,10 +77,10 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
             }
         }
         $textTranslations->setLocale($sessionLanguage->language);
-        
-        return $textTranslations;*/
+
+        return $textTranslations;
     }
-    
+
     /**
      * Initialize the User
      * @return  ELSTR_User
@@ -88,7 +88,7 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
     protected function _initUser() {
         // If user is authenicated, create user object, else create a guest user
         $m_user = null;
-        
+
         if (Zend_Session::namespaceIsset('ELSTR_Auth')) {
             $sessionAuth = new Zend_Session_Namespace('ELSTR_Auth');
             $username = $sessionAuth->username;

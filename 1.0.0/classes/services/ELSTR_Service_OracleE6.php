@@ -13,6 +13,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     private $gTimeoutSeconds;
     private $gThisServer;
     private $gFileCache;
+    private $gRequestID;
     
     /**
      *
@@ -28,6 +29,15 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         $this->gFileCache = array();
     }
 
+    /**
+     * 
+     * Returns the PLM Transaction ID
+     * @return
+     */
+    public function getRequestId(){
+    	return $this->gRequestID;
+    }
+    
     
     // Invokes an axalant procedure via IctConnector
     // $argArray: array containing function name and arguments for IctConnector
@@ -56,15 +66,15 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         if (($data[0] == 200) || ($data[0] == 2000)) {
             return $data[1];
         }
-        $gRequestID = $data[1];
-        //echo "invokeConnectorProcedure requestID: $gRequestID<BR>"; // for debugging only
+        $this->gRequestID = $data[1];
+        //echo "invokeConnectorProcedure requestID: $this->gRequestID<BR>"; // for debugging only
         // wait for complete status
         do {
             if (time() > $timeLimit) {
-                echo "<H3>Request timed out</H3>Connector is responding but request $gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
+                echo "<H3>Request timed out</H3>Connector is responding but request $this->gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
                 exit();
             }
-            $answer = $this->getConnectorStatus($gRequestID);
+            $answer = $this->getConnectorStatus($this->gRequestID);
             $status = $answer[0];
             if ($status < 0) {
                 showFatalError("Error", $answer[1], $status);
@@ -73,10 +83,10 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
             $lastStatus = $status;
         } while (($status < 2000) && ($status != 200)); //end do
         
-        $xmlData = $this->getFileFromConnector($gRequestID);
-        $resultArray = (Array) new SimpleXMLElement($xmlData);
-        return $resultArray;
+        $xmlData = $this->getFileFromConnector($this->gRequestID);                        
+        return $xmlData;        
     }
+
     
     /**      
      * Encodes a http GET header
@@ -113,7 +123,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         $statusCode = $contentHeader[0];
         $statusText = $contentHeader[1];
         $contentLength = $contentHeader[2];
-        $contentType = $contentHeader[3];
+        $contentType = $contentHeader[3];                
         
         $content = $this->getHttpResponseContent($statusCode, $contentLength, $fp);
         
@@ -334,7 +344,8 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
             
             while (!feof($fp)) {
                 $numReceived = strlen($data);
-                $numMissing = $contentLength - $numReceived;
+                $numMissing = $contentLength - $numReceived;                                
+                 
                 if ($numMissing <= 0) {
                     break;
                 }
@@ -428,7 +439,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * @param object $useCache [optional]
      * @return
      */
-    private function getFileFromConnector($requestID, $fileName = "", $useCache = false) {
+    protected function getFileFromConnector($requestID, $fileName = "", $useCache = false) {
     
         if ($useCache) {
             $data = $this->gFileCache[$fileName];
