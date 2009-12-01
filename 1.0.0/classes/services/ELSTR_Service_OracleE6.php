@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once ('ELSTR_Service_Abstract.php');
 
 /**
@@ -14,14 +14,14 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     private $gThisServer;
     private $gFileCache;
     private $gRequestID;
-    
+
     /**
      *
      * @return
      */
     function __construct($remoteAddress, $sessionID, $timeoutSeconds, $thisServer) {
         parent::__construct();
-        
+
         $this->gRemoteAddress = $remoteAddress;
         $this->gSessionID = $sessionID;
         $this->gTimeoutSeconds = $timeoutSeconds;
@@ -30,33 +30,33 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     }
 
     /**
-     * 
+     *
      * Returns the PLM Transaction ID
      * @return
      */
     public function getRequestId(){
     	return $this->gRequestID;
     }
-    
-    
+
+
     // Invokes an axalant procedure via IctConnector
     // $argArray: array containing function name and arguments for IctConnector
     // dies on error
     protected function invokeConnectorProcedure($plmFunction, $plmParameters) {
-    
+
         $argArray = array($plmFunction,
                  $this->gSessionID);
-        
+
         $argArray = array_merge($argArray, $plmParameters);
-        
+
         //$this->gSessionID = $argArray[1];
         $lastStatus = "noStatus";
         $timeLimit = time() + $this->gTimeoutSeconds;
         //echo "invokeConnectorProcedure: $argArray<BR>"; // for debugging only
-        
+
         $httpGet = $this->encodeHttpGet($argArray);
         //echo "invokeConnectorProcedure '$httpGet'<BR>"; // for debugging only
-        
+
         // send request to connector
         $data = $this->getHttpResponse($httpGet);
         if ($data[0] < 0) {
@@ -82,19 +82,19 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
             //echo "status: $status"; // for debugging only
             $lastStatus = $status;
         } while (($status < 2000) && ($status != 200)); //end do
-        
-        $xmlData = $this->getFileFromConnector($this->gRequestID);                        
-        return $xmlData;        
+
+        $xmlData = $this->getFileFromConnector($this->gRequestID);
+        return $xmlData;
     }
 
-    
-    /**      
+
+    /**
      * Encodes a http GET header
      * @param argArray: array containing function name and arguments for IctConnector
      * dies on error
      */
     private function encodeHttpGet($argArray) {
-    
+
         if (count($argArray) < 1) {
             showFatalError("PHP error", "Invalid function call encodeUrl($argArray)", -7010);
         }
@@ -107,66 +107,66 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         $url = $url."\n\n";
         return $url;
     }
-    
+
     /**
      * Send data to connector and interprete answer
      */
     private function getHttpResponse($request) {
-    
+
         $fp = stream_socket_client($this->gRemoteAddress, $errno, $errstr, 4);
         if (!$fp) {
             return array(-7000,
                      "Could not connect to Intelliact Connector");
         }
-        
+
         $contentHeader = $this->getHttpResponseHeader($request, $fp);
         $statusCode = $contentHeader[0];
         $statusText = $contentHeader[1];
         $contentLength = $contentHeader[2];
-        $contentType = $contentHeader[3];                
-        
+        $contentType = $contentHeader[3];
+
         $content = $this->getHttpResponseContent($statusCode, $contentLength, $fp);
-        
+
         $statusCode = $content[0];
         $data = $content[1];
         fclose($fp);
-        
+
         //echo "header: $header<BR><BR>";// for debugging only
         //displayHttpInfo(array($statusCode,$data,$contentType,$statusText)); // for debugging only
-        
+
         // saveDataToFile($data,'result.txt'); // for debugging only
         //$completeMessage=$header..data; // for debugging only
         //saveDataToFile($completeMessage,'receivedMessage.txt'); // for debugging only
-        
+
         //echo "SND: $request, RCV: numChar:$numChar, code:$responseCode, data:$data<br>";// for debugging only
-        
+
         return array($statusCode,
                  $data,
                  $contentType,
                  $statusText);
     }
 
-    
+
     /**
      * Get status for $requestID at IctConnector server
      * @param object $requestID
      * @return
      */
     private function getConnectorStatus($requestID) {
-    
+
         $httpGet = $this->encodeHttpGet(array("getStatus", $this->gSessionID, $requestID));
         //echo "getConnectorStatus '$httpGet'<BR>"; // for debugging only
-        
+
         $answer = $this->getHttpResponse($httpGet);
         //displayHttpInfo($answer); // for debugging only
         if ($answer[0] < 0) {
             showFatalError("Error", $answer[1], $answer[0]);
         }
-        
+
         return $answer;
-        
+
     }
-    
+
     /**
      *
      * @param object $title
@@ -178,7 +178,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         echo "<H3>$title</H3>$message<br><br>Error code: $errorCode<br>";
         exit();
     }
-    
+
     /**
      *
      * @param object $request
@@ -188,12 +188,13 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     private function getHttpResponseHeader($request, $fp) {
         $contentLength = 0;
         $statusCode = -7100; //default
-        
-        $this->saveDataToFile($request, 'sentMessage.bin'); // for debugging only
-        
+
+    	// for debugging only
+        // $this->saveDataToFile($request, 'sentMessage.bin');
+
         $numChar = strlen($request);
         $numWrittten = fwrite($fp, $request, $numChar);
-        
+
         if ($numWrittten === false) {
             fclose($fp);
             return array(-7001,
@@ -204,14 +205,14 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                      "Could not talk to Intelliact Connector");
         }
         fflush($fp);
-        
+
         if (!feof($fp)) {
             $numChar = 0;
             $header = ""; //default
             $data = ""; //default
             $lastChar = 0;
             $iLoop = 0;
-            
+
             // read header
             while (!feof($fp)) {
                 $dataNew = fgetc($fp);
@@ -243,21 +244,21 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                 }
                 $iLoop = $iLoop + 1;
             }
-            
+
             $contentType = $this->getHttpValue($header, "Content-Type:");
-            
+
             $http = $this->getHttpValue($header, "HTTP");
             $statusCodeStr = trim(substr($http, 4));
             $iBlank = strpos($statusCodeStr, ' ');
             $statusCode = trim(substr($statusCodeStr, 0, $iBlank));
             $statusText = trim(substr($statusCodeStr, $iBlank));
-            
+
             $contentLength = $this->getHttpValue($header, "Content-Length:");
             //echo "$contentLength1:$contentLength<BR>";// for debugging only
             $contentLength = (int) $contentLength;
-            
+
             //saveDataToFile("contentLength: $contentLength",IctConnectorDebug1.txt");
-            
+
         }
         return array($statusCode,
                  $statusText,
@@ -265,7 +266,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                  $contentType);
     }
 
-    
+
     /**
      * get HttpResponseContent and immediately send it to browser
      * @param object $statusCode
@@ -280,10 +281,10 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         }
         $numReceived = 0;
         $data = ""; //default
-        
+
         if (!feof($fp)) {
             $numCharTotal = 0;
-            
+
             //saveDataToFile("before while","IctConnectorDebug4.txt");
             while (!feof($fp)) {
                 $numMissing = $contentLength - $numReceived;
@@ -315,11 +316,11 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                          "Received invalid number of content bytes: $numReceived($contentLength)");
             }
         }
-        
+
         return array($statusCode,
                  "");
     }
-    
+
     /**
      *
      * @param object $statusCode
@@ -341,23 +342,21 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                          "Response has too many bytes: $contentLength");
             } // something is wrong
             //saveDataToFile("before while","IctConnectorDebug3.txt");
-            
-            while (!feof($fp)) {
-                $numReceived = strlen($data);
-                $numMissing = $contentLength - $numReceived;                                
-                 
+
+            $numReceived = 0;            
+            while (!feof($fp)) {             
+                $numMissing = $contentLength - $numReceived;
+                
                 if ($numMissing <= 0) {
                     break;
                 }
-                if ($numMissing + 1 > 1024) {
-                    $newdata = fgets($fp, 1024); // for unknown reasons we must not get too many characters at once
-                } else {
-                    $newdata = fgets($fp, $numMissing + 1); // for unknown reasons we must get one more char
-                }
-                $numReceivedNew = strlen($newdata);
-                $data = $data.$newdata;
+
+                $newdata = fread($fp, $numMissing);                                               
+                $numReceived += strlen($newdata);                
+                $data .= $newdata;
+                
                 //saveDataToFile("contentLength: $contentLength, numReceived: $numReceived, numReceivedNew: $numReceivedNew","IctConnectorDebug2.txt");
-            }
+            }           
             $numReceived = strlen($data);
             //saveDataToFile("numReceived: $numReceived","IctConnectorDebug3.txt");
             if ($numReceived != $contentLength) {
@@ -366,11 +365,11 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                          "Received invalid number of content bytes: $numReceived($contentLength)");
             }
         }
-        
+
         return array($statusCode,
                  $data);
     }
-    
+
     /**
      *
      * @param object $data
@@ -386,7 +385,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         fwrite($fp, $data, strlen($data));
         fclose($fp);
     }
-    
+
     /**
      *
      * @param object $header
@@ -406,13 +405,13 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         if ($iEnd == -1) {
             $iEnd = strlen($value);
         }
-        
+
         $value = substr($value, 0, $iEnd);
-        
+
         $value = trim($value);
         return $value;
     }
-    
+
     /**
      *
      * @param object $text
@@ -431,7 +430,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         }
         return $iEnd;
     }
-    
+
     /**
      *
      * @param object $requestID
@@ -440,31 +439,31 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * @return
      */
     protected function getFileFromConnector($requestID, $fileName = "", $useCache = false) {
-    
+
         if ($useCache) {
             $data = $this->gFileCache[$fileName];
             if ($data) {
                 return $data;
             }
         }
-        
+
         if ($fileName == "") {
             $httpGet = $this->encodeHttpGet(array("getFile", $this->gSessionID, $requestID));
         } else {
             $httpGet = $this->encodeHttpGet(array("getFile", $this->gSessionID, $requestID, $fileName));
         }
-        
+
         $answer = $this->getHttpResponse($httpGet);
         if ($answer[0] < 0) {
             $this->showFatalError("Error", $answer[1], $answer[0]);
         }
-        
+
         if ($useCache) {
             $this->gFileCache[$fileName] = $answer[1];
         }
         return $answer[1];
-        
+
     }
-    
+
 }
 ?>
