@@ -266,61 +266,6 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                  $contentType);
     }
 
-
-    /**
-     * get HttpResponseContent and immediately send it to browser
-     * @param object $statusCode
-     * @param object $contentLength
-     * @param object $fp
-     * @return
-     */
-    private function getProgressiveHttpResponseContent($statusCode, $contentLength, $fp) {
-        if (!$fp) { // this should never occur
-            return array(-7000,
-                     "Could not access content from Intelliact Connector");
-        }
-        $numReceived = 0;
-        $data = ""; //default
-
-        if (!feof($fp)) {
-            $numCharTotal = 0;
-
-            //saveDataToFile("before while","IctConnectorDebug4.txt");
-            while (!feof($fp)) {
-                $numMissing = $contentLength - $numReceived;
-                if ($numMissing <= 0) {
-                    break;
-                }
-                if ($numMissing + 1 > 1024) {
-                    $newdata = fgets($fp, 1024); // for unknown reasons we must not get too many characters at once
-                } else {
-                    $newdata = fgets($fp, $numMissing + 1); // for unknown reasons we must get one more char
-                }
-                $data = $data.$newdata;
-                // submitting to browser in medium sized blocks, gives better performance?
-                if (strlen($data) > 9000) {
-                    echo($data);
-                    $data = "";
-                }
-                $numReceivedNew = strlen($newdata);
-                $numReceived += $numReceivedNew;
-                //saveDataToFile("numReceivedNew: $numReceivedNew, numReceived: $numReceived","IctConnectorDebug5.txt");
-            }
-            if (strlen($data) > 0) {
-                echo($data);
-            }
-            //saveDataToFile("numReceived: $numReceived","IctConnectorDebug4.txt");
-            if ($numReceived != $contentLength) {
-                echo "Received invalid number of content bytes: $numReceived($contentLength),data:$data<BR>";
-                return array(-7005,
-                         "Received invalid number of content bytes: $numReceived($contentLength)");
-            }
-        }
-
-        return array($statusCode,
-                 "");
-    }
-
     /**
      *
      * @param object $statusCode
@@ -330,44 +275,40 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      */
     private function getHttpResponseContent($statusCode, $contentLength, $fp) {
         if (!$fp) { // this should never occur
-            return array(-7000,
-                     "Could not access content from Intelliact Connector");
+            return array(-7000, "Could not access content from Intelliact Connector");
         }
-        $data = ""; //default
+        $data = "";
         if (!feof($fp)) {
-            $numChar = 0;
-            if ($contentLength > 100000000) {
-                echo "Response has too many bytes<BR>";
-                return array(-7013,
-                         "Response has too many bytes: $contentLength");
-            } // something is wrong
-            //saveDataToFile("before while","IctConnectorDebug3.txt");
-
-            $numReceived = 0;            
-            while (!feof($fp)) {             
+            $numReceived = 0;
+        	$dataBlock ="";
+            while (!feof($fp)) {
                 $numMissing = $contentLength - $numReceived;
-                
+
                 if ($numMissing <= 0) {
                     break;
                 }
 
-                $newdata = fread($fp, $numMissing);                                               
-                $numReceived += strlen($newdata);                
-                $data .= $newdata;
-                
+                $newdata = fread($fp, $numMissing);
+                $numReceived += strlen($newdata);
+
+            	$dataBlock .= $newdata;
+            	// Build 4MB blocks for performance reasons
+            	if (strlen($dataBlock)>4000000) {
+            		$data .= $dataBlock;
+            		$dataBlock="";
+            	}
+
                 //saveDataToFile("contentLength: $contentLength, numReceived: $numReceived, numReceivedNew: $numReceivedNew","IctConnectorDebug2.txt");
-            }           
-            $numReceived = strlen($data);
-            //saveDataToFile("numReceived: $numReceived","IctConnectorDebug3.txt");
+            }
+        	$data .= $dataBlock;
+
             if ($numReceived != $contentLength) {
                 echo "Received invalid number of content bytes: $numReceived($contentLength),data:$data<BR>";
-                return array(-7005,
-                         "Received invalid number of content bytes: $numReceived($contentLength)");
+                return array(-7005,"Received invalid number of content bytes: $numReceived($contentLength)");
             }
         }
 
-        return array($statusCode,
-                 $data);
+        return array($statusCode,$data);
     }
 
     /**
