@@ -47,6 +47,8 @@ class ELSTR_ApplicationDataServer {
 
         $result['config'] = $appConfigPublic;
 
+    	$result['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
+
     	return $result;
     }
 }
