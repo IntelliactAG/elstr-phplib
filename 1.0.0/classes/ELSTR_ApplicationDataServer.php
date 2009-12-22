@@ -49,6 +49,9 @@ class ELSTR_ApplicationDataServer {
 
     	$result['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
 
+    	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getLocale();
+    	$result['language']['translations'] = $this->m_application->getBootstrap()->getResource("language")->getMessages();
+
     	return $result;
     }
 }
