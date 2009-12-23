@@ -1,4 +1,6 @@
 <?php
+
+require_once ('ELSTR_JsonServer.php');
 /**
 * This class implements the user authentication and registration at ELSTR
 * Once the user is authenticated, his appplications will be added to the session accordingly

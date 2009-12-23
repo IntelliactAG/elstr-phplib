@@ -1,7 +1,8 @@
 <?php
 
+require_once ('ELSTR_JsonServer.php');
 /**
-* bla
+* Application Data Server
 *
 * @version $Id$
 * @copyright 2009
