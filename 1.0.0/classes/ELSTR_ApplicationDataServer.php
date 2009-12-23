@@ -32,7 +32,7 @@ class ELSTR_ApplicationDataServer {
     /**
     * Get the preview for an item or document or project
     *
-    * @param string $ Name of the application
+    * @param string $appNam Name of the application
     * @return array
     */
     public function load($appName)
@@ -47,7 +47,8 @@ class ELSTR_ApplicationDataServer {
 
         $result['config'] = $appConfigPublic;
 
-    	$result['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
+    	$result['user']['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
+    	$result['user']['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
 
     	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getLocale();
     	$result['language']['translations'] = $this->m_application->getBootstrap()->getResource("language")->getMessages();

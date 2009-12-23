@@ -49,11 +49,14 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
 
 
     /**
-     * Initialize the Authadapter for ESLTR applications
+     * Initialize the Auth for ESLTR web application
      * @return
      */
-    protected function _initAuthAdapter() {
-        // DB Tabel (in ELSTRDB) und LDAP initialization from Configuration
+    protected function _initAuth() {
+        $auth = Zend_Auth::getInstance();
+    	$auth->setStorage(new Zend_Auth_Storage_Session('ELSTR_Auth'));
+
+    	return $auth;
     }
 
     /**
@@ -89,14 +92,15 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         // If user is authenicated, create user object, else create a guest user
         $m_user = null;
 
-        if (Zend_Session::namespaceIsset('ELSTR_Auth')) {
-            $sessionAuth = new Zend_Session_Namespace('ELSTR_Auth');
-            $username = $sessionAuth->username;
-            $m_user = new ELSTR_User($username);
-            // Here or in User constructor load credentials form the session
-        } else {
-            $m_user = new ELSTR_User('anonymous');
-        }
+    	$auth = $this->getResource("auth");
+    	if (isset($auth) && $auth->hasIdentity()) {
+    		// Identity exists; get it
+    		$identity = $auth->getIdentity();
+    		$m_user = new ELSTR_User($identity);
+    	} else {
+    		$m_user = new ELSTR_User('anonymous');
+    	}
+
         return $m_user;
     }
 }
