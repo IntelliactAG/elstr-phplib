@@ -109,12 +109,19 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
         $this->setHeader('Content-Type', $contentType, true);
     }
 
+	/**
+	 * Implementation of the abstract _getMethod
+	 */
+	protected function _getMethod() {
+		return $_GET['method'];
+	}
+	
     /**
     * Create a Response and handle itselfs
     *
     * @return void
     */
-    public function handle()
+    protected function _handle()
     {
         $callmethod = $_GET['method'];
         $paramArray = $_GET;

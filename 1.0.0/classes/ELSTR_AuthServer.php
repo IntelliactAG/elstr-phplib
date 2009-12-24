@@ -68,6 +68,7 @@ class ELSTR_AuthServer {
                 /**
                 * * do stuff for successful authentication *
                 */
+				//TODO: Add Roles
                 $response['action'] = "success";
                 $response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
                 $response['username'] = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
@@ -124,7 +125,7 @@ class ELSTR_AuthServer {
         $options = $configAuth[$configAuth['method']];
         $adapter = new $configAuth['method']($options, $username, $password);
         $result = $this->m_application->getBootstrap()->getResource('auth')->authenticate($adapter);
-        return $result;;
+        return $result;
     }
 }
 

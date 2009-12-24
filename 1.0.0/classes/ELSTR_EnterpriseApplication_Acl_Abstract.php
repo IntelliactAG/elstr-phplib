@@ -55,7 +55,7 @@
 					// check on service level
 					if ($this->m_acl->isAllowed($username, $service)) {
 						// check on method ressource is defined
-						if ($this->m_acl->has($service.'_'.$method))
+						if ($this->m_acl->has($method.'@'.$service))
 							// check on method ressource is defineds
 							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {
                                  $args = func_get_args();

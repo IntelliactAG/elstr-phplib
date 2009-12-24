@@ -42,6 +42,18 @@
 					$response['message'] = 'No password provided: ';
 					$response['code'] = '1005';
 					break;
+				case 1006: 
+					$response['message'] = 'Access to widget denyed: ';
+					$response['code'] = '1007';
+					break;
+				case 1007: 
+					$response['message'] = 'Access to widget method denyed:  ';
+					$response['code'] = '1007';
+					break;
+				case 1008: 
+					$response['message'] = 'ACL Ressource not definied:  ';
+					$response['code'] = '1008';
+					break;
 			}
 			return $response;
 		}

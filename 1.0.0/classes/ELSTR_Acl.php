@@ -25,6 +25,7 @@ class ELSTR_Acl extends Zend_Acl
 		$this->addRole(new Zend_Acl_Role('userFoo'), 'role_member');
 		$this->addRole(new Zend_Acl_Role('userBar'), 'role_member');
 		$this->addRole(new Zend_Acl_Role('egli@intelliact-net.local'), array('role_anonymous','role_member'));
+		$this->addRole(new Zend_Acl_Role('nyffenegger@intelliact-net.local'), array('role_anonymous','role_member'));
 		$this->addRole(new Zend_Acl_Role('admin'), 'role_admin');
 
 		//add ressources
@@ -33,6 +34,8 @@ class ELSTR_Acl extends Zend_Acl
 		$this->add(new Zend_Acl_Resource('pizzaService@EXAMPLE_Service_YQL'));
         $this->add(new Zend_Acl_Resource('ELSTR_Service_OracleE6'));
 		$this->add(new Zend_Acl_Resource('ELSTR_Application_OracleE6'));
+		$this->add(new Zend_Acl_Resource('SULZER_WidgetServer_JSON_ArtikelinfoPreview'));
+		$this->add(new Zend_Acl_Resource('getDetails@SULZER_WidgetServer_JSON_ArtikelinfoPreview'));
 
 		//$this->add(new Zend_Acl_Resource('SULZER_WidgetServer_JSON_ClassSettings'));
 
@@ -47,7 +50,8 @@ class ELSTR_Acl extends Zend_Acl
 		$this->allow('role_anonymous', 'ELSTR_Service_OracleE6');
 		$this->allow('role_anonymous', 'ELSTR_Application_OracleE6');
 		//$this->deny('role_anonymous', 'SULZER_WidgetServer_JSON_ClassSettings');
-
+		$this->allow('role_member', 'SULZER_WidgetServer_JSON_ArtikelinfoPreview');
+		$this->deny('role_member', 'getDetails@SULZER_WidgetServer_JSON_ArtikelinfoPreview');
 
 	}
 

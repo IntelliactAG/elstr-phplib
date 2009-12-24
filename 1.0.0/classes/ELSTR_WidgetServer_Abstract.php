@@ -16,10 +16,14 @@
 	abstract class ELSTR_WidgetServer_Abstract
 	{
 		protected $m_applications;
+		protected $m_acl;
+		protected $m_user;
 		
 		function __construct($acl = null, $user = null) {
 			$this->m_applications = array();
 			$this->_initApplications($acl, $user);
+			$this->m_user = $user;
+			$this->m_acl  = $acl;
 		}
 	
 		/**
@@ -31,11 +35,51 @@
 		
 		/**
 		 * This function will be called by the RequestHandler. Inside the handle
-		 * function the response musst be generated and returned
+		 * function the response musst be generated and returned. This method will
+		 * first Check against the ACL, if the user is allowed to handle the request.
 		 * 
 		 * @return void
 		 */
-		abstract public function handle();
+		public function handle() {
+			$username = $this->m_user->getUsername();
+			// Check on Widget Level
+			if ($this->m_acl->has(get_class($this))==false || $this->m_acl->isAllowed($username, get_class($this))) {
+				// check if method ressource is defined, if not allow to execute
+				
+				if ($this->m_acl->has($this->_getMethod().'@'.get_class($this))) {
+					// check on method ressource is defineds
+					if ($this->m_acl->isAllowed($username, $this->_getMethod().'@'.get_class($this))) {
+                        $this->_handle();
+					}
+					else {
+						throw new Exception('1007');
+					}
+				}
+				else {
+				    $this->_handle();
+				}
+			}
+			else {
+				throw new Exception('1006');
+			}
+		}
+		/**
+		 * This method must returen the name of the method to be called by handle
+		 * Depending on the request method (GET, POST) and the argument specification
+		 * this might be implemented in different flavours.
+		 * 
+		 * @return 
+		 */
+		abstract protected function _getMethod();
+		
+		/**
+		 * Handle will call the _handle method to actually handle the request.
+		 * This method must be implmented according to the Response realized by
+		 * the Widget (e.g. JSON, Stream, etc.)
+		 * 
+		 * @return void
+		 */
+		abstract protected function _handle();
 		
 		/**
 		 * Register an application for this WidgetServer
