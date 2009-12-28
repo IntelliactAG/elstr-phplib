@@ -1,14 +1,13 @@
 <?php
 
 require_once ('ELSTR_JsonServer.php');
+
 /**
 * Application Data Server
 *
 * @version $Id$
 * @copyright 2009
 */
-
-require_once ("ELSTR_JsonServer.php");
 
 class ELSTR_ApplicationDataServer {
     private $m_application;
@@ -51,8 +50,9 @@ class ELSTR_ApplicationDataServer {
     	$result['user']['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
     	$result['user']['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
 
-    	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getLocale();
-    	$result['language']['translations'] = $this->m_application->getBootstrap()->getResource("language")->getMessages();
+    	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getLocale();
+    	$result['language']['modules'] = $this->m_application->getBootstrap()->getResource("language")->getRegisteredModules();
+    	$result['language']['translations'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getMessages();
 
     	return $result;
     }

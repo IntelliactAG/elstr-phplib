@@ -1,6 +1,7 @@
 <?php
 require_once 'ELSTR_Acl.php';
 require_once 'ELSTR_User.php';
+require_once 'ELSTR_Language.php';
 
 /**
  * This is the Boostrap class for the ELSTR Framework. It controls proper initialisation and registration
@@ -65,23 +66,36 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
      */
     protected function _initLanguage() {
 
-        $languageOptions = $this->getApplication()->getOption("language");
-        $textTranslations = new Zend_Translate('tmx', APPLICATION_PATH.$languageOptions['file'], $languageOptions['default']);
+    	/*
+    	   $options = $this->getApplication()->getOption("language");
+    	   $textTranslations = new Zend_Translate('tmx', APPLICATION_PATH.$options['file'], $options['default']);
 
-        $sessionLanguage = new Zend_Session_Namespace('ELSTR_Language');
-        if (!isset($sessionLanguage->language)) {
-            $locale = new Zend_Locale();
-            Zend_Registry::set('Zend_Locale', $locale);
-            if (!$textTranslations->isAvailable($locale->getLanguage())) {
-                // when user requests a not available language reroute to default
-                $sessionLanguage->language = $defaultlanguage;
-            } else {
-                $sessionLanguage->language = $locale->getLanguage();
-            }
-        }
-        $textTranslations->setLocale($sessionLanguage->language);
+    	   $sessionLanguage = new Zend_Session_Namespace('ELSTR_Language');
+    	   if (!isset($sessionLanguage->language)) {
+    	   $locale = new Zend_Locale();
+    	   Zend_Registry::set('Zend_Locale', $locale);
+    	   if (!$textTranslations->isAvailable($locale->getLanguage())) {
+    	   // when user requests a not available language reroute to default
+    	   $sessionLanguage->language = $defaultlanguage;
+    	   } else {
+    	   $sessionLanguage->language = $locale->getLanguage();
+    	   }
+    	   }
+    	   $textTranslations->setLocale($sessionLanguage->language);
 
-        return $textTranslations;
+    	   return $textTranslations;
+    	*/
+
+
+        $options = $this->getApplication()->getOption("language");
+
+    	//$translation = new Zend_Translate('tmx', APPLICATION_PATH.$options['module']['default'], $options['default']);
+
+    	// Create language object
+    	$m_language = new ELSTR_Language($options);
+
+
+    	return $m_language;
     }
 
     /**
