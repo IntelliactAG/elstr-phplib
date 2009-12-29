@@ -49,6 +49,7 @@ class ELSTR_ApplicationDataServer {
 
     	$result['user']['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
     	$result['user']['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
+		$result['user']['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($result['user']['username'],'role_admin',false);
 
     	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getLocale();
     	$result['language']['modules'] = $this->m_application->getBootstrap()->getResource("language")->getRegisteredModules();

@@ -8,7 +8,7 @@
 
 class ELSTR_Language {
     var $m_modules;
-    var $m_translations;
+    var $m_translation;
     var $m_options;
 
     function __construct($options)

@@ -72,6 +72,7 @@ class ELSTR_AuthServer {
                 $response['action'] = "success";
                 $response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
                 $response['username'] = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
+            	$response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($response['username'],'role_admin',false);
                 break;
 
             default:

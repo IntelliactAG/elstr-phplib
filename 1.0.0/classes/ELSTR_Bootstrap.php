@@ -1,4 +1,5 @@
 <?php
+require_once 'ELSTR_Db.php';
 require_once 'ELSTR_Acl.php';
 require_once 'ELSTR_User.php';
 require_once 'ELSTR_Language.php';
@@ -38,13 +39,34 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         Zend_Session::start();
     }
 
+	/**
+	 * Initialize the Database
+	 * @return  ELSTR_Db
+	 */
+	protected function _initDb() {
+		$configDb = $this->getApplication()->getOption("database");
+		$adapter = $configDb['adapter'];
+		$params = $configDb[$configDb['adapter']];
+
+		$dbAdapter = Zend_Db::factory($adapter, $params);
+		$dbAdapter->getConnection();
+
+		$m_db = new ELSTR_Db($dbAdapter);
+
+		return $m_db;
+	}
+
     /**
      * Initialize the ACL
      * @return  ELSTR_Acl
      */
     protected function _initAcl() {
-        $m_acl = new ELSTR_Acl();
-        $m_acl->loadFromDB();
+        $options = $this->getApplication()->getOption("acl");
+		$db = $this->getResource("db");
+
+		$m_acl = new ELSTR_Acl();
+        $m_acl->loadFromDb($db,$options);
+
         return $m_acl;
     }
 
@@ -54,10 +76,10 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
      * @return
      */
     protected function _initAuth() {
-        $auth = Zend_Auth::getInstance();
-    	$auth->setStorage(new Zend_Auth_Storage_Session('ELSTR_Auth'));
+        $m_auth = Zend_Auth::getInstance();
+    	$m_auth->setStorage(new Zend_Auth_Storage_Session('ELSTR_Auth'));
 
-    	return $auth;
+    	return $m_auth;
     }
 
     /**
@@ -65,35 +87,10 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
      * @return Zend_Translate
      */
     protected function _initLanguage() {
-
-    	/*
-    	   $options = $this->getApplication()->getOption("language");
-    	   $textTranslations = new Zend_Translate('tmx', APPLICATION_PATH.$options['file'], $options['default']);
-
-    	   $sessionLanguage = new Zend_Session_Namespace('ELSTR_Language');
-    	   if (!isset($sessionLanguage->language)) {
-    	   $locale = new Zend_Locale();
-    	   Zend_Registry::set('Zend_Locale', $locale);
-    	   if (!$textTranslations->isAvailable($locale->getLanguage())) {
-    	   // when user requests a not available language reroute to default
-    	   $sessionLanguage->language = $defaultlanguage;
-    	   } else {
-    	   $sessionLanguage->language = $locale->getLanguage();
-    	   }
-    	   }
-    	   $textTranslations->setLocale($sessionLanguage->language);
-
-    	   return $textTranslations;
-    	*/
-
-
         $options = $this->getApplication()->getOption("language");
-
-    	//$translation = new Zend_Translate('tmx', APPLICATION_PATH.$options['module']['default'], $options['default']);
 
     	// Create language object
     	$m_language = new ELSTR_Language($options);
-
 
     	return $m_language;
     }
