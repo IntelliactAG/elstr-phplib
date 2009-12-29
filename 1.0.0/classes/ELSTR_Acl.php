@@ -21,68 +21,118 @@ class ELSTR_Acl extends Zend_Acl {
                 $configRoles[$users[$n]][] = $roles[$i];
             }
         }
-
-        // TODO: Here, load the ACL from Database
-        // [DEBUG] For now, just add some dummy data
-        $this->addRole(new Zend_Acl_Role('role_anonymous'));
-        $this->addRole(new Zend_Acl_Role('role_member'), 'role_anonymous');
-        $this->addRole(new Zend_Acl_Role('role_engineering'), 'role_member');
-        $this->addRole(new Zend_Acl_Role('role_admin'));
-        // create admin and guest user
-        $this->addRole(new Zend_Acl_Role('anonymous'), 'role_anonymous');
-        $this->addRole(new Zend_Acl_Role('userFoo'), 'role_member');
-        $this->addRole(new Zend_Acl_Role('userBar'), 'role_member');
-
-        $role = 'egli@intelliact-net.local';
-        $dbParentRoles = array('role_anonymous', 'role_member');
-        $parentRoles = array_merge($configRoles[$role], $dbParentRoles);
-        $this->addRole(new Zend_Acl_Role($role), $parentRoles);
-
-        $this->addRole(new Zend_Acl_Role('nyffenegger@intelliact-net.local'), array('role_anonymous', 'role_member'));
-        $this->addRole(new Zend_Acl_Role('admin'), 'role_admin');
-        // add ressources
-        $this->add(new Zend_Acl_Resource('EXAMPLE_Application_YAHOO'));
-        $this->add(new Zend_Acl_Resource('EXAMPLE_Service_YQL'));
-        $this->add(new Zend_Acl_Resource('pizzaService@EXAMPLE_Service_YQL'));
-        $this->add(new Zend_Acl_Resource('ELSTR_Service_OracleE6'));
-        $this->add(new Zend_Acl_Resource('ELSTR_Application_OracleE6'));
-        $this->add(new Zend_Acl_Resource('SULZER_WidgetServer_JSON_ArtikelinfoPreview'));
-        $this->add(new Zend_Acl_Resource('getDetails@SULZER_WidgetServer_JSON_ArtikelinfoPreview'));
-        // $this->add(new Zend_Acl_Resource('SULZER_WidgetServer_JSON_ClassSettings'));
-        // set rights
-        // $this->deny('role_anonymous');
-        $this->deny('role_anonymous', 'EXAMPLE_Application_YAHOO');
-        $this->allow('role_member', 'EXAMPLE_Application_YAHOO');
-        $this->allow('role_member', 'EXAMPLE_Service_YQL');
-        $this->deny('role_member', 'pizzaService@EXAMPLE_Service_YQL');
-        // $this->allow('role_admin');
-        // $this->allow('role_anonymous');
-        $this->allow('role_anonymous', 'ELSTR_Service_OracleE6');
-        $this->allow('role_anonymous', 'ELSTR_Application_OracleE6');
-        // $this->deny('role_anonymous', 'SULZER_WidgetServer_JSON_ClassSettings');
-        $this->allow('role_member', 'SULZER_WidgetServer_JSON_ArtikelinfoPreview');
-        $this->deny('role_member', 'getDetails@SULZER_WidgetServer_JSON_ArtikelinfoPreview');
-    }
-
-    /*
-    public function loadFromConfig($options)
-    {
-        $roles = array_keys($options);
-        for ($i = 0; $i < count($roles); $i++) {
-            $users = $options[$roles[$i]];
-
-            for ($n = 0; $n < count($users); $n++) {
-                if ($this->hasRole($users[$n])) {
-                    $aclRole = $this->getRole($users[$n]);
-                } else {
-                    $aclRole = new Zend_Acl_Role($users[$n]);
-                }
-
-               $this->addRole($aclRole, $roles[$i]);
+        // Select all roles from db
+        $select = $db->select();
+        $select->from('Role', array('_id', 'name'));
+        $stmt = $db->query($select);
+        $resultRoles = $stmt->fetchAll();
+        // Get the role data and check if it is registered
+        for ($i = 0; $i < count($resultRoles); $i++) {
+            $role = $resultRoles[$i];
+            $roleName = $role['name'];
+            $roleId = $role['_id'];
+            // if the role is not registereed
+            if (!$this->hasRole($roleName)) {
+                $this->_createRoleFromDb($db, $roleId, $roleName, $configRoles);
             }
         }
+        // If the configurated roles were not added
+        // Add the configurated roles now
+        $roles = array_keys($configRoles);
+        for ($i = 0; $i < count($roles); $i++) {
+            if (!$this->hasRole($roles[$i])) {
+                $roleName = $roles[$i];
+                $parentRoles = $configRoles[$roleName];
+                $this->addRole(new Zend_Acl_Role($roleName), $parentRoles);
+            }
+        }
+
+    	// Select all resources from db
+    	// And add the resources to the acl
+    	$select = $db->select();
+    	$select->from('Resource', array('_id', 'name'));
+    	$stmt = $db->query($select);
+    	$resultResources = $stmt->fetchAll();
+    	// Get the resource data and check if it is registered
+    	for ($i = 0; $i < count($resultResources); $i++) {
+    		// Add the resource
+			$this->add(new Zend_Acl_Resource($resultResources[$i]['name']));
+    	}
+
+    	// Select the role-resource relation from db
+    	// And set the right defined
+    	$select = $db->select();
+    	$select->from('RoleResource', array('_id', 'access'));
+    	$select->join('Role', 'Role._id = RoleResource._id1', array('roleName' => 'name'));
+    	$select->join('Resource', 'Resource._id = RoleResource._id2', array('resourceName' => 'name'));
+    	$stmt = $db->query($select);
+    	$resultAccess = $stmt->fetchAll();
+
+    	for ($i = 0; $i < count($resultAccess); $i++) {
+    		$access = $resultAccess[$i]['access'];
+    		$roleName = $resultAccess[$i]['roleName'];
+    		$resourceName = $resultAccess[$i]['resourceName'];
+    		// set rights
+    		// $this->deny('role_example', 'EXAMPLE_Resource');
+    		// $this->allow('role_example', 'EXAMPLE_Resource');
+    		$this->$access($roleName, $resourceName);
+    	}
+
+
+
+
     }
-	   */
+
+    /**
+    * Check if the current user has at least one role
+    * If not - add it to the role_anonymous
+    */
+    public function currentUserHasRole($username)
+    {
+        // Check if the role is registered
+        if (!$this->hasRole($username)) {
+            // If not add the role_anonymous
+            $this->addRole(new Zend_Acl_Role($username), 'role_anonymous');
+        }
+    }
+
+    /**
+    * Create a role from db
+    * Add/registers roles recursivly from the db structure
+    *
+    * @param mixed $db database
+    * @param string $roleId database _id of the role
+    * @param string $roleName database name of the role, the role identifier
+    * @param array $configRoles
+    * @return void
+    */
+    private function _createRoleFromDb($db, $roleId, $roleName, $configRoles)
+    {
+        // get parent roles
+        $select = $db->select();
+        $select->from('Role', array('_id', 'name'));
+        $select->join('RoleRole', 'Role._id = RoleRole._id1', array());
+        $select->where('RoleRole._id2 = ?', $roleId);
+        $stmt = $db->query($select);
+        $resultParentRoles = $stmt->fetchAll();
+        $parentRoles = array();
+        for ($i = 0; $i < count($resultParentRoles); $i++) {
+            $parentRoleName = $resultParentRoles[$i]['name'];
+            $parentRoleId = $resultParentRoles[$i]['_id'];
+
+            if (!$this->hasRole($parentRoleName)) {
+                $this->_createRoleFromDb($db, $parentRoleId, $parentRoleName, $configRoles);
+            }
+
+            $parentRoles[] = $parentRoleName;
+        }
+
+        if (array_key_exists ($roleName , $configRoles)) {
+            $parentRoles = array_merge($configRoles[$roleName], $parentRoles);
+        }
+
+        $this->addRole(new Zend_Acl_Role($roleName), $parentRoles);
+    }
 }
 
 ?>

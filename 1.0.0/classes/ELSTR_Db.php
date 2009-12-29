@@ -25,7 +25,7 @@ class ELSTR_Db {
     */
     public function insert($table, $bind, $userId = '')
     {
-        $insertDefaultValues = $this->getInsertDefaultData($table, $userId);
+        $insertDefaultValues = $this->_getInsertDefaultData($table, $userId);
         $bind = array_merge($bind, $insertDefaultValues);
         $affectedRows = $this->m_dbAdapter->insert($table, $bind);
 
@@ -45,7 +45,11 @@ class ELSTR_Db {
         return $this->m_dbAdapter->query($sql, $bind);
     }
 
-    private function getInsertDefaultData($table, $userId)
+	public function select(){
+		return $this->m_dbAdapter->select();
+	}
+
+    private function _getInsertDefaultData($table, $userId)
     {
         $creaUser = $userId;
         $updaUser = $userId;

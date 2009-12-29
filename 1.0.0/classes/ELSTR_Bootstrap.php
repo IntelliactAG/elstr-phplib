@@ -57,21 +57,6 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
 	}
 
     /**
-     * Initialize the ACL
-     * @return  ELSTR_Acl
-     */
-    protected function _initAcl() {
-        $options = $this->getApplication()->getOption("acl");
-		$db = $this->getResource("db");
-
-		$m_acl = new ELSTR_Acl();
-        $m_acl->loadFromDb($db,$options);
-
-        return $m_acl;
-    }
-
-
-    /**
      * Initialize the Auth for ESLTR web application
      * @return
      */
@@ -114,5 +99,24 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
 
         return $m_user;
     }
+
+	/**
+	 * Initialize the ACL
+	 * @return  ELSTR_Acl
+	 */
+	protected function _initAcl() {
+		$options = $this->getApplication()->getOption("acl");
+		$db = $this->getResource("db");
+
+		$m_acl = new ELSTR_Acl();
+		$m_acl->loadFromDb($db,$options);
+		//
+		// Check if the current user has at least one role
+		// If not - add it to the role_anonymous
+		$username = $this->getResource("user")->getUsername();
+		$m_acl->currentUserHasRole($username);
+
+		return $m_acl;
+	}
 }
 ?>

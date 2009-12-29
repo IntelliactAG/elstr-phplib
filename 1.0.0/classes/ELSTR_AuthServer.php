@@ -68,11 +68,15 @@ class ELSTR_AuthServer {
                 /**
                 * * do stuff for successful authentication *
                 */
-				//TODO: Add Roles
+            	$username = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
+            	// Check if the current user has at least one role
+            	// If not - add it to the role_anonymous
+            	$this->m_application->getBootstrap()->getResource('acl')->currentUserHasRole($username);
+            	// Create Response
                 $response['action'] = "success";
                 $response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
-                $response['username'] = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
-            	$response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($response['username'],'role_admin',false);
+                $response['username'] = $username;
+            	$response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username,'role_admin',false);
                 break;
 
             default:
