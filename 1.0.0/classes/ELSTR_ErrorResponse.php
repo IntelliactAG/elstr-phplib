@@ -54,6 +54,10 @@
 					$response['message'] = 'ACL Ressource not definied:  ';
 					$response['code'] = '1008';
 					break;
+				case 1009:
+					$response['message'] = 'It is not allowed to modify or delete core values:  ';
+					$response['code'] = '1009';
+					break;
 				default:
 					$response['message'] = $message;
 					$response['code'] = '';

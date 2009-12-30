@@ -15,15 +15,17 @@
 	 */
 	abstract class ELSTR_WidgetServer_Abstract
 	{
+		protected $m_application;
 		protected $m_applications;
 		protected $m_acl;
 		protected $m_user;
 
-		function __construct($acl = null, $user = null) {
+		function __construct($application) {
 			$this->m_applications = array();
-			$this->_initApplications($acl, $user);
-			$this->m_user = $user;
-			$this->m_acl  = $acl;
+			$this->m_application = $application;
+			$this->m_user = $this->m_application->getBootstrap()->getResource('user');
+			$this->m_acl  = $this->m_application->getBootstrap()->getResource('acl');
+			$this->_initApplications($this->m_acl, $this->m_user);
 		}
 
 		/**
