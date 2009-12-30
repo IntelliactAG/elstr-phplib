@@ -46,39 +46,35 @@ class ELSTR_Acl extends Zend_Acl {
                 $this->addRole(new Zend_Acl_Role($roleName), $parentRoles);
             }
         }
+        // Select all resources from db
+        // And add the resources to the acl
+        $select = $db->select();
+        $select->from('Resource', array('_id', 'name'));
+        $stmt = $db->query($select);
+        $resultResources = $stmt->fetchAll();
+        // Get the resource data and check if it is registered
+        for ($i = 0; $i < count($resultResources); $i++) {
+            // Add the resource
+            $this->add(new Zend_Acl_Resource($resultResources[$i]['name']));
+        }
+        // Select the role-resource relation from db
+        // And set the right defined
+        $select = $db->select();
+        $select->from('RoleResource', array('_id', 'access'));
+        $select->join('Role', 'Role._id = RoleResource._id1', array('roleName' => 'name'));
+        $select->join('Resource', 'Resource._id = RoleResource._id2', array('resourceName' => 'name'));
+        $stmt = $db->query($select);
+        $resultAccess = $stmt->fetchAll();
 
-    	// Select all resources from db
-    	// And add the resources to the acl
-    	$select = $db->select();
-    	$select->from('Resource', array('_id', 'name'));
-    	$stmt = $db->query($select);
-    	$resultResources = $stmt->fetchAll();
-    	// Get the resource data and check if it is registered
-    	for ($i = 0; $i < count($resultResources); $i++) {
-    		// Add the resource
-			$this->add(new Zend_Acl_Resource($resultResources[$i]['name']));
-    	}
-
-    	// Select the role-resource relation from db
-    	// And set the right defined
-    	$select = $db->select();
-    	$select->from('RoleResource', array('_id', 'access'));
-    	$select->join('Role', 'Role._id = RoleResource._id1', array('roleName' => 'name'));
-    	$select->join('Resource', 'Resource._id = RoleResource._id2', array('resourceName' => 'name'));
-    	$stmt = $db->query($select);
-    	$resultAccess = $stmt->fetchAll();
-
-    	for ($i = 0; $i < count($resultAccess); $i++) {
-    		$access = $resultAccess[$i]['access'];
-    		$roleName = $resultAccess[$i]['roleName'];
-    		$resourceName = $resultAccess[$i]['resourceName'];
-    		// set rights
-    		// $this->deny('role_example', 'EXAMPLE_Resource');
-    		// $this->allow('role_example', 'EXAMPLE_Resource');
-    		$this->$access($roleName, $resourceName);
-    	}
-
-
+        for ($i = 0; $i < count($resultAccess); $i++) {
+            $access = $resultAccess[$i]['access'];
+            $roleName = $resultAccess[$i]['roleName'];
+            $resourceName = $resultAccess[$i]['resourceName'];
+            // set rights
+            // $this->deny('role_example', 'EXAMPLE_Resource');
+            // $this->allow('role_example', 'EXAMPLE_Resource');
+            $this->$access($roleName, $resourceName);
+        }
     }
 
     /**
@@ -92,6 +88,27 @@ class ELSTR_Acl extends Zend_Acl {
             // If not add the role_anonymous
             $this->addRole(new Zend_Acl_Role($username), 'role_anonymous');
         }
+    }
+
+    public function getResourcesAllowed($db, $roleName)
+    {
+        $resourcesAllowed = array();
+        // Select all roles from db
+        $select = $db->select();
+        $select->from('Resource');
+        $stmt = $db->query($select);
+        $resultResources = $stmt->fetchAll();
+
+        for ($i = 0; $i < count($resultResources); $i++) {
+            // Get the right for every role
+            $resourceName = $resultResources[$i]['name'];
+            $isAllowed = $this->isAllowed($roleName, $resourceName);
+            if ($isAllowed) {
+                $resourcesAllowed[] = $resourceName;
+            }
+        }
+
+        return $resourcesAllowed;
     }
 
     /**

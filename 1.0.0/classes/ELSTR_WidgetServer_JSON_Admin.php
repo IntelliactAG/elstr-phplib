@@ -40,7 +40,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $select->from('Role');
         $stmt = $db->query($select);
         $resultRoles = $stmt->fetchAll();
-        // Select all roles from db
+        // Select all resources from db
         $select = $db->select();
         $select->from('Resource');
         $select->order(array('Resource.type', 'Resource.name'));
