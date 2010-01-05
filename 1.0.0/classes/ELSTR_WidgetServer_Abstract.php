@@ -48,9 +48,9 @@
 			if ($this->m_acl->isAllowed($username, get_class($this))) {
 				// check if method ressource is defined, if not allow to execute
 				if ($this->m_acl->has($this->_getMethod().'@'.get_class($this))) {
-					// check on method ressource is defineds
+					// check on method ressource is defined
 					if ($this->m_acl->isAllowed($username, $this->_getMethod().'@'.get_class($this))) {
-                        $this->_handle();
+						$this->_handle();
 					}
 					else {
 						throw new Exception('1007');

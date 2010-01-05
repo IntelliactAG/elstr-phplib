@@ -58,19 +58,28 @@
 						if ($this->m_acl->has($method.'@'.$service))
 							// check on method ressource is defineds
 							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {
-                                 $args = func_get_args();
-                                 $response = call_user_func_array(array($this, 'parent::call'), $args);
-								 print_r($response);
-                                // for PHP 5.3 we should wirte as follows (?) Ref: http://us2.php.net/manual/en/function.call-user-func-array.php
-                                // $response = call_user_func_array('parent::call', func_get_args());
+								$args = func_get_args();
+								if(PHP_VERSION_ID >= 50300){
+									// For PHP Version >= 5.3.0
+									// for PHP 5.3 we should wirte as follows (?) Ref: http://us2.php.net/manual/en/function.call-user-func-array.php
+									$response = call_user_func_array('parent::call', $args);
+								} else {
+									// For PHP Version < 5.3.0
+									$response = call_user_func_array(array($this, 'parent::call'), $args);
+								}
 							}
 							else {
 								throw new Exception('1003');
 							}
 						else {
-						    //$response = parent::call($service, $method, $params);
-                            $args = func_get_args();
-                            $response = call_user_func_array(array($this, 'parent::call'), $args);
+							$args = func_get_args();
+							if(PHP_VERSION_ID >= 50300){
+								// For PHP Version >= 5.3.0
+								$response = call_user_func_array('parent::call', $args);
+							} else {
+								// For PHP Version < 5.3.0
+								$response = call_user_func_array(array($this, 'parent::call'), $args);
+							}
 						}
 					}
 					else {

@@ -43,7 +43,6 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
     // $argArray: array containing function name and arguments for IctConnector
     // dies on error
     protected function invokeConnectorProcedure($plmFunction, $plmParameters) {
-
         $argArray = array($plmFunction,
                  $this->gSessionID);
 
