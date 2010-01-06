@@ -9,18 +9,20 @@
 */
 
 class ELSTR_Acl extends Zend_Acl {
-    public function loadFromDb($db, $options = array())
-    {
-        $configRoles = array();
-        // create user-specific role array
-        $roles = array_keys($options);
-        for ($i = 0; $i < count($roles); $i++) {
-            $users = $options[$roles[$i]];
+    var $m_session_acl;
+    var $m_roles;
+    var $m_application;
 
-            for ($n = 0; $n < count($users); $n++) {
-                $configRoles[$users[$n]][] = $roles[$i];
-            }
-        }
+    function __construct($application)
+    {
+        $this->m_session_acl = new Zend_Session_Namespace('ELSTR_Acl');
+        $this->m_roles = array();
+        $this->m_application = $application;
+    }
+
+    public function loadFromDb()
+    {
+        $db = $this->m_application->getBootstrap()->getResource('db');
         // Select all roles from db
         $select = $db->select();
         $select->from('Role', array('_id', 'name'));
@@ -33,17 +35,7 @@ class ELSTR_Acl extends Zend_Acl {
             $roleId = $role['_id'];
             // if the role is not registereed
             if (!$this->hasRole($roleName)) {
-                $this->_createRoleFromDb($db, $roleId, $roleName, $configRoles);
-            }
-        }
-        // If the configurated roles were not added
-        // Add the configurated roles now
-        $roles = array_keys($configRoles);
-        for ($i = 0; $i < count($roles); $i++) {
-            if (!$this->hasRole($roles[$i])) {
-                $roleName = $roles[$i];
-                $parentRoles = $configRoles[$roleName];
-                $this->addRole(new Zend_Acl_Role($roleName), $parentRoles);
+                $this->_createRoleFromDb($db, $roleId, $roleName);
             }
         }
         // Select all resources from db
@@ -85,8 +77,35 @@ class ELSTR_Acl extends Zend_Acl {
     {
         // Check if the role is registered
         if (!$this->hasRole($username)) {
-            // If not add the role_anonymous
-            $this->addRole(new Zend_Acl_Role($username), 'role_anonymous');
+            $aclOptions = $this->m_application->getOption("acl");
+
+            $configRoles = array();
+            // Get the configurated roles
+            // create user-specific role array
+            $roles = array_keys($aclOptions['userRoles']);
+            for ($i = 0; $i < count($roles); $i++) {
+                $users = $aclOptions['userRoles'][$roles[$i]];
+
+                for ($n = 0; $n < count($users); $n++) {
+                    if ($username == $users[$n]) {
+                        $configRoles[] = $roles[$i];
+                    }
+                }
+            }
+            // Use this the get the roles of a user!
+            $sessionRoles = array();
+            if (isset($this->getSession()->$username->roles)) {
+                $sessionRoles = ($this->getSession()->$username->roles);
+            }
+
+            $parentRoles = array_merge($configRoles, $sessionRoles);
+
+            if (count($parentRoles) > 0) {
+                $this->addRole(new Zend_Acl_Role($username), $parentRoles);
+            } else {
+                // If not add the role_anonymous
+                $this->addRole(new Zend_Acl_Role($username), 'role_anonymous');
+            }
         }
     }
 
@@ -111,6 +130,21 @@ class ELSTR_Acl extends Zend_Acl {
         return $resourcesAllowed;
     }
 
+    public function getSession()
+    {
+        return $this->m_session_acl;
+    }
+
+    /**
+    * Return all defined roles
+    *
+    * @return array
+    */
+    public function getDefinedRoles()
+    {
+        return $this->m_roles;
+    }
+
     /**
     * Create a role from db
     * Add/registers roles recursivly from the db structure
@@ -121,7 +155,7 @@ class ELSTR_Acl extends Zend_Acl {
     * @param array $configRoles
     * @return void
     */
-    private function _createRoleFromDb($db, $roleId, $roleName, $configRoles)
+    private function _createRoleFromDb($db, $roleId, $roleName)
     {
         // get parent roles
         $select = $db->select();
@@ -136,17 +170,13 @@ class ELSTR_Acl extends Zend_Acl {
             $parentRoleId = $resultParentRoles[$i]['_id'];
 
             if (!$this->hasRole($parentRoleName)) {
-                $this->_createRoleFromDb($db, $parentRoleId, $parentRoleName, $configRoles);
+                $this->_createRoleFromDb($db, $parentRoleId, $parentRoleName);
             }
-
             $parentRoles[] = $parentRoleName;
         }
 
-        if (array_key_exists ($roleName , $configRoles)) {
-            $parentRoles = array_merge($configRoles[$roleName], $parentRoles);
-        }
-
         $this->addRole(new Zend_Acl_Role($roleName), $parentRoles);
+        $this->m_roles[] = $roleName;
     }
 }
 
