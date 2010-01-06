@@ -102,6 +102,7 @@ class ELSTR_Acl extends Zend_Acl {
 
             if (count($parentRoles) > 0) {
                 $this->addRole(new Zend_Acl_Role($username), $parentRoles);
+            	//print_r($parentRoles);
             } else {
                 // If not add the role_anonymous
                 $this->addRole(new Zend_Acl_Role($username), 'role_anonymous');
