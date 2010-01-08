@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="2.0" xmlns="http://www.lisa.org/tmx20">
+  <header adminlang="en" creationtool="locale4j" creationtoolversion="1.1" o-tmf="unknown" segtype="block" srclang="*all*"/>
+  <body>
+    <tu tuid="A password is required">
+      <tuv xml:lang="en">
+        <seg>A password is required</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Ein Passwort muss eingegeben werden</seg>
+      </tuv>
+    </tu>
+    <tu tuid="A username is required">
+      <tuv xml:lang="en">
+        <seg>A username is required</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Ein Benutzername muss eingegeben werden</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Cancel">
+      <tuv xml:lang="en">
+        <seg>Cancel</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Abbrechen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Invalid credentials">
+      <tuv xml:lang="en">
+        <seg>Invalid credentials</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Ungültiger Benutzername oder falsches Passwort</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Login">
+      <tuv xml:lang="en">
+        <seg>Login</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Anmelden</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Password">
+      <tuv xml:lang="en">
+        <seg>Password</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Passwort</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Username">
+      <tuv xml:lang="en">
+        <seg>Username</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Benutzername</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

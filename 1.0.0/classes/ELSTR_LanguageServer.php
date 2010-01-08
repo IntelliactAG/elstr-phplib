@@ -31,6 +31,7 @@ class ELSTR_LanguageServer {
 	}
 
 
+
     /**
      *
      * Funktion fur das Laden einer Sprache
@@ -64,6 +65,24 @@ class ELSTR_LanguageServer {
         // returns all the complete translation data
         return $translations->getMessages();
     }
+
+	/**
+	 *
+	 * Funktion fur das Laden einer Sprache
+	 *
+	 * @param string $module
+	 * @return array
+	 *
+	 */
+	public function registerModule($module) {
+
+		$this->m_application->getBootstrap()->getResource("language")->registerModules(array($module));
+
+		// returns all the complete translation data
+		return true;
+	}
+
+
 }
 
 

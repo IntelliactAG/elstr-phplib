@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmx version="2.0" xmlns="http://www.lisa.org/tmx20">
+  <header adminlang="en" creationtool="locale4j" creationtoolversion="1.1" o-tmf="unknown" segtype="block" srclang="*all*"/>
+  <body>
+    <tu tuid="Admin Console">
+      <tuv xml:lang="en">
+        <seg>Admin Console</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Admin Konsole</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Close">
+      <tuv xml:lang="en">
+        <seg>Close</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Schliessen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Resources">
+      <tuv xml:lang="en">
+        <seg>Resources</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Ressourcen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Roles">
+      <tuv xml:lang="en">
+        <seg>Roles</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Rollen</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

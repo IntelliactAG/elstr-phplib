@@ -17,42 +17,40 @@ class ELSTR_Language {
         $this->m_modules = array();
         $this->m_session = new Zend_Session_Namespace('ELSTR_Language');
 
-        $this->m_translation = new Zend_Translate('tmx', APPLICATION_PATH . $this->m_options['module']['default'], $this->m_options['default']);
-
-        if (!isset($this->m_session->language)) {
-            $locale = new Zend_Locale();
-            Zend_Registry::set('Zend_Locale', $locale);
-            if (!$this->m_translation->isAvailable($locale->getLanguage())) {
-                // when user requests a not available language reroute to default
-                $this->m_session->language = $this->m_options['default'];
-            } else {
-                $this->m_session->language = $locale->getLanguage();
-            }
-        }
-        $this->m_translation->setLocale($this->m_session->language);
-
-        if (isset($this->m_session->modules) && is_array($this->m_session->modules)) {
-            for ($i = 0; $i < count($this->m_session->modules); $i++) {
-                $this->loadModule($this->m_session->modules[$i]);
-            }
-        } else {
-            $this->m_session->modules = array();
-        }
+        $this->_loadInitialModule();
+        $this->_loadRegisteredModules();
     }
 
-	/**
-	 * Change the language in the session
-	 *
-	 * @param string $newLang
-	 * @return void
-	 */
-	public function changeLanguage($lang){
-		if ($this->m_translation->isAvailable($lang)) {
-			$this->m_session->language = $lang;
-			$this->m_translation->setLocale($this->m_session->language);
-		}
-	}
+    /**
+    * Cleanup the registered modules and clear already loaded modules
+    * Usually this method is called at every startup of an app
+    *
+    * @return void
+    */
+    public function cleanup()
+    {
+        // Unregister all modules
+        // Delete all modules in the session
+        $this->m_session->modules = array();
+        // Delete all internal modules
+        $this->m_modules = array();
+        // Load the initial module
+        $this->_loadInitialModule();
+    }
 
+    /**
+    * Change the language in the session
+    *
+    * @param string $newLang
+    * @return void
+    */
+    public function changeLanguage($lang)
+    {
+        if ($this->m_translation->isAvailable($lang)) {
+            $this->m_session->language = $lang;
+            $this->m_translation->setLocale($this->m_session->language);
+        }
+    }
 
     /**
     * Add Language Modules for use over session
@@ -62,7 +60,7 @@ class ELSTR_Language {
     */
     public function registerModules($modules)
     {
-        $this->addModules($modules, 'permanent');
+        $this->_addModules($modules, 'permanent');
         return $this->m_modules;
     }
 
@@ -74,7 +72,7 @@ class ELSTR_Language {
     */
     public function useModules($modules)
     {
-        $this->addModules($modules, 'temp');
+        $this->_addModules($modules, 'temp');
         return $this->m_modules;
     }
 
@@ -98,13 +96,13 @@ class ELSTR_Language {
         return $this->m_translation;
     }
 
-    private function addModules($modules, $type)
+    private function _addModules($modules, $type)
     {
         for ($i = 0; $i < count($modules); $i++) {
             $moduleName = $modules[$i];
 
             if (!isset($this->m_modules[$moduleName])) {
-                $this->loadModule($moduleName);
+                $this->_loadModule($moduleName);
 
                 if ($type == 'permanent') {
                     $this->m_session->modules[] = $moduleName;
@@ -113,10 +111,61 @@ class ELSTR_Language {
         }
     }
 
-    private function loadModule($moduleName)
+    private function _loadModule($moduleName)
     {
-        $this->m_translation->addTranslation(APPLICATION_PATH . $this->m_options['module'][$moduleName], $this->m_session->language);
-        $this->m_modules[$moduleName] = true;
+
+    	if (isset($this->m_options['module'][$moduleName])) {
+    		// It is a configurated module
+			$filename = APPLICATION_PATH . $this->m_options['module'][$moduleName];
+    	} else {
+    		// It is not in the config so it must be an elstr module
+    		$filename = APPLICATION_PATH . "/phplib/elstr/".ELSTR_VERSION."/translations/" . $moduleName . ".tmx";
+    	}
+
+
+        if (file_exists($filename)) {
+            $this->m_translation->addTranslation($filename, $this->m_session->language);
+            $this->m_modules[$moduleName] = true;
+            return true;
+        } else {
+            // File does not exist
+            return false;
+        }
+    }
+
+    private function _loadInitialModule()
+    {
+        $filename = APPLICATION_PATH . $this->m_options['module']['default'];
+        if (file_exists($filename)) {
+            $this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
+
+            if (!isset($this->m_session->language)) {
+                $locale = new Zend_Locale();
+                Zend_Registry::set('Zend_Locale', $locale);
+                if (!$this->m_translation->isAvailable($locale->getLanguage())) {
+                    // when user requests a not available language reroute to default
+                    $this->m_session->language = $this->m_options['default'];
+                } else {
+                    $this->m_session->language = $locale->getLanguage();
+                }
+            }
+            $this->m_translation->setLocale($this->m_session->language);
+            return true;
+        } else {
+        	throw new Exception('1010');
+            return false;
+        }
+    }
+
+    private function _loadRegisteredModules()
+    {
+        if (isset($this->m_session->modules) && is_array($this->m_session->modules)) {
+            for ($i = 0; $i < count($this->m_session->modules); $i++) {
+                $this->_loadModule($this->m_session->modules[$i]);
+            }
+        } else {
+            $this->m_session->modules = array();
+        }
     }
 }
 
