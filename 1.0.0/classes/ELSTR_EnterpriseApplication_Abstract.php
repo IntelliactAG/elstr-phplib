@@ -13,15 +13,16 @@
 	 * @author Felix Nyffenegger
 	 * @version 1.0
 	 * @created 19-Okt-2009 17:41:50
+	 * @modified 11-Jan-2010 Marco Egli
 	 */
 	abstract class ELSTR_EnterpriseApplication_Abstract
 	{
+		protected $m_application;
 		protected $m_services;
 		protected $m_authAdapter;
-		protected $m_user;
 
-		function __construct($user = null) {
-			$this->m_user = $user;
+		function __construct($application) {
+			$this->m_application = $application;
 			$this->m_authAdapter = $this->_initAuthAdapter();
 			$this->_initServices();
 		}

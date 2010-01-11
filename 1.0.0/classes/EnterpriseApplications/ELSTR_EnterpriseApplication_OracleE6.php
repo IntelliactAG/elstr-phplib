@@ -7,7 +7,7 @@
      *
      * @author Marco Egli
      */
-    class ELSTR_Application_OracleE6 extends ELSTR_EnterpriseApplication_Acl_Abstract
+    class ELSTR_EnterpriseApplication_OracleE6 extends ELSTR_EnterpriseApplication_Acl_Abstract
     {
         /**
          * Define the Auth adapter for this application
@@ -24,7 +24,8 @@
          * @return
          */
         protected function _initServices() {
-            $this->registerService(new ELSTR_Service_OracleE6("tcp://vm-0061:9010", "1000018922", "60.0", "webServer"));
+        	$options = $this->m_application->getOption(get_class($this));
+        	$this->registerService(new ELSTR_Service_OracleE6($options));
         }
 
     	/**

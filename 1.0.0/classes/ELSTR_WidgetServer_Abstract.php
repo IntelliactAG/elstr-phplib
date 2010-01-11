@@ -7,7 +7,7 @@
 	 * Note: $acl and $user are optional, but must be set if one of the applications needs ACL control.
 	 *
 	 * These methods must be implemented:
-	 * _initApplications($acl, $user) : Tell the WidgetServer which applications to use with $this->registerApplication()
+	 * _initEnterpriseApplications($acl, $user) : Tell the WidgetServer which applications to use with $this->registerEnterpriseApplication()
 	 *
 	 * @author Felix Nyffenegger
 	 * @version 1.0
@@ -16,24 +16,21 @@
 	abstract class ELSTR_WidgetServer_Abstract
 	{
 		protected $m_application;
-		protected $m_applications;
-		protected $m_acl;
-		protected $m_user;
+		protected $m_enterpriseApplications;
 
 		function __construct($application) {
-			$this->m_applications = array();
+			$this->m_enterpriseApplications = array();
 			$this->m_application = $application;
-			$this->m_user = $this->m_application->getBootstrap()->getResource('user');
-			$this->m_acl  = $this->m_application->getBootstrap()->getResource('acl');
-			$this->_initApplications($this->m_acl, $this->m_user);
+			// Init
+			$this->_initEnterpriseApplications($this->m_application);
 		}
 
 		/**
 		 * The implementation class must implement this method in order
-		 * to add all the applications needed to the $m_applications array
+		 * to add all the applications needed to the $m_enterpriseApplications array
 		 * [OPTIPON] This could later be replaced by pure configuration
 		 */
-		abstract protected function _initApplications($acl, $user);
+		abstract protected function _initEnterpriseApplications($application);
 
 		/**
 		 * This function will be called by the RequestHandler. Inside the handle
@@ -43,13 +40,17 @@
 		 * @return void
 		 */
 		public function handle() {
-			$username = $this->m_user->getUsername();
+			// Get acl and user object from application
+			$acl = $this->m_application->getBootstrap()->getResource('acl');
+			$user = $this->m_application->getBootstrap()->getResource('user');
+
+			$username = $user->getUsername();
 			// Check on Widget Level
-			if ($this->m_acl->isAllowed($username, get_class($this))) {
+			if ($acl->isAllowed($username, get_class($this))) {
 				// check if method ressource is defined, if not allow to execute
-				if ($this->m_acl->has($this->_getMethod().'@'.get_class($this))) {
+				if ($acl->has($this->_getMethod().'@'.get_class($this))) {
 					// check on method ressource is defined
-					if ($this->m_acl->isAllowed($username, $this->_getMethod().'@'.get_class($this))) {
+					if ($acl->isAllowed($username, $this->_getMethod().'@'.get_class($this))) {
 						$this->_handle();
 					}
 					else {
@@ -89,8 +90,8 @@
 		 * @param $application ELSTR_EnterpriseApplication_Abstract
 		 * @return void
 		 */
-		protected function registerApplication($application) {
-			$this->m_applications[get_class($application)] = $application;
+		protected function registerEnterpriseApplication($application) {
+			$this->m_enterpriseApplications[get_class($application)] = $application;
 		}
 
 		/**
@@ -99,9 +100,9 @@
 		 * @param $name String
 		 * @return ELSTR_Service_Abstract
 		 */
-		protected function getApplication($name) {
-			if (array_key_exists($name, $this->m_applications)) {
-	            return $this->m_applications[$name];
+		protected function getEnterpriseApplication($name) {
+			if (array_key_exists($name, $this->m_enterpriseApplications)) {
+	            return $this->m_enterpriseApplications[$name];
 	        }
 	        return false;
 		}
@@ -112,8 +113,8 @@
 		 * @param $service ELSTR_Service_Abstract
 		 * @return void
 		 */
-		protected function unregisterApplication($application) {
-			unset($this->m_applications[get_class($application)]);
+		protected function unregisterEnterpriseApplication($application) {
+			unset($this->m_enterpriseApplications[get_class($application)]);
 		}
 	}
 ?>

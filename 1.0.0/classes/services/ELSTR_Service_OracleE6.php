@@ -19,13 +19,13 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      *
      * @return
      */
-    function __construct($remoteAddress, $sessionID, $timeoutSeconds, $thisServer) {
+    function __construct($options) {
         parent::__construct();
 
-        $this->gRemoteAddress = $remoteAddress;
-        $this->gSessionID = $sessionID;
-        $this->gTimeoutSeconds = $timeoutSeconds;
-        $this->gThisServer = $thisServer;
+        $this->gRemoteAddress = $options['remoteAddress'];
+        $this->gSessionID = $options['sessionId'];
+        $this->gTimeoutSeconds = $options['timeoutSeconds'];
+        $this->gThisServer = $options['thisServer'];
         $this->gFileCache = array();
     }
 

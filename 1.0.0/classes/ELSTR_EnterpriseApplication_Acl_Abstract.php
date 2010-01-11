@@ -9,26 +9,10 @@
 	 * @author Felix Nyffenegger
 	 * @version 1.0
 	 * @created 19-Okt-2009 17:41:50
+	 * @modified 11-Jan-2010 Marco Egli
 	 */
 	abstract class ELSTR_EnterpriseApplication_Acl_Abstract extends ELSTR_EnterpriseApplication_Abstract
 	{
-		protected $m_acl;
-
-
-		/**
-		 * Create an ACL controler for this applications
-		 *
-		 * @return
-		 * @param $user Object
-		 * @param $acl Object
-		 */
-		public function setAclControler($acl, $user) {
-			// the controler is currently directly implemented here (function call()). It could also be a seperate class
-			// in future, to allow implementation of different controlers
-			$this->m_acl = $acl;
-			$this->m_user = $user;
-		}
-
 		/**
 		 * Call a service method if ACL allows the user to do so.
 		 * current implemenation:
@@ -42,22 +26,25 @@
 		 * @param $method String Name of the method to call
 		 * @param $params Array List of parameter for the method
 		 */
-        //public function call($service, $method, $params) {
 		public function call($service, $method) {
+			// Get acl and user object from application
+			$acl = $this->m_application->getBootstrap()->getResource('acl');
+			$user = $this->m_application->getBootstrap()->getResource('user');
+
 			$response = array();
-			if ($this->m_user == null || $this->m_acl == null) {
+			if ($user == null || $acl == null) {
 				throw new Exception('1000');
 			}
 			else {
-				$username = $this->m_user->getUsername();
+				$username = $user->getUsername();
 				// check on application level
-				if ($this->m_acl->isAllowed($username, get_class($this))) {
+				if ($acl->isAllowed($username, get_class($this))) {
 					// check on service level
-					if ($this->m_acl->isAllowed($username, $service)) {
+					if ($acl->isAllowed($username, $service)) {
 						// check on method ressource is defined
-						if ($this->m_acl->has($method.'@'.$service))
+						if ($acl->has($method.'@'.$service))
 							// check on method ressource is defineds
-							if ($this->m_acl->isAllowed($username, $method.'@'.$service)) {
+							if ($acl->isAllowed($username, $method.'@'.$service)) {
 								$args = func_get_args();
 								if(PHP_VERSION_ID >= 50300){
 									// For PHP Version >= 5.3.0
