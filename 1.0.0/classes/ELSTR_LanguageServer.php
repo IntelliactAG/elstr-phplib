@@ -2,7 +2,8 @@
 
 require_once ('ELSTR_Language.php');
 require_once ('ELSTR_JsonServer.php');
-
+require_once ('ELSTR_Server_Abstract.php');
+	
 /**
  * Class to handle multi language strings
  *
@@ -10,13 +11,7 @@ require_once ('ELSTR_JsonServer.php');
  * @copyright 2009 Intelliact AG
  */
 
-class ELSTR_LanguageServer {
-	private $m_application;
-
-	function __construct($application)
-	{
-		$this->m_application = $application;
-	}
+class ELSTR_LanguageServer  extends ELSTR_Server_Abstract {
 
 	/**
 	 * Create a JSON Server and handle itselfs

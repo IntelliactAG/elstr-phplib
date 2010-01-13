@@ -1,6 +1,7 @@
 <?php
 
 require_once ('ELSTR_JsonServer.php');
+require_once ('ELSTR_Server_Abstract.php');
 
 /**
 * Application Data Server
@@ -9,13 +10,7 @@ require_once ('ELSTR_JsonServer.php');
 * @copyright 2009
 */
 
-class ELSTR_ApplicationDataServer {
-    private $m_application;
-
-    function __construct($application)
-    {
-        $this->m_application = $application;
-    }
+class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
 
     /**
     * Create a JSON Server and handle itselfs

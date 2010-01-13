@@ -1,5 +1,6 @@
 <?php
 	require_once ('ELSTR_EnterpriseApplication_Abstract.php');
+	require_once ('ELSTR_Server_Abstract.php');
 	require_once ('Zend/Session.php');
 
 	/**
@@ -13,14 +14,13 @@
 	 * @version 1.0
 	 * @created 19-Okt-2009 17:41:37
 	 */
-	abstract class ELSTR_WidgetServer_Abstract
+	abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract
 	{
-		protected $m_application;
 		protected $m_enterpriseApplications;
 
 		function __construct($application) {
+			parent::__construct($application);
 			$this->m_enterpriseApplications = array();
-			$this->m_application = $application;
 			// Init
 			$this->_initEnterpriseApplications($this->m_application);
 		}

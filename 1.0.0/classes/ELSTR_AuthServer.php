@@ -1,6 +1,8 @@
 <?php
 
 require_once ('ELSTR_JsonServer.php');
+require_once ('ELSTR_Server_Abstract.php');
+	
 /**
 * This class implements the user authentication and registration at ELSTR
 * Once the user is authenticated, his appplications will be added to the session accordingly
@@ -9,13 +11,7 @@ require_once ('ELSTR_JsonServer.php');
 * @version 1.0
 * @created 19-Okt-2009 17:41:15
 */
-class ELSTR_AuthServer {
-    private $m_application;
-
-    function __construct($application)
-    {
-        $this->m_application = $application;
-    }
+class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
 
     /**
     * Create a JSON Server and handle itselfs
