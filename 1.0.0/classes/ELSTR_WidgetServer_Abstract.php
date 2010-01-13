@@ -90,8 +90,8 @@
 		 * @param $application ELSTR_EnterpriseApplication_Abstract
 		 * @return void
 		 */
-		protected function registerEnterpriseApplication($application) {
-			$this->m_enterpriseApplications[get_class($application)] = $application;
+		protected function registerEnterpriseApplication($enterpriseApplication) {
+			$this->m_enterpriseApplications[get_class($enterpriseApplication)] = $enterpriseApplication;
 		}
 
 		/**
@@ -113,8 +113,8 @@
 		 * @param $service ELSTR_Service_Abstract
 		 * @return void
 		 */
-		protected function unregisterEnterpriseApplication($application) {
-			unset($this->m_enterpriseApplications[get_class($application)]);
+		protected function unregisterEnterpriseApplication($enterpriseApplication) {
+			unset($this->m_enterpriseApplications[get_class($enterpriseApplication)]);
 		}
 	}
 ?>
