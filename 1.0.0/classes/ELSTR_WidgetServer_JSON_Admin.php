@@ -222,7 +222,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     *
     * @return
     */
-	protected function _initEnterpriseApplications($application)
+	protected function _initEnterpriseApplications()
 	{
 		// No enterprise application
 	}

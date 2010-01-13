@@ -30,7 +30,7 @@
 		 * to add all the applications needed to the $m_enterpriseApplications array
 		 * [OPTIPON] This could later be replaced by pure configuration
 		 */
-		abstract protected function _initEnterpriseApplications($application);
+		abstract protected function _initEnterpriseApplications();
 
 		/**
 		 * This function will be called by the RequestHandler. Inside the handle
