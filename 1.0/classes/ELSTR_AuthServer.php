@@ -2,7 +2,7 @@
 
 require_once ('ELSTR_JsonServer.php');
 require_once ('ELSTR_Server_Abstract.php');
-	
+
 /**
 * This class implements the user authentication and registration at ELSTR
 * Once the user is authenticated, his appplications will be added to the session accordingly
@@ -130,7 +130,10 @@ class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
     private function _auth($username, $password)
     {
         $configAuth = $this->m_application->getOption("auth");
-        $options = $configAuth[$configAuth['method']];
+     	$options = array();
+    	if (isset($configAuth[$configAuth['method']])) {
+    		$options = $configAuth[$configAuth['method']];
+    	}
         $adapter = new $configAuth['method']($options, $username, $password);
         $result = $this->m_application->getBootstrap()->getResource('auth')->authenticate($adapter);
         return $result;
@@ -144,41 +147,44 @@ class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
     	// Remove any roles in the session for the user
     	$acl->getSession()->$username->roles = array();
 
-    	$getRolesMethod = $configAcl['getRoles']['method'];
-    	switch($getRolesMethod){
-    		case "Zend_Ldap":
-    			$ldap = new Zend_Ldap($configAcl['getRoles'][$getRolesMethod]);
-    			$ldap->bind($username, $password);
-    			// $acctname = $ldap->getCanonicalAccountName('vm-user',Zend_Ldap::ACCTNAME_FORM_DN);
-    			// echo "$acctname\n";
-    			$dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
+    	if (isset($configAcl['getRoles']['method'])) {
+    		$getRolesMethod = $configAcl['getRoles']['method'];
+    		switch($getRolesMethod){
+    			case "Zend_Ldap":
+    				$ldap = new Zend_Ldap($configAcl['getRoles'][$getRolesMethod]);
+    				$ldap->bind($username, $password);
+    				// $acctname = $ldap->getCanonicalAccountName('vm-user',Zend_Ldap::ACCTNAME_FORM_DN);
+    				// echo "$acctname\n";
+    				$dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
 
-    			$adapterOptions = array(
-    			    'group' => "", // the group the user must be member of; if NULL group-membership-check is disabled
-    			    'groupDn' => $ldap->getBaseDn(), // the parent DN under which the groups are located; defaults to the baseDn of the underlying Zend_Ldap
-    			    'groupScope' => Zend_Ldap::SEARCH_SCOPE_SUB, // the search scope when searching for groups
-    			    'groupAttr' => 'cn', // the attribute name for the RDN
-    			    'groupFilter' => '', // an additional group filter that's added to the search filter
-    			    'memberAttr' => 'member', // the group attribute in which to look for the user
-    			    'memberIsDn' => true // if TRUE then the account DN is used to check membership, otherwise the canonical account name is used
-    			    );
+    				$adapterOptions = array(
+    				    'group' => "", // the group the user must be member of; if NULL group-membership-check is disabled
+    				    'groupDn' => $ldap->getBaseDn(), // the parent DN under which the groups are located; defaults to the baseDn of the underlying Zend_Ldap
+    				    'groupScope' => Zend_Ldap::SEARCH_SCOPE_SUB, // the search scope when searching for groups
+    				    'groupAttr' => 'cn', // the attribute name for the RDN
+    				    'groupFilter' => '', // an additional group filter that's added to the search filter
+    				    'memberAttr' => 'member', // the group attribute in which to look for the user
+    				    'memberIsDn' => true // if TRUE then the account DN is used to check membership, otherwise the canonical account name is used
+    				    );
 
-    			$definedRoles = $acl->getDefinedRoles();
+    				$definedRoles = $acl->getDefinedRoles();
 
-    			for ($i = 0; $i < count($definedRoles); $i++) {
-    				$adapterOptions['group'] = $definedRoles[$i];
-    				$groupResult = $this->_checkGroupMembership($ldap, $username, $dn, $adapterOptions);
+    				for ($i = 0; $i < count($definedRoles); $i++) {
+    					$adapterOptions['group'] = $definedRoles[$i];
+    					$groupResult = $this->_checkGroupMembership($ldap, $username, $dn, $adapterOptions);
 
-    				if ($groupResult === true) {
-    					// Add Role to the session
-    					$acl->getSession()->$username->roles[] = $definedRoles[$i];
+    					if ($groupResult === true) {
+    						// Add Role to the session
+    						$acl->getSession()->$username->roles[] = $definedRoles[$i];
+    					}
     				}
-    			}
 
-    			break;
-    		default:
+    				break;
+    			default:
     			;
-    	} // switch
+    		} // switch
+    	}
+
 
     }
 
