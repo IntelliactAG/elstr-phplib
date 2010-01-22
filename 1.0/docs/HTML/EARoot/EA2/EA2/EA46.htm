@@ -1,0 +1,973 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Zend_Auth_Adapter_DbTable</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Zend_Auth_Adapter_DbTable  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">25.09.2009 14:45:08</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">25.09.2009 14:45:08</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue">nyffenegger</td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{25884810-657F-48de-9BAC-1BFB9201FDAD}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA44.htm">Zend_Auth</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">&lt;p&gt;@category&#160;&#160; Zend&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@package&#160;&#160;&#160; Zend_Auth&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@subpackage Zend_Auth_Adapter&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@copyright&#160; Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@license&#160;&#160;&#160; http://framework.zend.com/license/new-bsd&#160;&#160;&#160;&#160; New BSD License&lt;br/&gt;&lt;/p&gt;</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('Operations');" id="OperationsTitle">Operations</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_authenticateResultInfo</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_authenticateResultInfo &lt;br /&gt;@var array
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_credential</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_credential - Credential values &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_credentialColumn</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_credentialColumns - columns to be used as the credentials &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_credentialTreatment</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_credentialTreatment - Treatment applied to the credential, such as MD5() or PASSWORD() &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_dbSelect</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			@var Zend_Db_Select
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_identity</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_identity - Identity value &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_identityColumn</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_identityColumn - the column to use as the identity &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_resultRow</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_resultRow - Results of database authentication query &lt;br /&gt;@var array
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_tableName</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			$_tableName - the table name to check &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_zendDb</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Database Connection &lt;br /&gt;@var Zend_Db_Adapter_Abstract
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div><div class="ItemBody" id="OperationsTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Operation</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>__construct</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{B2CE0613-2FE9-43af-832F-DC483EB1ED2A}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{B2CE0613-2FE9-43af-832F-DC483EB1ED2A}" border="0" />zendDb: Zend_Db_Adapter_Abstract</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{B2CE0613-2FE9-43af-832F-DC483EB1ED2A}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{B2CE0613-2FE9-43af-832F-DC483EB1ED2A}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{B2CE0613-2FE9-43af-832F-DC483EB1ED2A}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{B2CE0613-2FE9-43af-832F-DC483EB1ED2A}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{AF82748E-3471-4f61-BAAD-3C37B5E9249B}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{AF82748E-3471-4f61-BAAD-3C37B5E9249B}" border="0" />tableName: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{AF82748E-3471-4f61-BAAD-3C37B5E9249B}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{AF82748E-3471-4f61-BAAD-3C37B5E9249B}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{AF82748E-3471-4f61-BAAD-3C37B5E9249B}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{AF82748E-3471-4f61-BAAD-3C37B5E9249B}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{2FC3891F-455D-4f1b-976E-0C67D5F98E0A}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{2FC3891F-455D-4f1b-976E-0C67D5F98E0A}" border="0" />identityColumn: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{2FC3891F-455D-4f1b-976E-0C67D5F98E0A}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{2FC3891F-455D-4f1b-976E-0C67D5F98E0A}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{2FC3891F-455D-4f1b-976E-0C67D5F98E0A}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{2FC3891F-455D-4f1b-976E-0C67D5F98E0A}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{E6B26101-D184-43b1-9806-3A2062F77260}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{E6B26101-D184-43b1-9806-3A2062F77260}" border="0" />credentialColumn: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{E6B26101-D184-43b1-9806-3A2062F77260}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{E6B26101-D184-43b1-9806-3A2062F77260}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{E6B26101-D184-43b1-9806-3A2062F77260}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{E6B26101-D184-43b1-9806-3A2062F77260}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{159A26DA-AE43-4f0b-B749-291465FFF085}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{159A26DA-AE43-4f0b-B749-291465FFF085}" border="0" />credentialTreatment: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{159A26DA-AE43-4f0b-B749-291465FFF085}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{159A26DA-AE43-4f0b-B749-291465FFF085}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{159A26DA-AE43-4f0b-B749-291465FFF085}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{159A26DA-AE43-4f0b-B749-291465FFF085}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			__construct() - Sets configuration options &lt;br /&gt;@param&nbsp;<WBR> Zend_Db_Adapter_Abstract $zendDb&lt;br /&gt;@param&nbsp;<WBR> string&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> $tableName&lt;br /&gt;@param&nbsp;<WBR> string&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> $identityColumn&lt;br /&gt;@param&nbsp;<WBR> string&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> $credentialColumn&lt;br /&gt;@param&nbsp;<WBR> string&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> $credentialTreatment&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>_authenticateCreateAuthResult</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_authenticateCreateAuthResult() - This method creates a Zend_Auth_Result object from the information that has been collected during the authenticate() attempt. &lt;br /&gt;@return Zend_Auth_Result
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>_authenticateCreateSelect</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_authenticateCreateSelect() - This method creates a Zend_Db_Select object that is completely configured to be queried against the database. &lt;br /&gt;@return Zend_Db_Select
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>_authenticateQuerySelect</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{8E61F5E1-76ED-48c1-B109-BA8CBD04E4A6}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{8E61F5E1-76ED-48c1-B109-BA8CBD04E4A6}" border="0" />dbSelect: Zend_Db_Select</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{8E61F5E1-76ED-48c1-B109-BA8CBD04E4A6}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{8E61F5E1-76ED-48c1-B109-BA8CBD04E4A6}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{8E61F5E1-76ED-48c1-B109-BA8CBD04E4A6}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{8E61F5E1-76ED-48c1-B109-BA8CBD04E4A6}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_authenticateQuerySelect() - This method accepts a Zend_Db_Select object and performs a query against the database with that object. &lt;br /&gt;@param Zend_Db_Select $dbSelect&lt;br /&gt;@return array
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>_authenticateSetup</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_authenticateSetup() - This method abstracts the steps involved with making sure that this adapter was indeed setup properly with all required peices of information. &lt;br /&gt;@return true
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>_authenticateValidateResult</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{CE925418-B678-456e-A103-B62777CE0127}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{CE925418-B678-456e-A103-B62777CE0127}" border="0" />resultIdentity: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{CE925418-B678-456e-A103-B62777CE0127}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CE925418-B678-456e-A103-B62777CE0127}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{CE925418-B678-456e-A103-B62777CE0127}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CE925418-B678-456e-A103-B62777CE0127}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_authenticateValidateResult() - This method attempts to validate that the record in the result set is indeed a record that matched the identity provided to this adapter. &lt;br /&gt;@param array $resultIdentity&lt;br /&gt;@return Zend_Auth_Result
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>_authenticateValidateResultSet</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{CC763849-AF1C-41d1-9273-56BA30C06FD0}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{CC763849-AF1C-41d1-9273-56BA30C06FD0}" border="0" />resultIdentities: array</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{CC763849-AF1C-41d1-9273-56BA30C06FD0}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CC763849-AF1C-41d1-9273-56BA30C06FD0}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{CC763849-AF1C-41d1-9273-56BA30C06FD0}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CC763849-AF1C-41d1-9273-56BA30C06FD0}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_authenticateValidateResultSet() - This method attempts to make certian that only one record was returned in the result set &lt;br /&gt;@param array $resultIdentities&lt;br /&gt;@return true|Zend_Auth_Result
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>authenticate</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			authenticate() - defined by Zend_Auth_Adapter_Interface.&nbsp;<WBR> This method is called to attempt an authenication.&nbsp;<WBR> Previous to this call, this adapter would have already been configured with all nessissary information to successfully connect to a database table and attempt to find a record matching the provided identity. &lt;br /&gt;@return Zend_Auth_Result
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getDbSelect</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			getDbSelect() - Return the preauthentication Db Select object for userland select query modification &lt;br /&gt;@return Zend_Db_Select
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getResultRowObject</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{CF00A083-9099-4f81-A6FA-6CA3A81D0E58}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{CF00A083-9099-4f81-A6FA-6CA3A81D0E58}" border="0" />returnColumns: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{CF00A083-9099-4f81-A6FA-6CA3A81D0E58}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{CF00A083-9099-4f81-A6FA-6CA3A81D0E58}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{CF00A083-9099-4f81-A6FA-6CA3A81D0E58}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{CF00A083-9099-4f81-A6FA-6CA3A81D0E58}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{D52F931D-9E56-4915-B6F4-EA95D0E5C208}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{D52F931D-9E56-4915-B6F4-EA95D0E5C208}" border="0" />omitColumns: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{D52F931D-9E56-4915-B6F4-EA95D0E5C208}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{D52F931D-9E56-4915-B6F4-EA95D0E5C208}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{D52F931D-9E56-4915-B6F4-EA95D0E5C208}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{D52F931D-9E56-4915-B6F4-EA95D0E5C208}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			getResultRowObject() - Returns the result row as a stdClass object &lt;br /&gt;@param&nbsp;<WBR> string|array $returnColumns&lt;br /&gt;@param&nbsp;<WBR> string|array $omitColumns&lt;br /&gt;@return stdClass|boolean
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setCredential</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{DD73AD99-DC69-4247-9E21-AA3D54031C7C}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{DD73AD99-DC69-4247-9E21-AA3D54031C7C}" border="0" />credential: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{DD73AD99-DC69-4247-9E21-AA3D54031C7C}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{DD73AD99-DC69-4247-9E21-AA3D54031C7C}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{DD73AD99-DC69-4247-9E21-AA3D54031C7C}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{DD73AD99-DC69-4247-9E21-AA3D54031C7C}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setCredential() - set the credential value to be used, optionally can specify a treatment to be used, should be supplied in parameterized form, such as &#39;MD5(?)&#39; or &#39;PASSWORD(?)&#39; &lt;br /&gt;@param&nbsp;<WBR> string $credential&lt;br /&gt;@return Zend_Auth_Adapter_DbTable Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setCredentialColumn</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{21766959-FA7E-4a9b-B143-E81FB0E67445}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{21766959-FA7E-4a9b-B143-E81FB0E67445}" border="0" />credentialColumn: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{21766959-FA7E-4a9b-B143-E81FB0E67445}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{21766959-FA7E-4a9b-B143-E81FB0E67445}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{21766959-FA7E-4a9b-B143-E81FB0E67445}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{21766959-FA7E-4a9b-B143-E81FB0E67445}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setCredentialColumn() - set the column name to be used as the credential column &lt;br /&gt;@param&nbsp;<WBR> string $credentialColumn&lt;br /&gt;@return Zend_Auth_Adapter_DbTable Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setCredentialTreatment</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{B342FF6F-CD85-4f20-92FD-04753136CBE6}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{B342FF6F-CD85-4f20-92FD-04753136CBE6}" border="0" />treatment: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{B342FF6F-CD85-4f20-92FD-04753136CBE6}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{B342FF6F-CD85-4f20-92FD-04753136CBE6}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{B342FF6F-CD85-4f20-92FD-04753136CBE6}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{B342FF6F-CD85-4f20-92FD-04753136CBE6}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setCredentialTreatment() - allows the developer to pass a parameterized string that is used to transform or treat the input credential data&nbsp;<WBR> In many cases, passwords and other sensitive data are encrypted, hashed, encoded, obscured, or otherwise treated through some function or algorithm. By specifying a parameterized treatment string with this method, a developer may apply arbitrary SQL upon input credential data.&nbsp;<WBR> Examples:&nbsp;<WBR> &#39;PASSWORD(?)&#39; &#39;MD5(?)&#39; &lt;br /&gt;@param&nbsp;<WBR> string $treatment&lt;br /&gt;@return Zend_Auth_Adapter_DbTable Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setIdentity</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{4E75A5EC-88AF-4f45-AE6D-DF8BF618E107}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{4E75A5EC-88AF-4f45-AE6D-DF8BF618E107}" border="0" />value: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{4E75A5EC-88AF-4f45-AE6D-DF8BF618E107}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{4E75A5EC-88AF-4f45-AE6D-DF8BF618E107}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{4E75A5EC-88AF-4f45-AE6D-DF8BF618E107}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{4E75A5EC-88AF-4f45-AE6D-DF8BF618E107}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setIdentity() - set the value to be used as the identity &lt;br /&gt;@param&nbsp;<WBR> string $value&lt;br /&gt;@return Zend_Auth_Adapter_DbTable Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setIdentityColumn</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{60639FC4-16C0-4038-9B85-9DCFD923B0DF}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{60639FC4-16C0-4038-9B85-9DCFD923B0DF}" border="0" />identityColumn: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{60639FC4-16C0-4038-9B85-9DCFD923B0DF}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{60639FC4-16C0-4038-9B85-9DCFD923B0DF}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{60639FC4-16C0-4038-9B85-9DCFD923B0DF}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{60639FC4-16C0-4038-9B85-9DCFD923B0DF}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setIdentityColumn() - set the column name to be used as the identity column &lt;br /&gt;@param&nbsp;<WBR> string $identityColumn&lt;br /&gt;@return Zend_Auth_Adapter_DbTable Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setTableName</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{ECD00735-E707-4b01-9404-7DBE02343C68}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{ECD00735-E707-4b01-9404-7DBE02343C68}" border="0" />tableName: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{ECD00735-E707-4b01-9404-7DBE02343C68}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{ECD00735-E707-4b01-9404-7DBE02343C68}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{ECD00735-E707-4b01-9404-7DBE02343C68}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{ECD00735-E707-4b01-9404-7DBE02343C68}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setTableName() - set the table name to be used in the select query &lt;br /&gt;@param&nbsp;<WBR> string $tableName&lt;br /&gt;@return Zend_Auth_Adapter_DbTable Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+
+		</table>
+</div>		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA51.htm">«interface» Zend_Auth_Adapter_Interface</a></td>
+					<td width="15%" class="TableRow" valign="top">Interface</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

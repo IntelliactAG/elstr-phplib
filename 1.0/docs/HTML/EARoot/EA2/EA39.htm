@@ -1,0 +1,1266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Zend_Session</title>
+<link href="../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Zend_Session  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">19.10.2009 14:49:18</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">19.10.2009 14:49:18</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue">nyffenegger</td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{C4E918C3-49AF-4cab-9415-A02E6F3F0528}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">&lt;p&gt;Zend_Session &lt;br/&gt;&lt;/p&gt;&lt;p&gt;@category&#160;&#160; Zend&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@package&#160;&#160;&#160; Zend_Session&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@copyright&#160; Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@license&#160;&#160;&#160; http://framework.zend.com/license/new-bsd&#160;&#160;&#160;&#160; New BSD License&lt;br/&gt;&lt;/p&gt;</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('Operations');" id="OperationsTitle">Operations</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_defaultOptions</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> array(
+        'save_path'                 => null,
+        'name'                      => null, /* this should be set to a unique value for each application */
+        'save_handler'              => null,
+        //'auto_start'                => null, /* intentionally excluded (see manual) */
+        'gc_probability'            => null,
+        'gc_divisor'                => null,
+        'gc_maxlifetime'            => null,
+        'serialize_handler'         => null,
+        'cookie_lifetime'           => null,
+        'cookie_path'               => null,
+        'cookie_domain'             => null,
+        'cookie_secure'             => null,
+        'cookie_httponly'           => null,
+        'use_cookies'               => null,
+        'use_only_cookies'          => 'on',
+        'referer_check'             => null,
+        'entropy_file'              => null,
+        'entropy_length'            => null,
+        'cache_limiter'             => null,
+        'cache_expire'              => null,
+        'use_trans_sid'             => null,
+        'bug_compat_42'             => null,
+        'bug_compat_warn'           => null,
+        'hash_function'             => null,
+        'hash_bits_per_character'   => null
+    )<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Private list of php&#39;s ini values for ext/session null values will default to the php.ini value, otherwise the value below will overwrite the default ini value, unless the user has set an option explicity with setOptions() &lt;br /&gt;@var array
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_defaultOptionsSet</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether the default options listed in Zend_Session::$_localOptions have been set &lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_destroyed</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not session has been destroyed via session_destroy() &lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_localOptions</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> array(
+        'strict'                => '_strict',
+        'remember_me_seconds'   => '_rememberMeSeconds'
+    )<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			List of options pertaining to Zend_Session that can be set by developers using Zend_Session::setOptions(). This list intentionally duplicates the individual declaration of static &quot;class&quot; variables by the same names. &lt;br /&gt;@var array
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_regenerateIdState</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> 0<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not the session id has been regenerated this request.&nbsp;<WBR> Id regeneration state&lt;br /&gt;&lt;0 - regenerate requested when session is started 0&nbsp;<WBR> - do nothing &gt;0 - already called session_regenerate_id() &lt;br /&gt;@var int
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_rememberMeSeconds</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> 1209600<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			2 weeks
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_saveHandler</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> null<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			A reference to the set session save handler &lt;br /&gt;@var Zend_Session_SaveHandler_Interface
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_sessionCookieDeleted</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not session id cookie has been deleted &lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_sessionStarted</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Check whether or not the session was started &lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_strict</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not session must be initiated before usage &lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>public static var</i><br /><strong>&nbsp;&nbsp;_unitTestEnabled</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not Zend_Session is being used with unit tests &lt;br /&gt;@internal&lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>private static var</i><br /><strong>&nbsp;&nbsp;_writeClosed</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i><i>Initial:</i> false<br></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not write close has been performed. &lt;br /&gt;@var bool
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div><div class="ItemBody" id="OperationsTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Operation</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow">
+					<i>protected</i><br />
+					<strong>__construct</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Constructor overriding - make sure that a developer cannot instantiate
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>private static</i><br />
+					<strong>_processStartupMetadataGlobal</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_processGlobalMetadata() - this method initizes the sessions GLOBAL metadata, mostly global data expiration calculations. &lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>private static</i><br />
+					<strong>_processValidators</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			_processValidator() - internal function that is called in the existence of VALID metadata &lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>destroy</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{F3B5D752-A766-408d-9ABE-25732BE03A38}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{F3B5D752-A766-408d-9ABE-25732BE03A38}" border="0" />remove_cookie: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{F3B5D752-A766-408d-9ABE-25732BE03A38}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>true</td>
+						</tr>
+						<tr id="param{F3B5D752-A766-408d-9ABE-25732BE03A38}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{F3B5D752-A766-408d-9ABE-25732BE03A38}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{F3B5D752-A766-408d-9ABE-25732BE03A38}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{04F8CB60-E4A2-452f-BFB7-1630105BD297}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{04F8CB60-E4A2-452f-BFB7-1630105BD297}" border="0" />readonly: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{04F8CB60-E4A2-452f-BFB7-1630105BD297}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>true</td>
+						</tr>
+						<tr id="param{04F8CB60-E4A2-452f-BFB7-1630105BD297}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{04F8CB60-E4A2-452f-BFB7-1630105BD297}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{04F8CB60-E4A2-452f-BFB7-1630105BD297}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			destroy() - This is used to destroy session data, and optionally, the session cookie itself &lt;br /&gt;@param bool $remove_cookie - OPTIONAL remove session id cookie, defaults to true (remove cookie)&lt;br /&gt;@param bool $readonly - OPTIONAL remove write access (i.e. throw error if Zend_Session&#39;s attempt writes)&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>expireSessionCookie</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			expireSessionCookie() - Sends an expired session id cookie, causing the client to delete the session cookie &lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>forgetMe</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			forgetMe() - Write a volatile session cookie, removing any persistent cookie that may have existed. The session would end upon, for example, termination of a web browser program. &lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>getId</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			getId() - get the current session id &lt;br /&gt;@return string
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>getIterator</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			getIterator() - return an iteratable object for use in foreach and the like, this completes the IteratorAggregate interface &lt;br /&gt;@return ArrayObject
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>getSaveHandler</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			getSaveHandler() - Get the session Save Handler &lt;br /&gt;@return Zend_Session_SaveHandler_Interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>isDestroyed</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Whether or not session has been destroyed via session_destroy() &lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>isReadable</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			isReadable() - returns a boolean indicating if namespaces can write (use setters) &lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>isRegenerated</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			isRegenerated() - convenience method to determine if session_regenerate_id() has been called during this request by Zend_Session. &lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>isStarted</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			isStarted() - convenience method to determine if the session is already started. &lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>isWritable</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			isWritable() - returns a boolean indicating if namespaces can write (use setters) &lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>namespaceGet</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{68847820-195D-4029-965C-8B56FD27BFFC}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{68847820-195D-4029-965C-8B56FD27BFFC}" border="0" />namespace: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{68847820-195D-4029-965C-8B56FD27BFFC}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{68847820-195D-4029-965C-8B56FD27BFFC}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{68847820-195D-4029-965C-8B56FD27BFFC}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{68847820-195D-4029-965C-8B56FD27BFFC}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			namespaceGet() - get all variables in a namespace Deprecated: Use getIterator() in Zend_Session_Namespace. &lt;br /&gt;@param string $namespace&lt;br /&gt;@return array
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>namespaceIsset</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{BAC2E0EB-1853-4986-B9E1-5B24D4358487}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{BAC2E0EB-1853-4986-B9E1-5B24D4358487}" border="0" />namespace: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{BAC2E0EB-1853-4986-B9E1-5B24D4358487}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{BAC2E0EB-1853-4986-B9E1-5B24D4358487}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{BAC2E0EB-1853-4986-B9E1-5B24D4358487}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{BAC2E0EB-1853-4986-B9E1-5B24D4358487}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			namespaceIsset() - check to see if a namespace is set &lt;br /&gt;@param string $namespace&lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>namespaceUnset</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{DFF23B1D-4795-430d-810E-179E34E6FF87}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{DFF23B1D-4795-430d-810E-179E34E6FF87}" border="0" />namespace: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{DFF23B1D-4795-430d-810E-179E34E6FF87}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{DFF23B1D-4795-430d-810E-179E34E6FF87}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{DFF23B1D-4795-430d-810E-179E34E6FF87}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{DFF23B1D-4795-430d-810E-179E34E6FF87}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			namespaceUnset() - unset a namespace or a variable within a namespace &lt;br /&gt;@param string $namespace&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>regenerateId</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			regenerateId() - Regenerate the session id.&nbsp;<WBR> Best practice is to call this after session is started.&nbsp;<WBR> If called prior to session starting, session id will be regenerated at start time. &lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>registerValidator</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{72B45410-6874-4653-9E91-93055C863DE0}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{72B45410-6874-4653-9E91-93055C863DE0}" border="0" />validator: Zend_Session_Validator_Interface</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{72B45410-6874-4653-9E91-93055C863DE0}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{72B45410-6874-4653-9E91-93055C863DE0}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{72B45410-6874-4653-9E91-93055C863DE0}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{72B45410-6874-4653-9E91-93055C863DE0}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			registerValidator() - register a validator that will attempt to validate this session for every future request &lt;br /&gt;@param Zend_Session_Validator_Interface $validator&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>rememberMe</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{41BDCCD4-21D8-4dab-BDC3-25AE5448F2AE}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{41BDCCD4-21D8-4dab-BDC3-25AE5448F2AE}" border="0" />seconds: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{41BDCCD4-21D8-4dab-BDC3-25AE5448F2AE}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{41BDCCD4-21D8-4dab-BDC3-25AE5448F2AE}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{41BDCCD4-21D8-4dab-BDC3-25AE5448F2AE}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{41BDCCD4-21D8-4dab-BDC3-25AE5448F2AE}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			rememberMe() - Write a persistent cookie that expires after a number of seconds in the future. If no number of seconds is specified, then this defaults to self::$_rememberMeSeconds.&nbsp;<WBR> Due to clock errors on end users&#39; systems, large values are recommended to avoid undesirable expiration of session cookies. &lt;br /&gt;@param $seconds integer - OPTIONAL specifies TTL for cookie in seconds from present time&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>rememberUntil</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{FBCA9AE5-45E5-4fc5-8C09-263896FED3E5}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{FBCA9AE5-45E5-4fc5-8C09-263896FED3E5}" border="0" />seconds: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{FBCA9AE5-45E5-4fc5-8C09-263896FED3E5}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>0</td>
+						</tr>
+						<tr id="param{FBCA9AE5-45E5-4fc5-8C09-263896FED3E5}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{FBCA9AE5-45E5-4fc5-8C09-263896FED3E5}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{FBCA9AE5-45E5-4fc5-8C09-263896FED3E5}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			rememberUntil() - This method does the work of changing the state of the session cookie and making sure that it gets resent to the browser via regenerateId() &lt;br /&gt;@param int $seconds&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>sessionExists</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			sessionExists() - whether or not a session exists for the current request &lt;br /&gt;@return bool
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>setId</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{67170C92-549E-4c44-834D-DCC911611B2D}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{67170C92-549E-4c44-834D-DCC911611B2D}" border="0" />id: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{67170C92-549E-4c44-834D-DCC911611B2D}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{67170C92-549E-4c44-834D-DCC911611B2D}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{67170C92-549E-4c44-834D-DCC911611B2D}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{67170C92-549E-4c44-834D-DCC911611B2D}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setId() - set an id to a user specified id &lt;br /&gt;@param string $id&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>setOptions</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{509AEA95-44D3-4140-A58E-64A471A8B573}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{509AEA95-44D3-4140-A58E-64A471A8B573}" border="0" />userOptions: array</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{509AEA95-44D3-4140-A58E-64A471A8B573}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>array()</td>
+						</tr>
+						<tr id="param{509AEA95-44D3-4140-A58E-64A471A8B573}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{509AEA95-44D3-4140-A58E-64A471A8B573}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{509AEA95-44D3-4140-A58E-64A471A8B573}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setOptions - set both the class specified &lt;br /&gt;@param&nbsp;<WBR> array $userOptions - pass-by-keyword style array of &lt;option name, option value&gt; pairs&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>setSaveHandler</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{A6499924-D74D-444e-87CF-84325C5888DB}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{A6499924-D74D-444e-87CF-84325C5888DB}" border="0" />saveHandler: Zend_Session_SaveHandler_Interface</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{A6499924-D74D-444e-87CF-84325C5888DB}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{A6499924-D74D-444e-87CF-84325C5888DB}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{A6499924-D74D-444e-87CF-84325C5888DB}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{A6499924-D74D-444e-87CF-84325C5888DB}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			setSaveHandler() - Session Save Handler assignment &lt;br /&gt;@param Zend_Session_SaveHandler_Interface $interface&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>start</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{F4428634-41E2-4248-8C59-35FB98BC3FFD}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{F4428634-41E2-4248-8C59-35FB98BC3FFD}" border="0" />options: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{F4428634-41E2-4248-8C59-35FB98BC3FFD}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>false</td>
+						</tr>
+						<tr id="param{F4428634-41E2-4248-8C59-35FB98BC3FFD}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{F4428634-41E2-4248-8C59-35FB98BC3FFD}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{F4428634-41E2-4248-8C59-35FB98BC3FFD}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			start() - Start the session. &lt;br /&gt;@param bool|array $options&nbsp;<WBR> OPTIONAL Either user supplied options, or flag indicating if start initiated automatically&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>stop</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			stop() - Disable write access.&nbsp;<WBR> Optionally disable read (not implemented). &lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public static</i><br />
+					<strong>writeClose</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{9B8BADA4-CC04-4453-9A73-51CDAB1E9D3C}')" style="text-decoration: none; color: #000000;"><img src="../../images/plus03.gif" align="absmiddle" id="param{9B8BADA4-CC04-4453-9A73-51CDAB1E9D3C}" border="0" />readonly: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{9B8BADA4-CC04-4453-9A73-51CDAB1E9D3C}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>true</td>
+						</tr>
+						<tr id="param{9B8BADA4-CC04-4453-9A73-51CDAB1E9D3C}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{9B8BADA4-CC04-4453-9A73-51CDAB1E9D3C}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{9B8BADA4-CC04-4453-9A73-51CDAB1E9D3C}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			writeClose() - Shutdown the sesssion, close writing and detach $_SESSION from the back-end storage mechanism. This will complete the internal data transformation on this request. &lt;br /&gt;@param bool $readonly - OPTIONAL remove write access (i.e. throw error if Zend_Session&#39;s attempt writes)&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+
+		</table>
+</div>	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>

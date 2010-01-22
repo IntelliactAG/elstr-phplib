@@ -1,0 +1,693 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Zend_Auth_Adapter_InfoCard</title>
+<link href="../../../css/ea.css" rel="stylesheet" type="text/css" />
+<script>
+function initPage(src) {
+	if(parent==this&&(this.location+"").indexOf('EARoot')!=-1)
+		document.location=(this.location+"").substring(0,(this.location+"").indexOf('EARoot'))+"index"+(this.location+"").substring((this.location+"").lastIndexOf('.'))+"?goto="+((this.location+"").substring((this.location+"").indexOf('EARoot')+7,(this.location+"").lastIndexOf('.')).replace(/\//g,':').replace(/EA/g,""));
+	else
+		parent.initPage(src);
+}
+</script>
+</head>
+<body onload="initPage(this);" class="Content">
+<div class="pageHeader"></div>
+<div class="PageBody">
+	<span class="ObjectTitle">Zend_Auth_Adapter_InfoCard  : public   class</span>
+	<table border="0" cellpadding="0" cellspacing="0" class="ObjectDetails">
+		<tr>
+			<td width="15%" class="ObjectDetailsTopic">Created:</td>
+			<td width="85%" class="ObjectDetailsValue">25.09.2009 14:45:09</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic">Modified:</td>
+			<td class="ObjectDetailsValue">25.09.2009 14:45:09</td>
+		</tr>
+		<tr style="height: 10px"><td colspan="2"></td></tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="proj" onclick="parent.toggleData(this.id)" />Project:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="proj00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Author:</td>
+			<td class="ObjectDetailsValue">nyffenegger</td>
+		</tr>
+		<tr id="proj01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Version:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj02" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Phase:</td>
+			<td class="ObjectDetailsValue">1.0</td>
+		</tr>
+		<tr id="proj03" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Status:</td>
+			<td class="ObjectDetailsValue">Proposed</td>
+		</tr>
+		<tr id="proj04" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Complexity:</td>
+			<td class="ObjectDetailsValue">Easy</td>
+		</tr>
+		<tr>
+			<td class="ObjectDetailsTopic"><img src="../../../images/plus03.gif" align="absmiddle" id="adv" onclick="parent.toggleData(this.id)" />Advanced:</td>
+			<td class="ObjectDetailsValue"></td>
+		</tr>
+		<tr id="adv00" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">UUID:</td>
+			<td class="ObjectDetailsValue">{57BF623F-98CA-4b6c-A979-3BC0C5A246A0}</td>
+		</tr>
+		<tr id="adv01" style="display: none;">
+			<td class="ObjectDetailsTopic" style="padding-left: 18px;">Appears In:</td>
+			<td class="ObjectDetailsValue"><a href="EA44.htm">Zend_Auth</a></td>
+		</tr>
+	</table>
+	<div class="ObjectDetailsNotes">&lt;p&gt;A Zend_Auth Authentication Adapter allowing the use of Information Cards as an authentication mechanism &lt;br/&gt;&lt;/p&gt;&lt;p&gt;@category&#160;&#160; Zend&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@package&#160;&#160;&#160; Zend_Auth&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@subpackage Zend_Auth_Adapter&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@copyright&#160; Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;@license&#160;&#160;&#160; http://framework.zend.com/license/new-bsd&#160;&#160;&#160;&#160; New BSD License&lt;br/&gt;&lt;/p&gt;</div>
+
+	<div class="TableGroup" id="TableGroup">
+		<ul class="ItemTitle">
+			<li onClick="parent.toggleItem('Attributes');" id="AttributesTitle">Attributes</li>
+			<li onClick="parent.toggleItem('Operations');" id="OperationsTitle">Operations</li>
+			<li onClick="parent.toggleItem('Links');" id="LinksTitle">Other Links</li>
+		</ul>
+<div class="ItemBody" id="AttributesTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Attribute</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_infoCard</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			The instance of Zend_InfoCard &lt;br /&gt;@var Zend_InfoCard
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>			<tr>
+				<td width="40%" class="TableRow" valign="top"><i>protected var</i><br /><strong>&nbsp;&nbsp;_xmlToken</strong></td>
+				<td width="60%" class="TableRow" valign="top"><i></i><div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			The XML Token being authenticated &lt;br /&gt;@var string
+		</td>
+	</tr>
+</table></div>
+</td>
+			</tr>
+		</table>
+</div><div class="ItemBody" id="OperationsTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="Table">
+		<tr>
+			<td width="40%" class="TableHeading">Operation</td>
+			<td width="60%" class="TableHeading">Details</td>
+		</tr>
+						<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>__construct</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{1012FE39-08BA-4867-9FA4-83BE4490F521}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{1012FE39-08BA-4867-9FA4-83BE4490F521}" border="0" />strXmlDocument: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{1012FE39-08BA-4867-9FA4-83BE4490F521}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1012FE39-08BA-4867-9FA4-83BE4490F521}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{1012FE39-08BA-4867-9FA4-83BE4490F521}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1012FE39-08BA-4867-9FA4-83BE4490F521}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Constructor &lt;br /&gt;@param&nbsp;<WBR> string $strXmlDocument The XML Token provided by the client&lt;br /&gt;@return void
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>addCertificatePair</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{E80BC0D8-1790-46f6-BDAD-AA41634AF749}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{E80BC0D8-1790-46f6-BDAD-AA41634AF749}" border="0" />private_key_file: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{E80BC0D8-1790-46f6-BDAD-AA41634AF749}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{E80BC0D8-1790-46f6-BDAD-AA41634AF749}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{E80BC0D8-1790-46f6-BDAD-AA41634AF749}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{E80BC0D8-1790-46f6-BDAD-AA41634AF749}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{1AE901BB-9D1E-4422-B207-EEE2FF9C10A1}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{1AE901BB-9D1E-4422-B207-EEE2FF9C10A1}" border="0" />public_key_file: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{1AE901BB-9D1E-4422-B207-EEE2FF9C10A1}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1AE901BB-9D1E-4422-B207-EEE2FF9C10A1}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{1AE901BB-9D1E-4422-B207-EEE2FF9C10A1}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1AE901BB-9D1E-4422-B207-EEE2FF9C10A1}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{79DB95C2-B1E4-4136-9223-AE9633CC30E3}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{79DB95C2-B1E4-4136-9223-AE9633CC30E3}" border="0" />type: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{79DB95C2-B1E4-4136-9223-AE9633CC30E3}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>Zend_InfoCard_Cipher::ENC_RSA_OAEP_MGF1P</td>
+						</tr>
+						<tr id="param{79DB95C2-B1E4-4136-9223-AE9633CC30E3}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{79DB95C2-B1E4-4136-9223-AE9633CC30E3}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{79DB95C2-B1E4-4136-9223-AE9633CC30E3}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+					<a href="#" onclick="parent.toggleData('param{062FE7E5-4AE8-4aa2-B5E6-C266F1287A22}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{062FE7E5-4AE8-4aa2-B5E6-C266F1287A22}" border="0" />password: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{062FE7E5-4AE8-4aa2-B5E6-C266F1287A22}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td>null</td>
+						</tr>
+						<tr id="param{062FE7E5-4AE8-4aa2-B5E6-C266F1287A22}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{062FE7E5-4AE8-4aa2-B5E6-C266F1287A22}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{062FE7E5-4AE8-4aa2-B5E6-C266F1287A22}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Add a Certificate Pair to the list of certificates searched by the component &lt;br /&gt;@param&nbsp;<WBR> string $private_key_file&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> The path to the private key file for the pair&lt;br /&gt;@param&nbsp;<WBR> string $public_key_file&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> The path to the certificate / public key for the pair&lt;br /&gt;@param&nbsp;<WBR> string $type&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> (optional) The URI for the type of key pair this is (default RSA with OAEP padding)&lt;br /&gt;@param&nbsp;<WBR> string $password&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR>&nbsp;<WBR> (optional) The password for the private key file if necessary&lt;br /&gt;@return string A key ID representing this key pair in the component
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>authenticate</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Authenticates the XML token &lt;br /&gt;@return Zend_Auth_Result The result of the authentication
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getAdapter</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Retrieves the InfoCard component adapter being used &lt;br /&gt;@return Zend_InfoCard_Adapter_Interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getCertificatePair</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{1A9F6F30-E70E-4505-986C-7E6AC6A293FD}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{1A9F6F30-E70E-4505-986C-7E6AC6A293FD}" border="0" />key_id: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{1A9F6F30-E70E-4505-986C-7E6AC6A293FD}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1A9F6F30-E70E-4505-986C-7E6AC6A293FD}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{1A9F6F30-E70E-4505-986C-7E6AC6A293FD}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{1A9F6F30-E70E-4505-986C-7E6AC6A293FD}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Return a Certificate Pair from a key ID &lt;br /&gt;@param&nbsp;<WBR> string $key_id The Key ID of the certificate pair in the component&lt;br /&gt;@return array An array containing the path to the private/public key files, the type URI and the password if provided
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getPKCipherObject</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Retrieves the InfoCard public key cipher object being used &lt;br /&gt;@return Zend_InfoCard_Cipher_PKI_Interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getSymCipherObject</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Retrieves the Symmetric cipher object being used &lt;br /&gt;@return Zend_InfoCard_Cipher_Symmetric_Interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>getXmlToken</strong>():var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Get the XML Token being processed &lt;br /&gt;@return string The XML token to be processed
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>removeCertificatePair</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{287B2CEA-0399-439e-B548-2A2368543E31}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{287B2CEA-0399-439e-B548-2A2368543E31}" border="0" />key_id: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{287B2CEA-0399-439e-B548-2A2368543E31}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{287B2CEA-0399-439e-B548-2A2368543E31}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{287B2CEA-0399-439e-B548-2A2368543E31}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{287B2CEA-0399-439e-B548-2A2368543E31}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Remove a Certificate Pair by Key ID from the search list &lt;br /&gt;@param&nbsp;<WBR> string $key_id The Certificate Key ID returned from adding the certificate pair&lt;br /&gt;@return Zend_Auth_Adapter_InfoCard Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setAdapter</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{5B30F2D3-C8C6-47b9-ACDC-56848F50C791}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{5B30F2D3-C8C6-47b9-ACDC-56848F50C791}" border="0" />a: Zend_InfoCard_Adapter_Interface</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{5B30F2D3-C8C6-47b9-ACDC-56848F50C791}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{5B30F2D3-C8C6-47b9-ACDC-56848F50C791}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{5B30F2D3-C8C6-47b9-ACDC-56848F50C791}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{5B30F2D3-C8C6-47b9-ACDC-56848F50C791}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Sets the InfoCard component Adapter to use &lt;br /&gt;@param&nbsp;<WBR> Zend_InfoCard_Adapter_Interface $a&lt;br /&gt;@return Zend_Auth_Adapter_InfoCard Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setPKICipherObject</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{5A2CD1F2-0290-4183-9455-5AEDF81ABC37}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{5A2CD1F2-0290-4183-9455-5AEDF81ABC37}" border="0" />cipherObj: Zend_InfoCard_Cipher_PKI_Interface</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{5A2CD1F2-0290-4183-9455-5AEDF81ABC37}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{5A2CD1F2-0290-4183-9455-5AEDF81ABC37}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{5A2CD1F2-0290-4183-9455-5AEDF81ABC37}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{5A2CD1F2-0290-4183-9455-5AEDF81ABC37}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Sets the InfoCard public key cipher object to use &lt;br /&gt;@param&nbsp;<WBR> Zend_InfoCard_Cipher_PKI_Interface $cipherObj&lt;br /&gt;@return Zend_Auth_Adapter_InfoCard Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setSymCipherObject</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{DB284B37-2C13-462f-AF53-7B0C789D891B}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{DB284B37-2C13-462f-AF53-7B0C789D891B}" border="0" />cipherObj: Zend_InfoCard_Cipher_Symmetric_Interface</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{DB284B37-2C13-462f-AF53-7B0C789D891B}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{DB284B37-2C13-462f-AF53-7B0C789D891B}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{DB284B37-2C13-462f-AF53-7B0C789D891B}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{DB284B37-2C13-462f-AF53-7B0C789D891B}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Sets the InfoCard symmetric cipher object to use &lt;br /&gt;@param&nbsp;<WBR> Zend_InfoCard_Cipher_Symmetric_Interface $cipherObj&lt;br /&gt;@return Zend_Auth_Adapter_InfoCard Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+			<tr>
+				<td width="40%" class="TableRow">
+					<i>public</i><br />
+					<strong>setXmlToken</strong>(<br />
+					<a href="#" onclick="parent.toggleData('param{88D40042-786B-4861-AF90-216328691CBA}')" style="text-decoration: none; color: #000000;"><img src="../../../images/plus03.gif" align="absmiddle" id="param{88D40042-786B-4861-AF90-216328691CBA}" border="0" />strXmlToken: var</a>, 
+					<table border="0" cellspacing="0" cellpadding="0" class="Table" style="padding: 4px 18px;">
+						<tr id="param{88D40042-786B-4861-AF90-216328691CBA}00" style="display: none;">
+							<td width="50"><strong>Default:</strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{88D40042-786B-4861-AF90-216328691CBA}01" style="display: none;">
+							<td width="50"><strong>Kind:</strong></td>
+							<td>in</td>
+						</tr>
+						<tr id="param{88D40042-786B-4861-AF90-216328691CBA}02" style="display: none;">
+							<td width="50"><strong>Stereotype: </strong></td>
+							<td></td>
+						</tr>
+						<tr id="param{88D40042-786B-4861-AF90-216328691CBA}03" style="display: none;">
+							<td width="50"></td>
+							<td></td>
+						</tr>
+					</table>
+):var
+				</td>
+				<td width="60%" class="TableRow">
+					<i>Sequential  </i>
+					<table>
+						<tr>
+							<td valign = "top"><i></i><span style="margin-left: .7cm;"> </span></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="ObjectDetailsNotes"><table>
+	<tr>
+		<td valign="top">
+			<i>Notes: </i><span style="margin-left: .4cm;"> </span>
+		</td>
+		<td>
+			Set the XML Token to be processed &lt;br /&gt;@param&nbsp;<WBR> string $strXmlToken The XML token to process&lt;br /&gt;@return Zend_Auth_Adapter_InfoCard Provides a fluent interface
+		</td>
+	</tr>
+</table></div>
+
+				</td>
+			</tr>
+
+		</table>
+</div>		<div class="ItemBody" id="LinksTable">
+			<table align="center" border="0" cellspacing="0" cellpadding="0" class="Table">
+				<tr>
+					<td width="30%" class="TableHeading">Object</td>
+					<td width="15%" class="TableHeading">Type</td>
+					<td width="15%" class="TableHeading">Connection</td>
+					<td width="40%" class="TableHeading">Notes</td>
+				</tr>
+				<tr>
+					<td width="30%" class="TableRow" valign="top"><a href="EA51.htm">«interface» Zend_Auth_Adapter_Interface</a></td>
+					<td width="15%" class="TableRow" valign="top">Interface</td>
+					<td width="15%" class="TableRow" valign="top">Realisation</td>
+					<td width="40%" class="TableRow" valign="top">&nbsp;</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
+<div class="pageFooter"></div>
+ 
+</body>
+</html>
