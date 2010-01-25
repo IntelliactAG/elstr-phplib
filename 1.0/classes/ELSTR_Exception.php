@@ -17,8 +17,9 @@ class ELSTR_Exception extends Exception{
     	$this->m_code    = $code;
   
         // make sure everything is assigned properly
-        parent::__construct($message, $code, $previous);
-        
+        // parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code);
+		
         $this->m_response = $this->createResponse();
     }
     

@@ -73,11 +73,6 @@
 			        
 			        // Keine Konfiguration vorhanden
 			        }
-			
-			
-			
-			
-
 			}
 			else {
 				return true;
@@ -97,7 +92,8 @@
 		/**
 		 * Call a service method, if application needs authentication, the current user will be
 		 * authenticated, if credentials are present. If not an error response will be fired.
-		 *
+		 * Authentication will be invoked, if auth if the enterprise application is configured in config.ini.
+		 * 
 		 * @return
 		 * @param $service String Classname of the service definition (ELSTR_Service_Abstract)
 		 * @param $method String Name of the method to call
@@ -105,11 +101,13 @@
 		 */
 		public function call($service, $method) {
 			// Handle authentications
-
-			$isAuth = $this->m_auth->hasIdentity();
-			
-			// in Authserver Fehler auch Fehler nicht nur text
-			
+			if (isset($this->m_authAdapter)) {
+				$isAuth = $this->m_auth->hasIdentity();
+			} else {
+				$isAuth = true;
+			}
+			// DEBUG HACK:
+			// $isAuth = false;
 			
             $response = array();
 			if ($isAuth) {
@@ -119,11 +117,11 @@
 					$response = $this->m_services[$service]->call($method, $params);
 				}
 				else {
-					throw new ELSTR_Exception(null,1004,null,$this);
+					throw new ELSTR_Exception('1004',1004,null,$this);
 				}
 			}
 			else  {
-				throw new ELSTR_Exception(null,1005,null,$this);
+				throw new ELSTR_Exception('1004',1005,null,$this);
 			}
             return $response;
 		}
