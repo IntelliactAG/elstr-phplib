@@ -11,7 +11,7 @@ require_once ('ELSTR_Server_Abstract.php');
 * @version 1.0
 * @created 19-Okt-2009 17:41:15
 */
-class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
+class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 
     /**
     * Create a JSON Server and handle itselfs
@@ -33,10 +33,19 @@ class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
     * @param string $password
     * @return Array Response messages
     */
-    public function auth($username, $password)
+    public function auth($username, $password, $enterpriseApplication = null)
     {
         $response = array();
-        $result = $this->_auth($username, $password);
+        
+        if ($enterpriseApplication == null){
+        	// Login to Elstr application
+        	$result = $this->_auth($username, $password);
+        } else {
+        	require_once ($enterpriseApplication . ".php");
+        	$enterpriseApp = new $enterpriseApplication($this->m_application);
+        	$result = $enterpriseApp->authenticate($username, $password);
+        }
+        
 
         if (!$result->isValid()) {
             // Authentication failed; print the reasons why
@@ -62,12 +71,27 @@ class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
 
             case Zend_Auth_Result::SUCCESS:
                 /**
-                * * do stuff for successful authentication *
+                * do stuff for successful authentication *
                 */
-                $username = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
+            	if ($enterpriseApplication == null){
 
-            	// Load the roles from LDAP or any given adapter
-                $this->_loadRolesToSession($username, $password);
+	                $username = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
+	
+	            	// Load the roles from LDAP or any given adapter
+	                $this->_loadRolesToSession($username, $password);
+	
+	                // Check if the current user has at least one role
+	                // If not - add it to the role_anonymous
+	                $this->m_application->getBootstrap()->getResource('acl')->currentUserHasRole($username);
+	                // Create Response
+	                $response['action'] = "success";
+	                $response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
+	                $response['username'] = $username;
+	                $response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
+	                $response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
+	            } else {
+		        	$response['action'] = "success";
+		        }
 
                 // Check if the current user has at least one role
                 // If not - add it to the role_anonymous

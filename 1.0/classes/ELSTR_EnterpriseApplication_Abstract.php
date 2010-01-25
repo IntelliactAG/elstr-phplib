@@ -1,5 +1,5 @@
 <?php
-	require_once('ELSTR_ErrorResponse.php');
+	require_once ('ELSTR_Exception.php');
 
 	/**
 	 * This class encapsulates the common functionality of access to enterpries applications
@@ -20,11 +20,23 @@
 		protected $m_application;
 		protected $m_services;
 		protected $m_authAdapter;
+		protected $m_auth;
 
 		function __construct($application) {
 			$this->m_application = $application;
-			$this->m_authAdapter = $this->_initAuthAdapter();
+			
+			$configEnterpriseApp = $this->m_application->getOption(get_class($this));
+			if (isset ($configEnterpriseApp['auth'])){
+				$configAuth = $configEnterpriseApp['auth'];
+		    	if (isset($configAuth['method'])) {
+		    		$this->m_authAdapter = $configAuth['method'];
+		    	}	
+			}
+			
 			$this->_initServices();
+			
+			$this->m_auth = Zend_Auth::getInstance();
+    		$this->m_auth->setStorage(new Zend_Auth_Storage_Session(get_class($this)));
 		}
 
 		/**
@@ -33,43 +45,47 @@
 		 *
 		 * @return true if authentication attempt was successful
 		 */
-		protected function _authenticate()
+		public function authenticate()
 		{
+		
+		
+		
 			if (isset($this->m_authAdapter)) {
-				// Cehck if a user is present
-				if (isset($this->m_user)) {
-					//Check if credentials are present
-					$credentials = $this->m_user->getCredetials(get_class($this));
-					if (isset($credentials)) {
-						// Check if a password is present
-						if ($credentials->getPassword() != NULL_EMPTY_STRING) {
-							// do authentication attempt
-							// $this->m_authAdapter->authenticate()
-						}
-						else {
-							return false;
-						}
-					}
-					else {
-						return false;
-					}
-				}
-				else {
-					return false;
-				}
+			
+			        $configEnterpriseApp = $this->m_application->getOption(get_class($this));
+			        
+			        if (isset ($configEnterpriseApp['auth'])){
+				        $configAuth = $configEnterpriseApp['auth'];
+				         
+			            if (isset($configAuth['includeAdapter'])) {
+    						include_once($configAuth['includeAdapter']);
+    					}
+				        
+				     	$options = array();
+				    	if (isset($configAuth[$this->m_authAdapter])) {
+				    		$options = $configAuth[$this->m_authAdapter];
+				    	}
+				        $adapter = new $this->m_authAdapter($options, $username, $password);
+				        $result = $this->m_auth->authenticate($adapter);
+				        return $result;			        
+			        
+			        } else {
+			        
+			        // Keine Konfiguration vorhanden
+			        }
+			
+			
+			
+			
+
 			}
 			else {
 				return true;
 			}
 		}
 
-		/**
-		 * The implementation of every enterprise application must define its own auth adapter
-		 *
-		 * @return Zend_Auth_Adapter
-		 */
-		abstract protected function _initAuthAdapter();
-
+		
+		
 		/**
 		 * This method could be enhanced or replaces by passing an array of desired service names to the
 		 * constructor and instanciate them dynamically
@@ -89,20 +105,25 @@
 		 */
 		public function call($service, $method) {
 			// Handle authentications
-			$isauth = $this->_authenticate();
+
+			$isAuth = $this->m_auth->hasIdentity();
+			
+			// in Authserver Fehler auch Fehler nicht nur text
+			
+			
             $response = array();
-			if ($isauth) {
+			if ($isAuth) {
 				if (array_key_exists($service, $this->m_services)) {
 					// Get all parameters expect the furst two
 					$params = array_slice(func_get_args(), 2);
 					$response = $this->m_services[$service]->call($method, $params);
 				}
 				else {
-					throw new Exception('1004');
+					throw new ELSTR_Exception(null,1004,null,$this);
 				}
 			}
 			else  {
-				throw new Exception('1005');
+				throw new ELSTR_Exception(null,1005,null,$this);
 			}
             return $response;
 		}

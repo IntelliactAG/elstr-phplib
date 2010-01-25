@@ -9,13 +9,6 @@
      */
     class ELSTR_EnterpriseApplication_OracleE6 extends ELSTR_EnterpriseApplication_Acl_Abstract
     {
-        /**
-         * Define the Auth adapter for this application
-         * @return
-         */
-        protected function _initAuthAdapter() {
-            // No auth needed right now
-        }
 
         /**
          * Required implementation of abstract method

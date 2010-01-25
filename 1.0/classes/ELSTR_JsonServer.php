@@ -21,6 +21,7 @@ class ELSTR_JsonServer extends Zend_Json_Server
     {
         $this->setAutoEmitResponse(false);
         $response = parent::handle();
+        // Throw exception if RPC Error
         echo $response;
     }
 

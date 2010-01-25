@@ -2,6 +2,7 @@
 	require_once ('ELSTR_EnterpriseApplication_Abstract.php');
 	require_once ('ELSTR_Server_Abstract.php');
 	require_once ('Zend/Session.php');
+	require_once ('ELSTR_Exception.php');
 
 	/**
 	 * This is the abstract class every WidgetServer must implement.
@@ -53,8 +54,8 @@
 					if ($acl->isAllowed($username, $this->_getMethod().'@'.get_class($this))) {
 						$this->_handle();
 					}
-					else {
-						throw new Exception('1007');
+					else {						
+						throw new ELSTR_Exception(null,1007,null,$this);
 					}
 				}
 				else {
@@ -62,7 +63,7 @@
 				}
 			}
 			else {
-				throw new Exception('1006');
+				throw new ELSTR_Exception(null,1006,null,$this);
 			}
 		}
 		/**
