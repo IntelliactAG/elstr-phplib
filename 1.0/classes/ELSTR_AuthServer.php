@@ -79,6 +79,19 @@ class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
                 $response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
                 $response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
 
+            	// Get special authentification attributes
+            	// and send them to the client
+            	foreach ($result->getMessages() as $message) {
+            		if (is_array($message) && isset($message['attributes'])) {
+            			//$response['attributes'] = $message['attributes'];
+
+            			// Better add them to the user????
+
+
+            			// How to handle App-Access-User relation ???
+            		}
+            	}
+
 
                 break;
 
@@ -130,6 +143,11 @@ class ELSTR_AuthServer  extends ELSTR_Server_Abstract {
     private function _auth($username, $password)
     {
         $configAuth = $this->m_application->getOption("auth");
+
+    	if (isset($configAuth['includeAdapter'])) {
+    		include_once($configAuth['includeAdapter']);
+    	}
+
      	$options = array();
     	if (isset($configAuth[$configAuth['method']])) {
     		$options = $configAuth[$configAuth['method']];
