@@ -33,7 +33,7 @@
 
 			$response = array();
 			if ($user == null || $acl == null) {
-				throw new ELSTR_Exception(null,1000,null,$this);
+				throw new ELSTR_Exception('1000',1000,null,$this);
 			}
 			else {
 				$username = $user->getUsername();
@@ -56,7 +56,7 @@
 								}
 							}
 							else {
-								throw new ELSTR_Exception(null,1003,null,$this);
+								throw new ELSTR_Exception('1003',1003,null,$this);
 							}
 						else {
 							$args = func_get_args();
@@ -70,11 +70,11 @@
 						}
 					}
 					else {
-						throw new ELSTR_Exception(null,1002,null,$this);
+						throw new ELSTR_Exception('1002',1002,null,$this);
 					}
 				}
 				else {
-					throw new ELSTR_Exception(null,1001,null,$this);
+					throw new ELSTR_Exception('1001',1001,null,$this);
 				}
 			}
 			return $response;

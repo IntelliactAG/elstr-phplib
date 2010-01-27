@@ -46,10 +46,12 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
     	$result['user']['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
 		$result['user']['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($result['user']['username'],'role_admin',false);
     	$result['user']['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'),$result['user']['username']);
-
+		$result['user']['enterpriseApplicationData'] = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
+    	
     	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getLocale();
     	$result['language']['modules'] = $this->m_application->getBootstrap()->getResource("language")->getRegisteredModules();
     	$result['language']['translations'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getMessages();
+    	
 
     	return $result;
     }

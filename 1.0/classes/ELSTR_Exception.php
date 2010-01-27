@@ -42,61 +42,60 @@ class ELSTR_Exception extends Exception{
     */
     private function createResponse()
     {
-    	$response = array();
-    	$response['message'] = array();
-    	$response['message']['type'] = "error";
-        $response['message']['code'] = $this->m_code;
-        $response['context'] = get_class($this->m_context);
+    	$response = array(); 
+        $response['error'] = array();
+        $response['error']['code'] = $this->m_code;
+        $response['error']['data'] = array();
+        $response['error']['data']['context'] = get_class($this->m_context);
+        
         
         switch ($this->m_code) {
             case 1000:
-                $response['message']['text'] = 'User and ACL must be provided to call this application';
+                $response['error']['message'] = 'User and ACL must be provided to call this application';
                 break;
             case 1001:
-                $response['message']['text'] = 'Access to application denyed: ';
+                $response['error']['message'] = 'Access to application denyed: ';
                 $this->m_header = 'HTTP/1.0 403 Forbidden';
                 break;
             case 1002:
-                $response['message']['text'] = 'Access to service denyed: ';
+                $response['error']['message'] = 'Access to service denyed: ';
                 $this->m_header = 'HTTP/1.0 403 Forbidden';
                 break;
             case 1003:
-                $response['message']['text'] = 'Access to method denyed: ';
+                $response['error']['message'] = 'Access to method denyed: ';
                 $this->m_header = 'HTTP/1.0 403 Forbidden';
                 break;
             case 1004:
-                $response['message']['text'] = 'Servcie is not registered: ';
+                $response['error']['message'] = 'Servcie is not registered: ';
                 $this->m_header = 'HTTP/1.0 400 Bad Request';
                 break;
             case 1005:
-                $response['message']['text'] = 'No password provided: ';
-                $this->m_header = 'HTTP/1.0 400 Bad Request';
+                $response['error']['message'] = 'Trying to access unauthorized application';
+                $this->m_header = 'HTTP/1.0 401 Unauthorized';
                 break;
             case 1006:
-                $response['message']['text'] = 'Access to widget denyed: ';
+                $response['error']['message'] = 'Access to widget denyed: ';
                 $this->m_header = 'HTTP/1.0 403 Forbidden';
                 break;
             case 1007:
-                $response['message']['text'] = 'Access to widget method denyed:  ';
+                $response['error']['message'] = 'Access to widget method denyed:  ';
                 $this->m_header = 'HTTP/1.0 403 Forbidden';
                 break;
             case 1008:
-                $response['message']['text'] = 'ACL Ressource not definied:  ';
+                $response['error']['message'] = 'ACL Ressource not definied:  ';
                 $this->m_header = 'HTTP/1.0 400 Bad Request';
                 break;
             case 1009:
-                $response['message']['text'] = 'It is not allowed to modify or delete core values:  ';
+                $response['error']['message'] = 'It is not allowed to modify or delete core values:  ';
                 break;
             case 1010:
-                $response['message']['text'] = 'Default translation file does not exist:  ';
+                $response['error']['message'] = 'Default translation file does not exist:  ';
                 break;             
             default:
-                $response['message']['text'] = $this->message;
+                $response['error']['message'] = $this->message;
                 break;
         }
-        
-        
-        
+
         return $response;
         
     }

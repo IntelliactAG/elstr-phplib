@@ -45,7 +45,7 @@
 		 *
 		 * @return true if authentication attempt was successful
 		 */
-		public function authenticate()
+		public function authenticate($username = null, $password = null)
 		{
 		
 			if (isset($this->m_authAdapter)) {
@@ -65,6 +65,25 @@
 				    	}
 				        $adapter = new $this->m_authAdapter($options, $username, $password);
 				        $result = $this->m_auth->authenticate($adapter);
+				        
+					    // Get special authentification attributes
+		            	// and add them to the user session
+		            	foreach ($result->getMessages() as $message) {
+		            		if (is_array($message) && isset($message['attributes'])) {
+		         
+		            			$arrayKeys = array_keys($message['attributes']);   			
+	            		        for ($i = 0; $i < count($arrayKeys); $i++) {
+						            $key = $arrayKeys[$i];
+									$value = $message['attributes'][$key];
+									
+									$this->m_application->getBootstrap()->getResource('user')->setEnterpriseApplicationData(get_class($this),$key,$value);
+									 
+						        }
+	
+		            		}
+		            	}				        
+				        
+				        
 				        return $result;			        
 			        
 			        } else {
@@ -119,7 +138,7 @@
 				}
 			}
 			else  {
-				throw new ELSTR_Exception('1004',1005,null,$this);
+				throw new ELSTR_Exception('1005',1005,null,$this);
 			}
             return $response;
 		}

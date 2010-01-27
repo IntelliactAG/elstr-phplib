@@ -11,11 +11,17 @@
 class ELSTR_User {
     var $m_username;
     var $m_credentials;
+    var $m_session;
 
     function __construct($username)
     {
         $this->m_credentials = array();
         $this->m_username = $username;
+        $this->m_session = new Zend_Session_Namespace('ELSTR_User');
+        
+		if (!isset($this->m_session->enterpriseApplicationData)) {
+			$this->m_session->enterpriseApplicationData = array();
+		}
     }
 
     /**
@@ -39,6 +45,14 @@ class ELSTR_User {
     public function getUsername()
     {
         return $this->m_username;
+    }
+    
+    public function setEnterpriseApplicationData($enterpriseApplication, $key, $value){
+    	$this->m_session->enterpriseApplicationData[$enterpriseApplication][$key] = $value;
+    }
+    
+    public function getEnterpriseApplicationData(){
+    	return $this->m_session->enterpriseApplicationData;
     }
 }
 

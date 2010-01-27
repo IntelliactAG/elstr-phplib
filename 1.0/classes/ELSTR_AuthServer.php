@@ -31,9 +31,10 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
     *
     * @param string $username
     * @param string $password
+    * @param string $enterpriseApplication
     * @return Array Response messages
     */
-    public function auth($username, $password, $enterpriseApplication = null)
+    public function auth($username, $password, $enterpriseApplication)
     {
         $response = array();
         
@@ -41,7 +42,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
         	// Login to Elstr application
         	$result = $this->_auth($username, $password);
         } else {
-        	require_once ($enterpriseApplication . ".php");
+        	require_once ("EnterpriseApplications/". $enterpriseApplication . ".php");
         	$enterpriseApp = new $enterpriseApplication($this->m_application);
         	$result = $enterpriseApp->authenticate($username, $password);
         }
@@ -102,21 +103,8 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                 $response['username'] = $username;
                 $response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
                 $response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
-
-            	// Get special authentification attributes
-            	// and send them to the client
-            	foreach ($result->getMessages() as $message) {
-            		if (is_array($message) && isset($message['attributes'])) {
-            			//$response['attributes'] = $message['attributes'];
-
-            			// Better add them to the user????
-
-
-            			// How to handle App-Access-User relation ???
-            		}
-            	}
-
-
+				$response['enterpriseApplicationData'] = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
+                
                 break;
 
             default:
