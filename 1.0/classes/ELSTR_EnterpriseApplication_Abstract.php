@@ -48,8 +48,6 @@
 		public function authenticate()
 		{
 		
-		
-		
 			if (isset($this->m_authAdapter)) {
 			
 			        $configEnterpriseApp = $this->m_application->getOption(get_class($this));

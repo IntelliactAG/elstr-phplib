@@ -35,7 +35,6 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
     */
     public function auth($username, $password, $enterpriseApplication = null)
     {
-    	// ToDo: in Authserver Fehler auch Fehler nicht nur text
         $response = array();
         
         if ($enterpriseApplication == null){
