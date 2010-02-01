@@ -32,7 +32,8 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
     */
     public function load($appName)
     {
-        $configPublic = $this->m_application->getOption("public");
+    	Zend_Session::writeClose(true);
+    	$configPublic = $this->m_application->getOption("public");
 
         if (isset($configPublic[$appName])) {
             $appConfigPublic = array_merge($configPublic['shared'], $configPublic[$appName]);
