@@ -79,6 +79,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
 
         $db = $this->m_application->getBootstrap()->getResource('db');
         $user = $this->m_application->getBootstrap()->getResource('user');
+        
         // Select the resourceId from db
         $select = $db->select();
         $select->from('Resource');
@@ -86,6 +87,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $stmt = $db->query($select);
         $resultResources = $stmt->fetchAll();
         $resourceId = $resultResources[0]['_id'];
+        
         // Select the roleId from db
         $select = $db->select();
         $select->from('Role');
@@ -93,6 +95,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $stmt = $db->query($select);
         $resultRoles = $stmt->fetchAll();
         $roleId = $resultRoles[0]['_id'];
+        
         // Select the roleId from db
         $select = $db->select();
         $select->from('RoleResource');
@@ -106,11 +109,18 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
                 $result['newValue'] = $result[0]['access'];
                 $result['action'] = "failure";
                 throw new ELSTR_Exception(null,1009,null,$this);
-            } else {
-                // Update existing
-                $updateTableData = array ('access' => $accessRight);
-                $whereCondition = array ("RoleResource._id1 = '$roleId'", "RoleResource._id2 = '$resourceId'");
-                $result = $db->update('RoleResource', $updateTableData, $whereCondition, $user->getUsername());
+            } else {                
+                if ($accessRight == "inherit"){
+                	// Delete existing 
+			        $deleteTableData = array ('_id1' => $roleId,
+		                '_id2' => $resourceId);
+		            $result = $db->delete('RoleResource', $deleteTableData);
+                } else {
+					// Update existing
+                	$updateTableData = array ('access' => $accessRight);
+	                $whereCondition = array ("RoleResource._id1 = '$roleId'", "RoleResource._id2 = '$resourceId'");
+	                $result = $db->update('RoleResource', $updateTableData, $whereCondition, $user->getUsername());                
+                }
             }
         } else {
             // Insert new
