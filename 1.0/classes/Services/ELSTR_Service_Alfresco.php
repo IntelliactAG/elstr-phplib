@@ -27,7 +27,6 @@ class ELSTR_Service_Alfresco extends ELSTR_Service_Abstract {
     }
 
 	protected function request($serviceUrl, $parameters) {
-
 			$sessionAuthAlfresco = new Zend_Session_Namespace('Auth_Alfresco');
 			$restClient = new ELSTR_HttpClient();
 			$restClient->setAuth($sessionAuthAlfresco->username, $sessionAuthAlfresco->password);
@@ -39,6 +38,20 @@ class ELSTR_Service_Alfresco extends ELSTR_Service_Abstract {
 			$restClient->setParameterGet($parameters);
 			return $restClient->request();
 	}
+	
+	protected function requestStream($serviceUrl, $parameters) {
+			$sessionAuthAlfresco = new Zend_Session_Namespace('Auth_Alfresco');
+			$restClient = new ELSTR_HttpClient();
+			$restClient->setAuth($sessionAuthAlfresco->username, $sessionAuthAlfresco->password);						
+			$restClient->setUri($this->m_url.$serviceUrl);
+			$restClient->setConfig(array(
+			'maxredirects' => $this->m_maxredirects,
+			'timeout'      => $this->m_timeout));
+			
+			$restClient->setParameterGet($parameters);
+			$restClient->setStream();
+			return $restClient->request();
+	}	
 
 }
 ?>
