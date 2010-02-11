@@ -26,8 +26,10 @@
 	        
 	        $enterpriseApplicationData = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
 	        
-	        $args[3]['ticket'] = $enterpriseApplicationData[get_class($this)]['ticket'];
-	               
+			if (isset($enterpriseApplicationData[get_class($this)]['ticket'])) {
+	        	$args[3]['ticket'] = $enterpriseApplicationData[get_class($this)]['ticket'];
+	        }
+			
 			if(PHP_VERSION_ID >= 50300){
 				// For PHP Version >= 5.3.0
 				// for PHP 5.3 we should wirte as follows (?) Ref: http://us2.php.net/manual/en/function.call-user-func-array.php
