@@ -3,6 +3,9 @@
   <header adminlang="en" creationtool="locale4j" creationtoolversion="1.1" o-tmf="unknown" segtype="block" srclang="*all*"/>
   <body>
     <tu tuid="Admin Console">
+      <tuv xml:lang="fr">
+        <seg>Console d'Admin</seg>
+      </tuv>
       <tuv xml:lang="en">
         <seg>Admin Console</seg>
       </tuv>
@@ -11,6 +14,9 @@
       </tuv>
     </tu>
     <tu tuid="Close">
+      <tuv xml:lang="fr">
+        <seg>Fermer</seg>
+      </tuv>
       <tuv xml:lang="en">
         <seg>Close</seg>
       </tuv>
@@ -19,6 +25,9 @@
       </tuv>
     </tu>
     <tu tuid="Resources">
+      <tuv xml:lang="fr">
+        <seg>Ressources</seg>
+      </tuv>
       <tuv xml:lang="en">
         <seg>Resources</seg>
       </tuv>
@@ -27,6 +36,9 @@
       </tuv>
     </tu>
     <tu tuid="Roles">
+      <tuv xml:lang="fr">
+        <seg>Rôles</seg>
+      </tuv>
       <tuv xml:lang="en">
         <seg>Roles</seg>
       </tuv>
