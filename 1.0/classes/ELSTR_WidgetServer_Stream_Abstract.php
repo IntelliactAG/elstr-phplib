@@ -123,7 +123,7 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
     */
     protected function _handle()
     {
-        $callmethod = $_GET['method'];
+        $callmethod = $this->_getMethod();
         $paramArray = $_GET;
 
         $this->m_response->appendBody($this->$callmethod($paramArray));
