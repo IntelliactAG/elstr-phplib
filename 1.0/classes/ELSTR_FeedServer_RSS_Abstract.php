@@ -23,6 +23,24 @@ abstract class ELSTR_FeedServer_RSS_Abstract extends ELSTR_WidgetServer_Abstract
     * Get Feed Array
     * The implementation class must implement this method 
     * Array specification at http://framework.zend.com/manual/en/zend.feed.importing.html
+    * 
+    * Keys and values in the feed array:
+    * 'title' (string)
+    * 'link' (string)
+    * 'charset' (string) 'utf-8'
+    * 'copyright' (string)
+    * 'generator' (string)
+    * 'language' (string)
+    * 'entries' (array)
+    * 
+    * Keys and values in the entries array	
+    * // required
+    * 'title' (string)
+    * 'link' (string)
+    * 'description' (string) only text, no html
+    * // optional
+    * 'content' (string) can contain html
+    * 'lastUpdate' (date)
     *
     * @param array $paramArray
     * @return array 
