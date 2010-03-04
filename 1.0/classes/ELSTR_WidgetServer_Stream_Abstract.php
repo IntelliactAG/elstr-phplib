@@ -11,11 +11,13 @@ require_once ('ELSTR_Response.php');
 
 abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abstract {
     private $m_response;
+    private $m_paramArray;
 
     function __construct($acl = null, $user = null)
     {
         parent::__construct($acl, $user);
         $this->m_response = new ELSTR_Response();
+        $this->m_paramArray = $this->_getParamArray();
     }
 
     /**
@@ -109,11 +111,21 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
         $this->setHeader('Content-Type', $contentType, true);
     }
 
+    protected function _getParamArray(){
+    	$paramArray = array();    
+    	if ($_SERVER['REQUEST_METHOD'] == "GET"){
+        	$paramArray = $_GET;
+        } elseif ($_SERVER['REQUEST_METHOD'] == "POST"){
+        	$paramArray = $_POST;
+        }
+        return $paramArray;
+    }
+    
 	/**
 	 * Implementation of the abstract _getMethod
 	 */
 	protected function _getMethod() {
-		return $_GET['method'];
+		return $this->m_paramArray['method'];
 	}
 	
     /**
@@ -124,9 +136,8 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
     protected function _handle()
     {
         $callmethod = $this->_getMethod();
-        $paramArray = $_GET;
 
-        $this->m_response->appendBody($this->$callmethod($paramArray));
+        $this->m_response->appendBody($this->$callmethod($this->m_paramArray));
         $this->m_response->sendResponse();
     }
 }
