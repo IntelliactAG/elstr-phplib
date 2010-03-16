@@ -71,16 +71,18 @@ class ELSTR_ReportEngine {
     	for ($i = 0; $i < count($this->m_columns); $i++) {
 			
     		$col = chr($i+ord('A'));
-    		
     		$key = $this->m_columns[$i]['key'];
-    		$label = $this->m_columns[$i]['label'];
-    		$width = (integer) $this->m_columns[$i]['width'];
-			
     		$keyColumn[$key] = $col;
-			
     		$cell = $col."1";
+    		
+    		$label = $this->m_columns[$i]['label'];
     		$this->m_objPHPExcel->getActiveSheet()->SetCellValue($cell, $label);
-    		$this->m_objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth($width/5);
+    		
+    		if (isset($this->m_columns[$i]['width'])){
+    			$width = (integer) $this->m_columns[$i]['width'];
+    			$this->m_objPHPExcel->getActiveSheet()->getColumnDimension($col)->setWidth($width/5);
+    		}
+    		
 		}
     	
   
