@@ -52,6 +52,8 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
 		$dbAdapter->getConnection();
 
 		$m_db = new ELSTR_Db($dbAdapter);
+		// Alle Operatione sollen in UTF-8 codiert werden
+		$m_db->query('set character set utf8;');
 
 		return $m_db;
 	}
