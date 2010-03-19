@@ -126,8 +126,11 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
     public function logout()
     {
         $response = array();
-
+		
+		// Get the Zend_Auth Obejct this session
         $this->m_application->getBootstrap()->getResource('auth')->clearIdentity();
+
+		// TODO: Clear all Identities for every Application
 
         $response['action'] = "success";
         $response['username'] = "anonymous";
