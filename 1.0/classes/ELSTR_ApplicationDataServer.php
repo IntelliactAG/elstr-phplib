@@ -39,6 +39,8 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
             $appConfigPublic = array_merge($configPublic['shared'], $configPublic[$appName]);
         } elseif (isset($configPublic['shared'])) {
             $appConfigPublic = $configPublic['shared'];
+        } elseif (isset($configPublic[$appName])) {
+            $appConfigPublic = $configPublic[$appName];
         } else {
         	$appConfigPublic = array();
         }
