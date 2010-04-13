@@ -25,7 +25,7 @@ class ELSTR_Service_Harvest extends ELSTR_Service_Abstract {
     }
 
 	protected function get($serviceUrl, $parameters) {
-			$sessionAuthAlfresco = new Zend_Session_Namespace('Auth_Alfresco');
+			$sessionAuthHarvest = new Zend_Session_Namespace('Auth_Harvest');
 			$restClient = new ELSTR_HttpClient();
 	
 			$restClient->setUri($this->m_url.$serviceUrl);
