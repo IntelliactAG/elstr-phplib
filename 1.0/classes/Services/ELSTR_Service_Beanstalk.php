@@ -10,7 +10,8 @@ require_once ('ELSTR_HttpClient.php');
 class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 
     private $m_url;
-
+   	private $m_svnCommand;
+    
     /**
      *
      * @return
@@ -23,6 +24,12 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
  		$this->m_password = $sessionAuthBeanstalk->password;
          
         $this->m_url = $options['url'];
+        if (isset($options['svnCommand']))  {
+       		$this->m_svnCommand = $options['svnCommand'];
+        }
+        else {
+        	$this->m_svnCommand = 'svn';
+        }
     }
 	
 	
@@ -114,6 +121,13 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 	}
 	
 	
+	/**
+     * Triggers an export to an FTP server as configured in the Beanstalk release server
+     * WARNING: Call returns before export has completed
+	 * @param $local_path
+     * @param $server_id Beanstalk release server id
+     * @return response
+     */
 	protected function release($server_id,$repository_id,$revision) {
 		$release = array();
 		$release['release-server-id']=$server_id;
@@ -164,7 +178,73 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
     	$status = $response->getStatus();
 		return $response;	
 	}
+		
+
 	
+	/**
+     * Checkout repository using SVN client
+     * REQUIRES: SVN client must be installed on web server
+     * @param $repository Repository name
+     * @param $local_path
+     * @return response
+     */
+	protected function svnCheckout($repository, $local_path,$revision=null)
+	{
+		mkdir($path);
+		
+		$command = 'svn checkout '. $this->getSvnUrl($repository);
+		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
+		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
+		if (isset($revision)) { $command = $command .' --revision '. $revision; }
+		$command = $command .' '. $local_path;
+		$output = shell_exec($command); 
+		
+		if ($output=='')
+		{
+			throw new ELSTR_Exception('Could not execute SVN checkout command. Is SVN configured properly?',0,null,$this);
+		}
+		return $output; 
+	}
+	
+	/**
+     * Checkout repository using SVN client
+     * REQUIRES: SVN client must be installed on web server
+     * @param $repository Repository name
+     * @param $local_path
+     * @return response
+     */
+	protected function svnExport($repository, $local_path,$revision=null)
+	{
+		if (file_exists($local_path))
+		{
+			$isOK = $this->deleteDir($local_path);
+			if (!$isOK)
+			{
+				throw new ELSTR_Exception('Could not delete directory '. $local_path ,0,null,$this);
+			}
+		}
+		
+		$command = $this->m_svnCommand .' export '. $this->getSvnUrl($repository);
+		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
+		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
+		if (isset($revision)) { $command = $command .' --revision '. $revision; }
+		$command = $command .' '. $local_path;
+		//echo "SVN command : $command";
+		$output = exec($command); 
+		 
+		if ($output=='')
+		{
+			throw new ELSTR_Exception('Could not execute SVN export command. Is SVN configured properly?',0,null,$this);
+		}
+		return $output; 
+	}
+	
+	
+	private function getSvnUrl($repository)
+	{
+		$url = str_replace('.beanstalkapp.com','.svn.beanstalkapp.com',$this->m_url);
+		return $url.$repository;
+	}
 	
 	private function arrayToXML($rootName,$elements) {
  		$dom = new DOMDocument('1.0', 'UTF-8');
@@ -176,5 +256,37 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		}
 		return $dom->saveXML();
 	}
+	
+	private function deleteDir($dir)
+	{
+		if (substr($dir, strlen($dir)-1, 1)!= '/')
+		$dir .= '/';
+		if ($handle = opendir($dir))
+		{
+			while ($obj = readdir($handle))
+			{
+				if ($obj!= '.' && $obj!= '..')
+				{
+					if (is_dir($dir.$obj))
+					{
+						if (!$this->deleteDir($dir.$obj))
+						return false;
+					}
+					elseif (is_file($dir.$obj))
+					{
+						if (!unlink($dir.$obj))
+						return false;
+					}
+				}
+			}
+			closedir($handle);
+			if (!@rmdir($dir)){
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 }
 ?>
