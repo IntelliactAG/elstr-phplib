@@ -130,8 +130,14 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 		// Get the Zend_Auth Obejct this session
         $this->m_application->getBootstrap()->getResource('auth')->clearIdentity();
 
-		// TODO: Clear all Identities for every Application
-
+		// Mark all Auth_* Namespaces as expired
+        $sessionNamspaceArray = Zend_Session::getIterator();
+        for ($i = 0; $i < count($sessionNamspaceArray); $i++) {
+        	if(strpos(strtolower($sessionNamspaceArray[$i]),"auth_") === 0 ){
+        		Zend_Session::namespaceUnset($sessionNamspaceArray[$i]);
+        	}
+        }
+        
         $response['action'] = "success";
         $response['username'] = "anonymous";
         return $response;
