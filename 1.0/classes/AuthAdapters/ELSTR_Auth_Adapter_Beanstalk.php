@@ -83,11 +83,6 @@ class ELSTR_Auth_Adapter_Beanstalk implements Zend_Auth_Adapter_Interface
 		}
 		catch (ELSTR_Exception $e)
 		{
-			throw $e;
-			$sessionAuthBeanstalk = new Zend_Session_Namespace('Auth_Beanstalk');
-			$sessionAuthBeanstalk->username = $username;
-			$sessionAuthBeanstalk->password = $password;
-
 			// Invalid loing
 			$code = Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
 			$messages[0] = 'Invalid credentials';
