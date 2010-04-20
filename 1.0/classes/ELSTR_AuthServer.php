@@ -130,11 +130,14 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 		// Get the Zend_Auth Obejct this session
         $this->m_application->getBootstrap()->getResource('auth')->clearIdentity();
 
-		// Mark all Auth_* Namespaces as expired
+		// Do logout on all ELSTR_EnterpriseApplication_*
         $sessionNamspaceArray = Zend_Session::getIterator();
         for ($i = 0; $i < count($sessionNamspaceArray); $i++) {
-        	if(strpos(strtolower($sessionNamspaceArray[$i]),"auth_") === 0 ){
-        		Zend_Session::namespaceUnset($sessionNamspaceArray[$i]);
+        	if(strpos(strtolower($sessionNamspaceArray[$i]),"elstr_enterpriseapplication_") === 0 ){
+        		$enterpriseApplication = $sessionNamspaceArray[$i];
+	        	require_once ("EnterpriseApplications/". $enterpriseApplication . ".php");
+	        	$enterpriseApp = new $enterpriseApplication($this->m_application);
+	        	$result = $enterpriseApp->logout();        		
         	}
         }
         

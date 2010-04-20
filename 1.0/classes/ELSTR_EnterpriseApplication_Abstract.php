@@ -95,7 +95,17 @@
 				return true;
 			}
 		}
+		
 
+		/**
+		 * Performs an logout attempt
+		 *
+		 * @return void 
+		 */
+		public function logout()
+		{
+			$this->m_auth->clearIdentity();			
+		}		
 		
 		
 		/**
