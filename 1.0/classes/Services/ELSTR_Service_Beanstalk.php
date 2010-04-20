@@ -196,9 +196,9 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
-		$command = $command .' '. $local_path;
+		$command =  escapeshellcmd( $command .' '. $local_path);
 		$output = shell_exec($command); 
-		
+						
 		if ($output=='')
 		{
 			throw new ELSTR_Exception('Could not execute SVN checkout command. Is SVN configured properly?',0,null,$this);
@@ -228,9 +228,9 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
-		$command = $command .' '. $local_path;
+		$command = escapeshellcmd( $command .' '. $local_path);
 		//echo "SVN command : $command";
-		$output = exec($command); 
+		$output = shell_exec($command); 
 		 
 		if ($output=='')
 		{
