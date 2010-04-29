@@ -5,6 +5,7 @@
 * @author Marco Egli
 * @copyright 2009 Intelliact AG
 */
+require_once ('ELSTR_Exception.php');
 
 class ELSTR_Language {
     var $m_modules;

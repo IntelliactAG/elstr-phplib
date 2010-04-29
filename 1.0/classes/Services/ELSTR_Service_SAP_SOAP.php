@@ -1,0 +1,51 @@
+<?php
+require_once ('ELSTR_Service_Abstract.php');
+require_once ('ELSTR_SoapClient.php');
+
+/**
+ * This as an example of a custom application, using http authentication
+ *
+ * @author Marco Egli
+ */
+class ELSTR_Service_SAP_SOAP extends ELSTR_Service_Abstract {
+
+    private $m_wsdl;
+    
+    private $m_username;
+    private $m_password;
+
+    /**
+     *
+     * @return
+     */
+    function __construct($options) {
+        parent::__construct();
+
+        $this->m_wsdl = $options['wsdl'];
+        
+        $this->m_login = $options['login'];
+        $this->m_password = $options['password'];
+
+    }
+
+	protected function request($method, $parameters) {
+
+		// if $parameters is not an array
+		// Create an array with the parameters
+		if(!is_array($parameters)){
+			$parameters = array($parameters);
+		}
+	
+		// Set the soap options
+		$soapOptions = array('login' => $this->m_login,
+							'password' => $this->m_password);
+		
+		// Create the soap client
+		$client = new Zend_Soap_Client($this->m_wsdl,$soapOptions);
+		return call_user_func_array(array($client, $method), $parameters);
+			
+	}
+	
+
+}
+?>
