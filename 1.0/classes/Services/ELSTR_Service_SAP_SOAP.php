@@ -28,21 +28,25 @@ class ELSTR_Service_SAP_SOAP extends ELSTR_Service_Abstract {
 
     }
 
+    /**
+    * Call a SAP Soap Request
+    *
+    * @param string $method (the sap-method to call)
+    * @param array $parameters
+    * @return object
+    */
 	protected function request($method, $parameters) {
-
-		// if $parameters is not an array
-		// Create an array with the parameters
-		if(!is_array($parameters)){
-			$parameters = array($parameters);
-		}
 	
 		// Set the soap options
 		$soapOptions = array('login' => $this->m_login,
-							'password' => $this->m_password);
+							'password' => $this->m_password,
+							'soap_version' => SOAP_1_1);
 		
 		// Create the soap client
 		$client = new Zend_Soap_Client($this->m_wsdl,$soapOptions);
-		return call_user_func_array(array($client, $method), $parameters);
+		$soapResponse = call_user_func_array(array($client, $method), array($parameters));
+	
+		return $soapResponse;
 			
 	}
 	
