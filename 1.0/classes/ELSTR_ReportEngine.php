@@ -184,7 +184,6 @@ class ELSTR_ReportEngine {
 		{
 			$cell['value'] = $value;
 			$cell['type'] = 'cell';
-			$cell['sheet'] = $this->m_currentSheet;
 			$this->m_reportElements[] = $cell;
 			return true;
 		}
@@ -225,6 +224,7 @@ class ELSTR_ReportEngine {
 			$specification = substr($cellSpecification,5);
 			$excelCell = $sheet->getCell($specification);
 			if (!$excelCell) { return; }
+  			$reportElement['sheet'] = $this->m_currentSheet;
 			$reportElement['col'] = PHPExcel_Cell::columnIndexFromString( $excelCell->getColumn() )-1;
 			$reportElement['row'] = $excelCell->getRow();
 		}
@@ -239,6 +239,7 @@ class ELSTR_ReportEngine {
   					//if ($value){ echo "locateReportElement value $value\n";}
   					if (strpos($value,$cellSpecification)===0) // for unknown reasons $value sometimes appears duplicated
   					{
+  						$reportElement['sheet'] = $this->m_currentSheet;
    						$reportElement['col'] = PHPExcel_Cell::columnIndexFromString( $excelCell->getColumn() )-1;
   						$reportElement['row'] = $excelCell->getRow();
   						return $reportElement;
@@ -286,7 +287,7 @@ class ELSTR_ReportEngine {
 	 * @param array $reportElement
 	 * @return void
 	 */
-	private function setCellData($reportElement)
+	public function setCellData($reportElement)
 	{
 		$value = $reportElement['value'];
 		$col =   $reportElement['col'];
