@@ -93,6 +93,7 @@ class ELSTR_ReportEngine {
 	public function setSheetNumber($currentSheet)
 	{
 		$this->m_currentSheet = $currentSheet;
+		return $this->getSheet($currentSheet);
 	}
 	
 	/**
