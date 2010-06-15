@@ -3,7 +3,7 @@
 $phpExcelOptions = $application->getOption("phpExcel");
 
 /** Include path **/
-set_include_path(APPLICATION_PATH . '/phplib/phpExcel/' . $phpExcelOptions["version"] . '/Classes/'.PATH_SEPARATOR.get_include_path());
+set_include_path(APPLICATION_PATH . '/phplib/phpExcel/' . $phpExcelOptions["version"] . '/'.PATH_SEPARATOR.get_include_path());
 
 /** PHPExcel */
 include_once 'PHPExcel.php';
