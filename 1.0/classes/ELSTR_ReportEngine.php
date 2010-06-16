@@ -438,7 +438,14 @@ class ELSTR_ReportEngine {
 				include_once 'PHPExcel/Writer/PDF.php';
 				$objWriter = new PHPExcel_Writer_PDF($this->m_objPHPExcel);
 				$objWriter->writeAllSheets();
-				$objWriter->save($this->m_file,$pdfFont);
+				if ($pdfFont!= 'freesans')
+				{
+					$objWriter->save($this->m_file,$pdfFont); // workaround required only in phpExcel 1.7.2
+				}
+				else
+				{
+					$objWriter->save($this->m_file);
+				}
 				return $this->m_file;
 				break;
 			case "xls":
