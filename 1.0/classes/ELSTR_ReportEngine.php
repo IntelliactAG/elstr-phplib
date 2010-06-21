@@ -422,6 +422,26 @@ class ELSTR_ReportEngine {
 		return $columns;
 	}
 	
+	/**
+	 * Apply HTML encoding to each cell, workaround for phpExcel PDF problem 
+	 */
+	public function htmlEncodeCellValues($iSheet){
+		$sheet = $this->getSheet($iSheet);
+		$rowIterator = $sheet->getRowIterator();
+		foreach ($rowIterator as $row) {
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+			foreach ($cellIterator as $excelCell) {
+				$value = (string) $excelCell->getValue();
+				$htmlValue = htmlspecialchars ($value );
+				if ($htmlValue != $value)
+				{
+					$excelCell->setValue($htmlValue );
+				}
+			}
+		}
+	}
+	
 	
 	/**
 	 * Get the file stream of the report
