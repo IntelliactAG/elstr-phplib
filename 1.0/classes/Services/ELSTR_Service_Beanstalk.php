@@ -180,12 +180,12 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 	}
 		
 
-	
 	/**
      * Checkout repository using SVN client
      * REQUIRES: SVN client must be installed on web server
      * @param $repository Repository name
      * @param $local_path
+     * @param $revision Revision index, last revision is used if ommitted
      * @return response
      */
 	protected function svnCheckout($repository, $local_path,$revision=null)
@@ -207,10 +207,30 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 	}
 	
 	/**
+     * Make directory listing using SVN client
+     * REQUIRES: SVN client must be installed on web server
+     * @param $repository Repository name
+     * @param $revision Revision index, last revision is used if ommitted
+     * @return response
+     */
+	protected function svnLs($repository,$revision=null)
+	{		
+		$command = $this->m_svnCommand .' ls '. $this->getSvnUrl($repository);
+		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
+		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
+		if (isset($revision)) { $command = $command .' --revision '. $revision; }
+		$command = escapeshellcmd( $command );
+		//echo "SVN command : $command";
+		$output = shell_exec($command); 
+		return $output; 
+	}
+	
+	/**
      * Checkout repository using SVN client
      * REQUIRES: SVN client must be installed on web server
      * @param $repository Repository name
      * @param $local_path
+     * @param $revision Revision index, last revision is used if ommitted
      * @return response
      */
 	protected function svnExport($repository, $local_path,$revision=null)
