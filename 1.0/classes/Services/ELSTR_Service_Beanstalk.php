@@ -211,7 +211,7 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
      * REQUIRES: SVN client must be installed on web server
      * @param $repository Repository name
      * @param $revision Revision index, last revision is used if ommitted
-     * @return response
+     * @return array of files
      */
 	protected function svnLs($repository,$revision=null)
 	{		
@@ -222,7 +222,64 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		$command = escapeshellcmd( $command );
 		//echo "SVN command : $command";
 		$output = shell_exec($command); 
-		return $output; 
+
+		if ($output!='')
+		{
+			$files = preg_split("[\n|\r]",$output);
+			return $files;
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
+	/**
+     * Get svn:external references using SVN client
+     * REQUIRES: SVN client must be installed on web server
+     * @param $repository Repository name
+     * @param $revision Revision index, last revision is used if ommitted
+     * @return array of external specifications ('external' => external, 'folder' => folder)
+     */
+	protected function svnExternals($repository,$revision=null)
+	{		
+		$command = $this->m_svnCommand .' propget svn:externals '. $this->getSvnUrl($repository);
+		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
+		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
+		if (isset($revision)) { $command = $command .' --revision '. $revision; }
+		$command = escapeshellcmd( $command );
+		//echo "SVN external command : $command";
+		$output = shell_exec($command); 
+
+		if ($output!='')
+		{
+			$externals = array();
+			$externalLines = preg_split("[\n|\r]",$output);
+			foreach ($externalLines as $externalLine)
+			{
+				//echo "externalLine: $externalLine\n";
+				$externalLine = trim($externalLine);
+				if ($externalLine!='')
+				{
+					$pos = strrpos($externalLine,' ');
+					if ($pos!==false)
+					{
+						// split by blank
+						$externals[] = array('external' => substr($externalLine,0,$pos-1), 'folder' => substr($externalLine,$pos+1));
+					}
+					else
+					{
+						// something is wrong here, we cannot split by blank, hopefully this will never occur
+						$externals[] = array('external' => $externalLine, 'folder' => $externalLine);
+					}
+				}
+			}
+			return $externals;
+		}
+		else
+		{
+			return array();
+		}
 	}
 	
 	/**
@@ -233,7 +290,7 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
      * @param $revision Revision index, last revision is used if ommitted
      * @return response
      */
-	protected function svnExport($repository, $local_path,$revision=null)
+	protected function svnExport($repository, $local_path,$revision=null,$svnExternals=false)
 	{
 		if (file_exists($local_path))
 		{
@@ -248,6 +305,7 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
+		if ($svnExternals!=true) { $command = $command .' --ignore-externals '; }
 		$command = escapeshellcmd( $command .' '. $local_path);
 		//echo "SVN command : $command";
 		$output = shell_exec($command); 
@@ -256,7 +314,7 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		{
 			throw new ELSTR_Exception('Could not execute SVN export command. Is SVN configured properly?',0,null,$this);
 		}
-		return $output; 
+		return "SVN command : $command\n".$output; 
 	}
 	
 	
