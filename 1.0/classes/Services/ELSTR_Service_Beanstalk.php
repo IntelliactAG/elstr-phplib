@@ -25,7 +25,7 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
          
         $this->m_url = $options['url'];
         if (isset($options['svnCommand']))  {
-       		$this->m_svnCommand = $options['svnCommand'];
+       		$this->m_svnCommand = '"'.$options['svnCommand'].'"';
         }
         else {
         	$this->m_svnCommand = 'svn';
@@ -190,13 +190,17 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
      */
 	protected function svnCheckout($repository, $local_path,$revision=null)
 	{
+		if($revision){
+			$revision = escapeshellcmd( $revision );
+		}
+
 		mkdir($path);
 		
 		$command = 'svn checkout '. $this->getSvnUrl($repository);
 		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
-		$command =  escapeshellcmd( $command .' '. $local_path);
+		$command =  $command .' '. $local_path;
 		$output = shell_exec($command); 
 						
 		if ($output=='')
@@ -214,15 +218,19 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
      * @return array of files
      */
 	protected function svnLs($repository,$revision=null)
-	{		
+	{
+		if($revision){
+			$revision = escapeshellcmd( $revision );
+		}
+
 		$command = $this->m_svnCommand .' ls '. $this->getSvnUrl($repository);
 		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
-		$command = escapeshellcmd( $command );
+		
 		//echo "SVN command : $command";
 		$output = shell_exec($command); 
-
+		
 		if ($output!='')
 		{
 			$files = preg_split("[\n|\r]",$output);
@@ -242,12 +250,15 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
      * @return array of external specifications ('external' => external, 'folder' => folder)
      */
 	protected function svnExternals($repository,$revision=null)
-	{		
+	{
+		if($revision){
+			$revision = escapeshellcmd( $revision );
+		}
+
 		$command = $this->m_svnCommand .' propget svn:externals '. $this->getSvnUrl($repository);
 		if (isset($this->m_username)) { $command = $command .' --username '. $this->m_username; }
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
-		$command = escapeshellcmd( $command );
 		//echo "SVN external command : $command";
 		$output = shell_exec($command); 
 
@@ -292,6 +303,10 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
      */
 	protected function svnExport($repository, $local_path,$revision=null,$svnExternals=false)
 	{
+		if($revision){
+			$revision = escapeshellcmd( $revision );
+		}
+
 		if (file_exists($local_path))
 		{
 			$isOK = $this->deleteDir($local_path);
@@ -306,9 +321,9 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		if (isset($this->m_password)) { $command = $command .' --password '. $this->m_password; }
 		if (isset($revision)) { $command = $command .' --revision '. $revision; }
 		if ($svnExternals!=true) { $command = $command .' --ignore-externals '; }
-		$command = escapeshellcmd( $command .' '. $local_path);
+		$command =  $command .' '. $local_path;
 		//echo "SVN command : $command";
-		$output = shell_exec($command); 
+		$output = shell_exec($command);
 		 
 		if ($output=='')
 		{
@@ -320,6 +335,8 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 	
 	private function getSvnUrl($repository)
 	{
+		$repository = escapeshellcmd( $repository );
+
 		$url = str_replace('.beanstalkapp.com','.svn.beanstalkapp.com',$this->m_url);
 		return $url.$repository;
 	}

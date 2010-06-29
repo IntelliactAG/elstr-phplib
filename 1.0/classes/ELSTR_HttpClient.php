@@ -26,7 +26,7 @@ public function request($request=null,$transmit_details=true)
 		 
 		// detect lowlevel errors in response
 		$status = $response->getStatus();
-		if ($status>=400 && $status<=599) {
+		if ($status>=401 && $status<=599) {
 			$details=array();
 			$details['status'] = $status;
 			if ($transmit_details)
