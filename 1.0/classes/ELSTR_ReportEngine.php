@@ -444,7 +444,7 @@ class ELSTR_ReportEngine {
 	
 	
 	/**
-	 * Get the file stream of the report
+	 * Get the file name of file containing the report
 	 *
 	 * @param string $type (xlsx,xls,pdf)
 	 * @param string $pdfFfont one of the supported pdf fonts, requires 
@@ -481,6 +481,84 @@ class ELSTR_ReportEngine {
 
 		$objWriter->save($this->m_file);
 		return $this->m_file;
+	}
+	
+	
+	/**
+	 * Get the file stream content of the report (deleting the temporary file)
+	 *
+	 * @param string $type (xlsx,xls,pdf)
+	 * @param string $pdfFfont one of the supported pdf fonts, requires 
+	 * @return stream
+	 */
+	public function getFileContent($type,$pdfFont= 'freesans'){
+		$filename = getFile($type,$pdfFont);
+		$fileContent = file_get_contents($filename);
+		if ($fileContent!==false)
+		{
+			if ($deleteTempFiles) { unlink($fileContent); }
+		}
+		return $fileContent;
+	}
+	
+	
+	/**
+	 * Get the file stream of the report using OpenOffice for conversion
+	 * @requires OpenOffice to be installed on server and configured in ini-file
+	 * @requires Macro ConvertWordToPDF must be setup for Apache user in OpenOffice, see http://www.togaware.com/linux/survivor/Convert_MS_Word.html
+	 * @param $deleteTempFiles: delete the temporary files (set false for debugging)
+	 *
+	 * @return stream
+	 */
+	public function getPdfContentUsingOpenOffice($deleteTempFiles=true){
+		global $phpExcelOptions;
+
+		$fileContentPdf = false; //default, used on failure
+
+		/** PHPExcel_Writer_Excel5 */
+		include_once 'PHPExcel/Writer/Excel5.php';
+		$objWriter = new PHPExcel_Writer_Excel5($this->m_objPHPExcel);
+
+		$tempFileNameXls = $this->getTempName('.xls');
+		$tempFileNamePdf = str_replace('.xls','.pdf',$tempFileNameXls);
+		$objWriter->save($tempFileNameXls);
+		if (file_exists  ( $tempFileNameXls))
+		{
+			// convert using OpenOffice
+			$openOfficeExecutable = $phpExcelOptions["OpenOfficeExecutable"]; // something like: soffice ($tempFileNameXls)"
+			$openOfficePdfMacro = $phpExcelOptions["OpenOfficePdfMacro"]; // something like: ///Standard.ConvertWordToPDF.ConvertWordToPDF
+			$openOfficeConvertCommand = $openOfficeExecutable .' -writer -invisible "macro:'. $openOfficePdfMacro .'('. $tempFileNameXls .')"';
+
+			$output = shell_exec($openOfficeConvertCommand); 
+			//echo "openOfficeConvertCommand: $openOfficeConvertCommand, tempFileNamePdf: $tempFileNamePdf, output: $output\n";
+
+			$fileContentPdf = file_get_contents($tempFileNamePdf);
+			if ($fileContentPdf!==false)
+			{
+				if ($deleteTempFiles) { unlink($fileContentPdf); }
+			}
+			if ($deleteTempFiles) { unlink($tempFileNameXls); }
+		}
+		return $fileContentPdf;
+	}
+	
+	
+	/**
+	 * Get a temporary file name
+	 * @param string $suffix, e.g. xls
+	 *
+	 * @return stream
+	 */
+	public function getTempName($suffix){
+		do
+		{
+			$file = sys_get_temp_dir()."/".mt_rand().$suffix;
+			$fp = @fopen($file, 'x');
+		}
+		while(!$fp);
+
+		fclose($fp);
+		return $file;
 	}
 }
 
