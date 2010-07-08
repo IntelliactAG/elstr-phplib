@@ -275,8 +275,10 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 					$pos = strrpos($externalLine,' ');
 					if ($pos!==false)
 					{
+						$external = substr($externalLine,0,$pos);
+						$external = trim($external);
 						// split by blank
-						$externals[] = array('external' => substr($externalLine,0,$pos-1), 'folder' => substr($externalLine,$pos+1));
+						$externals[] = array('external' => $external, 'folder' => substr($externalLine,$pos+1));
 					}
 					else
 					{
@@ -327,6 +329,7 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		 
 		if ($output=='')
 		{
+			//echo "SVN command : $command\n".$output; 
 			throw new ELSTR_Exception('Could not execute SVN export command. Is SVN configured properly?',0,null,$this);
 		}
 		return "SVN command : $command\n".$output; 
@@ -338,6 +341,10 @@ class ELSTR_Service_Beanstalk extends ELSTR_Service_Abstract {
 		$repository = escapeshellcmd( $repository );
 
 		$url = str_replace('.beanstalkapp.com','.svn.beanstalkapp.com',$this->m_url);
+		if (strpos($repository,'http')===0) // full URL
+		{
+			return $repository;
+		}
 		return $url.$repository;
 	}
 	
