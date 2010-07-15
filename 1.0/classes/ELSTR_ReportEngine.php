@@ -1,6 +1,7 @@
 <?php
 
 $phpExcelOptions = $application->getOption("phpExcel");
+$openOfficeOptions = $application->getOption("openOffice");
 
 /** Include path **/
 set_include_path(APPLICATION_PATH . '/phplib/phpExcel/' . $phpExcelOptions["version"] . '/'.PATH_SEPARATOR.get_include_path());
@@ -506,12 +507,15 @@ class ELSTR_ReportEngine {
 	 * Get the file stream of the report using OpenOffice for conversion
 	 * @requires OpenOffice to be installed on server and configured in ini-file
 	 * @requires Macro ConvertWordToPDF must be setup for Apache user in OpenOffice, see http://www.togaware.com/linux/survivor/Convert_MS_Word.html
+	 * @requires HOME of Apache user must have write and execute permission
+	 * FIXME this function should be moved into a new OpenOffice Adapter class
 	 * @param $deleteTempFiles: delete the temporary files (set false for debugging)
 	 *
 	 * @return stream
 	 */
 	public function getPdfContentUsingOpenOffice($deleteTempFiles=true){
 		global $phpExcelOptions;
+		global $openOfficeOptions;
 
 		$fileContentPdf = false; //default, used on failure
 
@@ -525,17 +529,18 @@ class ELSTR_ReportEngine {
 		if (file_exists  ( $tempFileNameXls))
 		{
 			// convert using OpenOffice
-			$openOfficeExecutable = $phpExcelOptions["OpenOfficeExecutable"]; // something like: soffice ($tempFileNameXls)"
-			$openOfficePdfMacro = $phpExcelOptions["OpenOfficePdfMacro"]; // something like: ///Standard.ConvertWordToPDF.ConvertWordToPDF
+			$openOfficeExecutable = $openOfficeOptions["executable"]; // something like: soffice ($tempFileNameXls)"
+			$openOfficePdfMacro = $openOfficeOptions["pdfMacro"]; // something like: ///Standard.ConvertWordToPDF.ConvertWordToPDF
 			$openOfficeConvertCommand = $openOfficeExecutable .' -writer -invisible "macro:'. $openOfficePdfMacro .'('. $tempFileNameXls .')"';
 
-			$output = shell_exec($openOfficeConvertCommand); 
+			//echo "openOfficeConvertCommand: $openOfficeConvertCommand, tempFileNamePdf: $tempFileNamePdf\n";
+			$output = shell_exec($openOfficeConvertCommand);
 			//echo "openOfficeConvertCommand: $openOfficeConvertCommand, tempFileNamePdf: $tempFileNamePdf, output: $output\n";
 
 			$fileContentPdf = file_get_contents($tempFileNamePdf);
 			if ($fileContentPdf!==false)
 			{
-				if ($deleteTempFiles) { unlink($fileContentPdf); }
+				if ($deleteTempFiles) { unlink($tempFileNamePdf); }
 			}
 			if ($deleteTempFiles) { unlink($tempFileNameXls); }
 		}
@@ -550,10 +555,16 @@ class ELSTR_ReportEngine {
 	 * @return stream
 	 */
 	public function getTempName($suffix){
+		$iLoop=0;
 		do
 		{
 			$file = sys_get_temp_dir()."/".mt_rand().$suffix;
 			$fp = @fopen($file, 'x');
+			$iLoop++;
+			if ($iLoop>10)
+			{
+				throw new ELSTR_Exception("Could not open for write tempory file $file",0,null,$this);
+			}
 		}
 		while(!$fp);
 
