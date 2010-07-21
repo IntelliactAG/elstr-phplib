@@ -149,6 +149,8 @@ class ELSTR_ReportEngine {
 				for ($i = 0; $i < count($columns); $i++) {
 					$columns[$i]['col']=$table['col']+$i;
 					$columns[$i]['row']=$table['row'];
+					$columns[$i]['prefix'  ]=$table['prefix'];
+					$columns[$i]['$postfix']=$table['$postfix'];
 				}
 			}
 		}
@@ -239,11 +241,26 @@ class ELSTR_ReportEngine {
   				foreach ($cellIterator as $excelCell) {
   					$value = (string) $excelCell->getValue();
   					//if ($value){ echo "locateReportElement value $value\n";}
-  					if (strpos($value,$cellSpecification)===0) // for unknown reasons $value sometimes appears duplicated
+  					$pos = strpos($value,$cellSpecification);
+  					if ($pos!==false) // for unknown reasons $value sometimes appears duplicated
   					{
+  						//echo "locateReportElement value $value, pos: $pos, cellSpecification:$cellSpecification\n";
   						$reportElement['sheet'] = $this->m_currentSheet;
    						$reportElement['col'] = PHPExcel_Cell::columnIndexFromString( $excelCell->getColumn() )-1;
   						$reportElement['row'] = $excelCell->getRow();
+  						//extract prefix, if any
+  						if ($pos>0)
+  						{
+  							$reportElement['prefix']=substr($value,0,$pos);
+  						}
+  						else
+  						{
+  							$reportElement['prefix']='';
+  						}
+  						//extract postfix, if any
+  						$posEnd = $pos+strlen($cellSpecification);
+  						$reportElement['postfix']=substr($value,$posEnd);
+  						
   						return $reportElement;
   					}
   				}
@@ -353,6 +370,8 @@ class ELSTR_ReportEngine {
 					$value = $rowData[$key];
 					$iCol = $keyColumn[$key];
 					$column = $columns[$iCol];
+					$prefix = $column['prefix'];
+					$postfix = $column['postfix'];
 					
 					if(isset($column['col'])){
 
@@ -360,7 +379,7 @@ class ELSTR_ReportEngine {
 						$row = $column['row']+ $numHeaderRows + $j;
 						
 						$cell = $sheet->GetCellByColumnAndRow($col,$row);
-						$cell->setValue($value);
+						$cell->setValue($prefix.$value.$postfix);
 					}
 				}
 			}
