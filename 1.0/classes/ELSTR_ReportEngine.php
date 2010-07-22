@@ -379,7 +379,18 @@ class ELSTR_ReportEngine {
 						$row = $column['row']+ $numHeaderRows + $j;
 						
 						$cell = $sheet->GetCellByColumnAndRow($col,$row);
-						$cell->setValue($prefix.$value.$postfix);
+						$cellDataType = $cell->getDataType();
+						$style = $sheet->getStyleByColumnAndRow($col,$column['row']+$numHeaderRows);
+						$cellFormatCode = $style->getNumberFormat()->getFormatCode();
+						if ($cellFormatCode=='@')
+						{
+							$cell->setValueExplicit($prefix.$value.$postfix); // set string
+						}
+						else
+						{
+							//echo "cellFormatCode:$cellFormatCode, prefix:'$prefix'\n";
+							$cell->setValue($prefix.$value.$postfix);
+						}
 					}
 				}
 			}
