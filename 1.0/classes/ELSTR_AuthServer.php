@@ -4,274 +4,281 @@ require_once ('ELSTR_JsonServer.php');
 require_once ('ELSTR_Server_Abstract.php');
 
 /**
-* This class implements the user authentication and registration at ELSTR
-* Once the user is authenticated, his appplications will be added to the session accordingly
-*
-* @author Felix Nyffenegger, Marco Egli
-* @version 1.0
-* @created 19-Okt-2009 17:41:15
-*/
+ * This class implements the user authentication and registration at ELSTR
+ * Once the user is authenticated, his appplications will be added to the session accordingly
+ *
+ * @author Felix Nyffenegger, Marco Egli
+ * @version 1.0
+ * @created 19-Okt-2009 17:41:15
+ */
 class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 
-    /**
-    * Create a JSON Server and handle itselfs
-    *
-    * @return void
-    */
-    public function handle()
-    {
-        $server = new ELSTR_JsonServer();
-        $server->setClass($this);
-        $server->handle();
-    }
+	/**
+	 * Create a JSON Server and handle itselfs
+	 *
+	 * @return void
+	 */
+	public function handle() {
+		$server = new ELSTR_JsonServer();
+		$server->setClass($this);
+		$server->handle();
+	}
 
-    /**
-    * Service method to handle auth request
-    * If user can be authenticated, save user into session
-    *
-    * @param string $username
-    * @param string $password
-    * @param string $enterpriseApplication
-    * @return Array Response messages
-    */
-    public function auth($username, $password, $enterpriseApplication)
-    {
-        $response = array();
-        
-        if ($enterpriseApplication == null){
-        	// Login to Elstr application
-        	$result = $this->_auth($username, $password);
-        } else {
-        	require_once ("EnterpriseApplications/". $enterpriseApplication . ".php");
-        	$enterpriseApp = new $enterpriseApplication($this->m_application);
-        	$result = $enterpriseApp->authenticate($username, $password);
-        }
-        
+	/**
+	 * Service method to handle auth request
+	 * If user can be authenticated, save user into session
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @param string $enterpriseApplication
+	 * @return Array Response messages
+	 */
+	public function auth($username, $password, $enterpriseApplication) {
+		$response = array();
 
-        if (!$result->isValid()) {
-            // Authentication failed; print the reasons why
-            foreach ($result->getMessages() as $message) {
-                $response['message'][] = $message;
-            }
-        }
+		if ($enterpriseApplication == null) {
+			// Login to Elstr application
+			$result = $this->_auth($username, $password);
+		} else {
+			require_once ("EnterpriseApplications/" . $enterpriseApplication . ".php");
+			$enterpriseApp = new $enterpriseApplication($this->m_application);
+			$result = $enterpriseApp->authenticate($username, $password);
+		}
 
-        switch ($result->getCode()) {
-            case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND:
-                /**
-                * * do stuff for nonexistent identity *
-                */
-                $response['action'] = "failure_identity_not_found";
-                break;
 
-            case Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID:
-                /**
-                * * do stuff for invalid credential *
-                */
-                $response['action'] = "failure_credential_invalid";
-                break;
+		if (!$result->isValid()) {
+			// Authentication failed; print the reasons why
+			foreach ($result->getMessages() as $message) {
+				$response['message'][] = $message;
+			}
+		}
 
-            case Zend_Auth_Result::SUCCESS:
-                /**
-                * do stuff for successful authentication *
-                */
-            	if ($enterpriseApplication == null){
+		switch ($result->getCode()) {
+			case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND:
+				/**
+				 * * do stuff for nonexistent identity *
+				 */
+				$response['action'] = "failure_identity_not_found";
+				break;
 
-	                $username = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
-	
-	            	// Load the roles from LDAP or any given adapter
-	                $this->_loadRolesToSession($username, $password);
-	
-	                // Check if the current user has at least one role
-	                // If not - add it to the role_anonymous
-	                $this->m_application->getBootstrap()->getResource('acl')->currentUserHasRole($username);
-	                // Create Response
-	                $response['action'] = "success";
-	                $response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
-	                $response['username'] = $username;
-	                $response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
-	                $response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
-	            } else {
-		        	$response['action'] = "success";
-		        }
+			case Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID:
+				/**
+				 * * do stuff for invalid credential *
+				 */
+				$response['action'] = "failure_credential_invalid";
+				break;
 
-                // Check if the current user has at least one role
-                // If not - add it to the role_anonymous
-                $this->m_application->getBootstrap()->getResource('acl')->currentUserHasRole($username);
-                // Create Response
-                $response['action'] = "success";
-                $response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
-                $response['username'] = $username;
-                $response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
-                $response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
+			case Zend_Auth_Result::SUCCESS:
+				/**
+				 * do stuff for successful authentication *
+				 */
+				if ($enterpriseApplication == null) {
+
+					$username = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
+
+					// Load the roles from LDAP or any given adapter
+					$this->_loadRolesToSession($username, $password);
+
+					// Check if the current user has at least one role
+					// If not - add it to the role_anonymous
+					$this->m_application->getBootstrap()->getResource('acl')->currentUserHasRole($username);
+					// Create Response
+					$response['action'] = "success";
+					$response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
+					$response['username'] = $username;
+					$response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
+					$response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
+				} else {
+					$response['action'] = "success";
+				}
+
+				// Check if the current user has at least one role
+				// If not - add it to the role_anonymous
+				$this->m_application->getBootstrap()->getResource('acl')->currentUserHasRole($username);
+				// Create Response
+				$response['action'] = "success";
+				$response['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
+				$response['username'] = $username;
+				$response['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username, 'role_admin', false);
+				$response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
 				$response['enterpriseApplicationData'] = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
-                
-                break;
 
-            default:
-                /**
-                * * do stuff for other failure *
-                */
-                $response['action'] = "failure";
-                break;
-        }
+				break;
 
-        return $response;
-    }
+			default:
+				/**
+				 * * do stuff for other failure *
+				 */
+				$response['action'] = "failure";
+				break;
+		}
 
-    /**
-    * Service method to handle logout request
-    *
-    * @return Array Response messages
-    */
-    public function logout()
-    {
-        $response = array();
-		
+		return $response;
+	}
+
+	/**
+	 * Service method to handle logout request
+	 *
+	 * @return Array Response messages
+	 */
+	public function logout() {
+		$response = array();
+
 		// Get the Zend_Auth Obejct this session
-        $this->m_application->getBootstrap()->getResource('auth')->clearIdentity();
+		$this->m_application->getBootstrap()->getResource('auth')->clearIdentity();
 
 		// Do logout on all ELSTR_EnterpriseApplication_*
-        $sessionNamspaceArray = Zend_Session::getIterator();
-        for ($i = 0; $i < count($sessionNamspaceArray); $i++) {
-        	if(strpos(strtolower($sessionNamspaceArray[$i]),"elstr_enterpriseapplication_") === 0 ){
-        		$enterpriseApplication = $sessionNamspaceArray[$i];
-	        	require_once ("EnterpriseApplications/". $enterpriseApplication . ".php");
-	        	$enterpriseApp = new $enterpriseApplication($this->m_application);
-	        	$result = $enterpriseApp->logout();        		
-        	}
-        }
-        
-        $response['action'] = "success";
-        $response['username'] = "anonymous";
-        return $response;
-    }
+		$sessionNamspaceArray = Zend_Session::getIterator();
+		for ($i = 0; $i < count($sessionNamspaceArray); $i++) {
+			if (strpos(strtolower($sessionNamspaceArray[$i]), "elstr_enterpriseapplication_") === 0) {
+				$enterpriseApplication = $sessionNamspaceArray[$i];
+				require_once ("EnterpriseApplications/" . $enterpriseApplication . ".php");
+				$enterpriseApp = new $enterpriseApplication($this->m_application);
+				$result = $enterpriseApp->logout();
+			}
+		}
 
-    /**
-    * Service method to handle user creation
-    * Creates a new user
-    *
-    * @return
-    */
-    public function create($username, $password)
-    {
-        return NULL_EMPTY_STRING;
-    }
+		$response['action'] = "success";
+		$response['username'] = "anonymous";
+		return $response;
+	}
 
-    /**
-    * Auth implementation
-    *
-    * @return Boolean true and only true if user could be authenticated
-    * @param  $username String username
-    * @param  $password String password
-    */
-    private function _auth($username, $password)
-    {
-        $configAuth = $this->m_application->getOption("auth");
+	/**
+	 * Service method to handle user creation
+	 * Creates a new user
+	 *
+	 * @return
+	 */
+	public function create($username, $password) {
+		return NULL_EMPTY_STRING;
+	}
 
-    	if (isset($configAuth['includeAdapter'])) {
-    		include_once($configAuth['includeAdapter']);
-    	}
+	/**
+	 * Auth implementation
+	 *
+	 * @return Boolean true and only true if user could be authenticated
+	 * @param  $username String username
+	 * @param  $password String password
+	 */
+	private function _auth($username, $password) {
+		$configAuth = $this->m_application->getOption("auth");
 
-     	$options = array();
-    	if (isset($configAuth[$configAuth['method']])) {
-    		$options = $configAuth[$configAuth['method']];
-    	}
-        $adapter = new $configAuth['method']($options, $username, $password);
-        $result = $this->m_application->getBootstrap()->getResource('auth')->authenticate($adapter);
-        return $result;
-    }
+		if (isset($configAuth['includeAdapter'])) {
+			include_once($configAuth['includeAdapter']);
+		}
 
-    private function _loadRolesToSession($username, $password)
-    {
-        $acl = $this->m_application->getBootstrap()->getResource('acl');
-        $configAcl = $this->m_application->getOption("acl");
+		$options = array();
+		if (isset($configAuth[$configAuth['method']])) {
+			$options = $configAuth[$configAuth['method']];
+		}
+		$adapter = new $configAuth['method']($options, $username, $password);
+		$result = $this->m_application->getBootstrap()->getResource('auth')->authenticate($adapter);
+		return $result;
+	}
 
-    	// Remove any roles in the session for the user
-    	$acl->getSession()->$username->roles = array();
+	private function _loadRolesToSession($username, $password) {
+		$acl = $this->m_application->getBootstrap()->getResource('acl');
+		$configAcl = $this->m_application->getOption("acl");
 
-    	if (isset($configAcl['getRoles']['method'])) {
-    		$getRolesMethod = $configAcl['getRoles']['method'];
-    		switch($getRolesMethod){
-    			case "Zend_Ldap":
-    				$ldap = new Zend_Ldap($configAcl['getRoles'][$getRolesMethod]);
-    				$ldap->bind($username, $password);
-    				// $acctname = $ldap->getCanonicalAccountName('vm-user',Zend_Ldap::ACCTNAME_FORM_DN);
-    				// echo "$acctname\n";
-    				$dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
+		// Remove any roles in the session for the user
+		$acl->getSession()->$username->roles = array();
 
-    				$adapterOptions = array(
-    				    'group' => "", // the group the user must be member of; if NULL group-membership-check is disabled
-    				    'groupDn' => $ldap->getBaseDn(), // the parent DN under which the groups are located; defaults to the baseDn of the underlying Zend_Ldap
-    				    'groupScope' => Zend_Ldap::SEARCH_SCOPE_SUB, // the search scope when searching for groups
-    				    'groupAttr' => 'cn', // the attribute name for the RDN
-    				    'groupFilter' => '', // an additional group filter that's added to the search filter
-    				    'memberAttr' => 'member', // the group attribute in which to look for the user
-    				    'memberIsDn' => true // if TRUE then the account DN is used to check membership, otherwise the canonical account name is used
-    				    );
+		if (isset($configAcl['getRoles']['method'])) {
+			$getRolesMethod = $configAcl['getRoles']['method'];
+			switch ($getRolesMethod) {
+				case "Zend_Ldap":
+					$ldap = new Zend_Ldap();
+					$multiOptions = $configAcl['getRoles'][$getRolesMethod];
+					foreach ($multiOptions as $server => $options) {
+						//echo "Versuch zu binden un die Serveroptionen für '$server' zu verwenden\n";
+						$ldap->setOptions($options);
+						try {
+							$ldap->bind($username, $password);
+							$dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
+							//echo "Erfolgreich: $username authentifiziert\n";
+							break;
+						} catch (Zend_Ldap_Exception $zle) {
+							//echo '  ' . $zle->getMessage() . "\n";
+							if ($zle->getCode() === Zend_Ldap_Exception::LDAP_X_DOMAIN_MISMATCH) {
+								continue;
+							}
+						}
+					}
+					// Old structure with direct configuration with no server nodes
+					// $ldap = new Zend_Ldap($configAcl['getRoles'][$getRolesMethod]);
+					// $ldap->bind($username, $password);
+					// $dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
+					$adapterOptions = array(
+						'group' => "", // the group the user must be member of; if NULL group-membership-check is disabled
+						'groupDn' => $ldap->getBaseDn(), // the parent DN under which the groups are located; defaults to the baseDn of the underlying Zend_Ldap
+						'groupScope' => Zend_Ldap::SEARCH_SCOPE_SUB, // the search scope when searching for groups
+						'groupAttr' => 'cn', // the attribute name for the RDN
+						'groupFilter' => '', // an additional group filter that's added to the search filter
+						'memberAttr' => 'member', // the group attribute in which to look for the user
+						'memberIsDn' => true // if TRUE then the account DN is used to check membership, otherwise the canonical account name is used
+					);
 
-    				$definedRoles = $acl->getDefinedRoles();
+					$definedRoles = $acl->getDefinedRoles();
 
-    				for ($i = 0; $i < count($definedRoles); $i++) {
-    					$adapterOptions['group'] = $definedRoles[$i];
-    					$groupResult = $this->_checkGroupMembership($ldap, $username, $dn, $adapterOptions);
+					for ($i = 0; $i < count($definedRoles); $i++) {
+						$adapterOptions['group'] = $definedRoles[$i];
+						$groupResult = $this->_checkGroupMembership($ldap, $username, $dn, $adapterOptions);
 
-    					if ($groupResult === true) {
-    						// Add Role to the session
-    						$acl->getSession()->$username->roles[] = $definedRoles[$i];
-    					}
-    				}
+						if ($groupResult === true) {
+							// Add Role to the session
+							$acl->getSession()->$username->roles[] = $definedRoles[$i];
+						}
+					}
 
-    				break;
-    			default:
-    			;
-    		} // switch
-    	}
+					break;
+				default:
+					;
+			} // switch
+		}
+	}
 
+	/**
+	 * Checks the group membership of the bound user
+	 *
+	 * @param Zend_Ldap $ldap
+	 * @param string $canonicalName
+	 * @param string $dn
+	 * @param array $adapterOptions
+	 * @return string |true
+	 */
+	private function _checkGroupMembership($ldap, $canonicalName, $dn, array $adapterOptions) {
+		if ($adapterOptions['group'] === null) {
+			return true;
+		}
 
-    }
+		if ($adapterOptions['memberIsDn'] === false) {
+			$user = $canonicalName;
+		} else {
+			$user = $dn;
+		}
 
-    /**
-    * Checks the group membership of the bound user
-    *
-    * @param Zend_Ldap $ldap
-    * @param string $canonicalName
-    * @param string $dn
-    * @param array $adapterOptions
-    * @return string |true
-    */
-    private function _checkGroupMembership($ldap, $canonicalName, $dn, array $adapterOptions)
-    {
-        if ($adapterOptions['group'] === null) {
-            return true;
-        }
+		/**
+		 *
+		 * @see Zend_Ldap_Filter
+		 */
+		require_once 'Zend/Ldap/Filter.php';
+		$groupName = Zend_Ldap_Filter::equals($adapterOptions['groupAttr'], $adapterOptions['group']);
+		$membership = Zend_Ldap_Filter::equals($adapterOptions['memberAttr'], $user);
+		$group = Zend_Ldap_Filter::andFilter($groupName, $membership);
+		$groupFilter = $adapterOptions['groupFilter'];
+		if (!empty($groupFilter)) {
+			$group = $group->addAnd($groupFilter);
+		}
 
-        if ($adapterOptions['memberIsDn'] === false) {
-            $user = $canonicalName;
-        } else {
-            $user = $dn;
-        }
+		$result = $ldap->count($group, $adapterOptions['groupDn'], $adapterOptions['groupScope']);
 
-        /**
-        *
-        * @see Zend_Ldap_Filter
-        */
-        require_once 'Zend/Ldap/Filter.php';
-        $groupName = Zend_Ldap_Filter::equals($adapterOptions['groupAttr'], $adapterOptions['group']);
-        $membership = Zend_Ldap_Filter::equals($adapterOptions['memberAttr'], $user);
-        $group = Zend_Ldap_Filter::andFilter($groupName, $membership);
-        $groupFilter = $adapterOptions['groupFilter'];
-        if (!empty($groupFilter)) {
-            $group = $group->addAnd($groupFilter);
-        }
+		if ($result === 1) {
+			return true;
+		} else {
+			return 'Failed to verify group membership with ' . $group->toString();
+		}
+	}
 
-        $result = $ldap->count($group, $adapterOptions['groupDn'], $adapterOptions['groupScope']);
-
-        if ($result === 1) {
-            return true;
-        } else {
-            return 'Failed to verify group membership with ' . $group->toString();
-        }
-    }
 }
 
 ?>
