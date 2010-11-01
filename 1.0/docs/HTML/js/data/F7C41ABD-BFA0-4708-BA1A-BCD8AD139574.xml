@@ -1,3 +1,0 @@
-tocTab[tocTab.length] = new Array("2.1:1", "", "Zend_Acl", "EARoot/EA2/EA1/EA40.htm", "175.png", "33", "0", "", "Logical diagram0","{A62E5A0E-113C-4962-856F-6BADBD716531}");
-tocTab[tocTab.length] = new Array("2.1:2", "", "Zend_Acl_Resource", "EARoot/EA2/EA1/EA42.htm", "5.png", "140", "0", "", "Class0","{1120611F-0CB8-45a9-8C05-C4DB0A160A27}");
-tocTab[tocTab.length] = new Array("2.1:3", "", "Zend_Acl_Role", "EARoot/EA2/EA1/EA43.htm", "5.png", "139", "0", "", "Class0","{332D8E9F-CBC8-43c9-92B4-5A5874D2A158}");

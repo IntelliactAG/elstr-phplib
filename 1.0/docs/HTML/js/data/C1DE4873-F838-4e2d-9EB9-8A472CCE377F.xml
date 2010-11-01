@@ -1,9 +1,0 @@
-tocTab[tocTab.length] = new Array("2.2:1", "", "Zend_Auth", "EARoot/EA2/EA2/EA44.htm", "175.png", "34", "0", "", "Logical diagram0","{AFFB414F-FAE1-416c-B5E5-E4E54B5FF068}");
-tocTab[tocTab.length] = new Array("2.2:2", "", "Zend_Auth_Adapter_DbTable", "EARoot/EA2/EA2/EA46.htm", "5.png", "145", "0", "", "Class0","{25884810-657F-48de-9BAC-1BFB9201FDAD}");
-tocTab[tocTab.length] = new Array("2.2:3", "", "Zend_Auth_Adapter_Digest", "EARoot/EA2/EA2/EA47.htm", "5.png", "146", "0", "", "Class0","{EDF45FEB-D835-4307-B889-96896A4CA7E8}");
-tocTab[tocTab.length] = new Array("2.2:4", "", "Zend_Auth_Adapter_Exception", "EARoot/EA2/EA2/EA48.htm", "5.png", "147", "0", "", "Class0","{39A72F94-8624-4ab2-AFAF-648A6BE0B358}");
-tocTab[tocTab.length] = new Array("2.2:5", "", "Zend_Auth_Adapter_Http", "EARoot/EA2/EA2/EA49.htm", "5.png", "148", "0", "", "Class0","{9DDF0595-164E-441a-8EB0-92CCA60CB124}");
-tocTab[tocTab.length] = new Array("2.2:6", "", "Zend_Auth_Adapter_InfoCard", "EARoot/EA2/EA2/EA50.htm", "5.png", "149", "0", "", "Class0","{57BF623F-98CA-4b6c-A979-3BC0C5A246A0}");
-tocTab[tocTab.length] = new Array("2.2:7", "", "«interface» Zend_Auth_Adapter_Interface", "EARoot/EA2/EA2/EA51.htm", "8.png", "150", "0", "", "Interface0","{0B175352-1F42-422b-8D93-2A11AF1E632D}");
-tocTab[tocTab.length] = new Array("2.2:8", "", "Zend_Auth_Adapter_Ldap", "EARoot/EA2/EA2/EA52.htm", "5.png", "151", "0", "", "Class0","{0C42DB8B-A00B-4cb9-AF2B-15F3059482CE}");
-tocTab[tocTab.length] = new Array("2.2:9", "", "Zend_Auth_Adapter_OpenId", "EARoot/EA2/EA2/EA53.htm", "5.png", "152", "0", "", "Class0","{F0433CE9-D08A-4d4e-9C94-CFEC5CEAA8C8}");

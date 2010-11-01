@@ -1,8 +1,0 @@
-tocTab[tocTab.length] = new Array("2:1", "", "Zend", "EARoot/EA2/EA31.htm", "176.png", "32", "0", "", "Package diagram0","{FF6F850B-E77D-4baa-8F2E-00309674E801}");
-tocTab[tocTab.length] = new Array("2:2", "", "Zend_Acl", "EARoot/EA2/EA34.htm", "5.png", "137", "0", "", "Class0","{9A209050-74A7-4081-8E18-C5AC974E811A}");
-tocTab[tocTab.length] = new Array("2:3", "", "Zend_Application", "EARoot/EA2/EA35.htm", "5.png", "207", "0", "", "Class0","{E0ACB97D-B979-4e3a-AE7A-D7518DCE0EA7}");
-tocTab[tocTab.length] = new Array("2:4", "", "Zend_Application_Bootstrap_BootstrapAbstract", "EARoot/EA2/EA36.htm", "5.png", "208", "0", "", "Class0","{21606569-2598-4589-878B-03D039D7208A}");
-tocTab[tocTab.length] = new Array("2:5", "", "Zend_Auth", "EARoot/EA2/EA37.htm", "5.png", "143", "0", "", "Class0","{C5FB0D75-4AEF-42a4-B97E-D61F6E20A6BB}");
-tocTab[tocTab.length] = new Array("2:6", "", "Zend_Session", "EARoot/EA2/EA39.htm", "5.png", "176", "0", "", "Class0","{C4E918C3-49AF-4cab-9415-A02E6F3F0528}");
-tocTab[tocTab.length] = new Array("2.1", "1", "Zend_Acl", "EARoot/EA2/EA33.htm", "4.png", "", "", "{F7C41ABD-BFA0-4708-BA1A-BCD8AD139574}", "Package");
-tocTab[tocTab.length] = new Array("2.2", "1", "Zend_Auth", "EARoot/EA2/EA38.htm", "4.png", "", "", "{C1DE4873-F838-4e2d-9EB9-8A472CCE377F}", "Package");
