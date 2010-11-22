@@ -18,15 +18,15 @@
 	abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract
 	{
 		protected $m_enterpriseApplications;
-                protected $m_post;
+                protected $m_params;
 
-		function __construct($application, $post = null) {
+		function __construct($application, $params = null) {
 			parent::__construct($application);
 			$this->m_enterpriseApplications = array();
 			// Init
 			$this->_initEnterpriseApplications($this->m_application);
-                        if ($this->m_post != null){
-                            $this->m_post = $post;
+                        if ($this->m_params != null){
+                            $this->m_params = $params;
                         }
 		}
 
