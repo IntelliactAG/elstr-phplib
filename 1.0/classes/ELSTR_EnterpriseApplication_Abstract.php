@@ -22,10 +22,15 @@
 		protected $m_authAdapter;
 		protected $m_auth;
 
-		function __construct($application) {
+                /**
+                 *
+                 * @param <type> $application The ZEND application object
+                 * @param <type> $configPostFix If multiple applications of the same type exist, they can have a postfix for the different configurations
+                 */
+		function __construct($application, $configPostFix = '') {
 			$this->m_application = $application;
 			
-			$configEnterpriseApp = $this->m_application->getOption(get_class($this));
+			$configEnterpriseApp = $this->m_application->getOption(get_class($this).$configPostFix);
 			if (isset ($configEnterpriseApp['auth'])){
 				$configAuth = $configEnterpriseApp['auth'];
 		    	if (isset($configAuth['method'])) {
