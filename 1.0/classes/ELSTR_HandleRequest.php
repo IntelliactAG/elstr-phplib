@@ -27,8 +27,7 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
         $post = json_decode($content);
         $params = $post->params;
     }
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $content = file_get_contents('php://input');
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {        
         $params = $_GET;
     }
 
