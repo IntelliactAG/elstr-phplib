@@ -10,8 +10,8 @@ require_once ('ELSTR_Response.php');
 */
 
 abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abstract {
-    private $m_response;
-    private $m_paramArray;
+    protected $m_response;
+    protected $m_paramArray;
 
     function __construct($acl = null, $user = null)
     {
@@ -116,8 +116,12 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
     	if ($_SERVER['REQUEST_METHOD'] == "GET"){
         	$paramArray = $_GET;
         } elseif ($_SERVER['REQUEST_METHOD'] == "POST"){
-        	$paramArray = $_POST;
+                $content = file_get_contents('php://input');
+                $post = json_decode($content);
+                $paramArray['method'] = $post->method;
+                $paramArray = array_merge($paramArray, get_object_vars($post->params));
         }
+        //var_dump($paramArray);
         return $paramArray;
     }
     
