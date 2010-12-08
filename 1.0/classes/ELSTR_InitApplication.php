@@ -46,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['api'])) {
 
 $elstrHeader .= "</script>\n";
 
-$elstrHeader .= "<script type='text/javascript' src='/jslib/yui/$yuiVersion/build/yuiloader/yuiloader-min.js' ></script>\n";
-$elstrHeader .= "<script type='text/javascript' src='/".APPLICATION_VERSION."/".APPLICATION_NAME."/".APPLICATION_NAME.".js' ></script>";
+$elstrHeader .= "<script type='text/javascript' src='jslib/yui/$yuiVersion/build/yuiloader/yuiloader-min.js' ></script>\n";
+$elstrHeader .= "<script type='text/javascript' src='".APPLICATION_VERSION."/".APPLICATION_NAME."/".APPLICATION_NAME.".js' ></script>";
 
 $application->getBootstrap()->getResource("language")->cleanup();
 
