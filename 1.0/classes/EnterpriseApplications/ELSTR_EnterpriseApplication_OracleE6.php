@@ -16,9 +16,8 @@
          *
          * @return
          */
-        protected function _initServices() {
-        	$options = $this->m_application->getOption(get_class($this));
-        	$this->registerService(new ELSTR_Service_OracleE6($options));
+        protected function _initServices() {        	
+        	$this->registerService(new ELSTR_Service_OracleE6($this->m_options));
         }
 
     	/**
