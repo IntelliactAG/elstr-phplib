@@ -116,10 +116,14 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
     	if ($_SERVER['REQUEST_METHOD'] == "GET"){
         	$paramArray = $_GET;
         } elseif ($_SERVER['REQUEST_METHOD'] == "POST"){
+            if (count($_POST) == 0) {
                 $content = file_get_contents('php://input');
                 $post = json_decode($content);
                 $paramArray['method'] = $post->method;
                 $paramArray = array_merge($paramArray, get_object_vars($post->params));
+            } else {
+                $paramArray = $_POST;
+            }
         }
         //var_dump($paramArray);
         return $paramArray;
