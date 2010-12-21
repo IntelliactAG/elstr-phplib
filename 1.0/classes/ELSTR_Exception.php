@@ -94,7 +94,11 @@ class ELSTR_Exception extends Exception{
 			case 1010:
 				$response['error']['message'] = 'Default translation file does not exist:  ';
 				break;
-			case 1011:
+			case 1012:
+				$response['error']['message'] = 'Access to file denied:  ';
+                                $this->m_header = 'HTTP/1.0 401 Unauthorized';
+				break;
+                        case 1011:
 				$status = $this->m_details['status'];
 				$response['error']['message'] = 'Request failed with status '.$status;
 				if ($status == 401) {
