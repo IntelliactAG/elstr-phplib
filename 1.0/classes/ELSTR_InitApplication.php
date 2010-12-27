@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['api'])) {
 	$elstrHeader .= "};\n";
 	$getKeys = array_keys($_GET);
 	for ($i = 0; $i < count($getKeys); $i++) {
-		$elstrHeader .= "API.".$getKeys[$i]." = '" . $_GET[$getKeys[$i]] . "';\n";
+		$elstrHeader .= "API.".$getKeys[$i]." = '" . str_replace("'","\'",$_GET[$getKeys[$i]]) . "';\n";
     }	
 }
 
