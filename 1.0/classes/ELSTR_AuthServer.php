@@ -280,7 +280,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 	}
 
         public function checkGroupMembership($ldap, $canonicalName, $dn, array $adapterOptions) {
-             $this->_checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
+             return $this->_checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
         }
 }
 
