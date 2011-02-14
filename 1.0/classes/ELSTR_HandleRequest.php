@@ -33,7 +33,7 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
     }
 
     try {
-        $widgetserver = new $servername($application, $params);
+        $widgetserver = new $servername($application, $params);                
         $widgetserver->handle();
     } catch (ELSTR_Exception $e) {
         header($e->getHeader());
