@@ -72,7 +72,7 @@ abstract class ELSTR_EnterpriseApplication_Abstract {
                 if (isset($configAuth[$this->m_authAdapter])) {
                     $options = $configAuth[$this->m_authAdapter];
                 }
-                $adapter = new $this->m_authAdapter($options, $username, $password);
+                $adapter = new $this->m_authAdapter($options, $username, $password, $this);
                 $result = $this->m_auth->authenticate($adapter);
 
                 // Get special authentification attributes
