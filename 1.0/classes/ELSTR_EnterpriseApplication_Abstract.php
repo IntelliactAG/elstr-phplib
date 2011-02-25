@@ -32,7 +32,7 @@ abstract class ELSTR_EnterpriseApplication_Abstract {
     function __construct($application, $configPostFix = '') {
         $this->m_application = $application;
 
-        
+
         $configEnterpriseApp = $this->m_application->getOption(get_class($this) . $configPostFix);
         $this->m_options = $configEnterpriseApp;
         //var_dump($configEnterpriseApp);
@@ -72,7 +72,7 @@ abstract class ELSTR_EnterpriseApplication_Abstract {
                 if (isset($configAuth[$this->m_authAdapter])) {
                     $options = $configAuth[$this->m_authAdapter];
                 }
-                $adapter = new $this->m_authAdapter($options, $username, $password, $this);
+                $adapter = new $this->m_authAdapter($options, $username, $password);
                 $result = $this->m_auth->authenticate($adapter);
 
                 // Get special authentification attributes
@@ -122,7 +122,7 @@ abstract class ELSTR_EnterpriseApplication_Abstract {
      * Call a service method, if application needs authentication, the current user will be
      * authenticated, if credentials are present. If not an error response will be fired.
      * Authentication will be invoked, if auth if the enterprise application is configured in config.ini.
-     * 
+     *
      * @return
      * @param $service String Classname of the service definition (ELSTR_Service_Abstract)
      * @param $method String Name of the method to call
