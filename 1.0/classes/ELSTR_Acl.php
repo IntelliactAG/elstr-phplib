@@ -99,7 +99,13 @@ class ELSTR_Acl extends Zend_Acl {
             }
 
             $parentRoles = array_merge($configRoles, $sessionRoles);
-
+            
+            // Suggestion to implement a role "role_user" for all registered users (username != 'anonymous')
+            // if ($username != 'anonymous') {
+            //   // Stay backward compatibel:
+            //   if ($this->hasRole('role_user') {
+            //     $parentRoles[] = 'role_user';
+            //   }
             if (count($parentRoles) > 0) {
                 $this->addRole(new Zend_Acl_Role($username), $parentRoles);
             	//print_r($parentRoles);
