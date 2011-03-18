@@ -25,6 +25,7 @@ class ELSTR_ReportEngine {
 	var $m_autoColWidth;
 	var $m_file;
 	var $m_currentSheet;
+	var $m_activeSheetIndex;
 	
 
 	/**
@@ -82,6 +83,8 @@ class ELSTR_ReportEngine {
 
 		$this->m_reportElements = array();
 		$this->m_file = tempnam(sys_get_temp_dir(),"rep");
+
+		$this->m_activeSheetIndex = $this->m_objPHPExcel->getActiveSheetIndex();
 	}
 
 	
@@ -295,6 +298,8 @@ class ELSTR_ReportEngine {
 		{
 			$this->m_objPHPExcel->getActiveSheet()->setTitle($this->m_title);
 		}
+
+		$this->m_objPHPExcel->setActiveSheetIndex($this->m_activeSheetIndex);
 
 		return true;
 	}
