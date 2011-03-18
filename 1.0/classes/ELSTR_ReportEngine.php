@@ -87,7 +87,7 @@ class ELSTR_ReportEngine {
 		$this->m_activeSheetIndex = $this->m_objPHPExcel->getActiveSheetIndex();
 	}
 
-	
+
 	/**
 	 * Sets current sheet for adding elements
 	 *
@@ -99,7 +99,20 @@ class ELSTR_ReportEngine {
 		$this->m_currentSheet = $currentSheet;
 		return $this->getSheet($currentSheet);
 	}
-	
+
+
+	/**
+	 * Sets current sheet for adding elements
+	 *
+	 * @param integer $index
+	 * @return void
+	 */
+	public function setActiveSheet($index)
+	{
+		$this->m_objPHPExcel->setActiveSheetIndex($index);
+	}
+
+
 	/**
 	 * Get current sheet
 	 *
