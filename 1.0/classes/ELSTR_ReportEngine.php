@@ -1,13 +1,14 @@
 <?php
 
 $phpExcelOptions = $application->getOption("phpExcel");
-$openOfficeOptions = $application->getOption("openOffice");
 
 /** Include path **/
 set_include_path(APPLICATION_PATH . '/phplib/phpExcel/' . $phpExcelOptions["version"] . '/'.PATH_SEPARATOR.get_include_path());
+set_include_path(APPLICATION_PATH . '/phplib/phpExcel/' . $phpExcelOptions["version"] . '/PHPExcel/Writer/'.PATH_SEPARATOR.get_include_path());
 
 /** PHPExcel */
 include_once 'PHPExcel.php';
+include_once 'PDF.php';
 
 
 
@@ -26,24 +27,27 @@ class ELSTR_ReportEngine {
 	var $m_file;
 	var $m_currentSheet;
 	var $m_activeSheetIndex;
+        var $m_options;
 	
 
 	/**
 	 * Constructor
 	 *
 	 * @param string $fileName name of an Excel template
-	 * @param string $excelVersion version of excel template (only used to overwrite default)
+	 * @param string $options Options array for the Excel report
 	 * @return void
 	 */
-	function __construct($fileName = '',$excelVersion='')
+	function __construct($fileName = '', $options = array('excelVersion' => '', 'templatePath' => '/application/reportTemplates/'))
 	{
+                $this->m_options = $options;
+                $excelVersion = $options['excelVersion'];
 		if (strpos($fileName,'/')>0)
 		{
 			$fullFileName = $fileName;
 		}
 		else
 		{
-			$fullFileName = APPLICATION_PATH.'/application/reportTemplates/'.$fileName;
+			$fullFileName = APPLICATION_PATH.$options['templatePath'].$fileName;
 		}
 		$this->m_autoColWidth = false;
 		if ($excelVersion =='') {
@@ -562,8 +566,7 @@ class ELSTR_ReportEngine {
 	 * @return stream
 	 */
 	public function getPdfContentUsingOpenOffice($deleteTempFiles=true){
-		global $phpExcelOptions;
-		global $openOfficeOptions;
+		$openOfficeOptions = $this->m_options['OpenOffice'];
 
 		$fileContentPdf = false; //default, used on failure
 
@@ -579,7 +582,7 @@ class ELSTR_ReportEngine {
 			// convert using OpenOffice
 			$openOfficeExecutable = $openOfficeOptions["executable"]; // something like: soffice ($tempFileNameXls)"
 			$openOfficePdfMacro = $openOfficeOptions["pdfMacro"]; // something like: ///Standard.ConvertWordToPDF.ConvertWordToPDF
-			$openOfficeConvertCommand = $openOfficeExecutable .' -writer -invisible "macro:'. $openOfficePdfMacro .'('. $tempFileNameXls .')"';
+			$openOfficeConvertCommand = $openOfficeExecutable .' -writer -invisible "'. $openOfficePdfMacro .'('. $tempFileNameXls .')"';
 
 			//echo "openOfficeConvertCommand: $openOfficeConvertCommand, tempFileNamePdf: $tempFileNamePdf\n";
 			$output = shell_exec($openOfficeConvertCommand);
@@ -619,6 +622,11 @@ class ELSTR_ReportEngine {
 		fclose($fp);
 		return $file;
 	}
+
+        public function printToPDF($filename) {
+            $objWriter = new PHPExcel_Writer_PDF($this->m_objPHPExcel);
+            $objWriter->save($filename);
+        }
 }
 
 ?>
