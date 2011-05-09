@@ -153,6 +153,20 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 		return NULL_EMPTY_STRING;
 	}
 
+	
+	/**
+	 * Checks the group membership of the bound user
+	 *
+	 * @param Zend_Ldap $ldap
+	 * @param string $canonicalName
+	 * @param string $dn
+	 * @param array $adapterOptions
+	 * @return string |true
+	 */	
+	public function checkGroupMembership($ldap, $canonicalName, $dn, array $adapterOptions) {
+		return $this->_checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
+	}
+
 	/**
 	 * Auth implementation
 	 *
@@ -279,9 +293,6 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
 		}
 	}
 
-        public function checkGroupMembership($ldap, $canonicalName, $dn, array $adapterOptions) {
-             return $this->_checkGroupMembership($ldap, $canonicalName, $dn, $adapterOptions);
-        }
 }
 
 ?>
