@@ -32,7 +32,9 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
     */
     public function load($appName)
     {
-    	Zend_Session::writeClose(true);
+    	//Zend_Session::writeClose(true);
+        //No write close of session because of elstr 2.0
+        //load service is never called parallel
     	$configPublic = $this->m_application->getOption("public");
 
         if (isset($configPublic[$appName]) && isset($configPublic['shared'])) {
