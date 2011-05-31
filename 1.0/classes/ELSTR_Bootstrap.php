@@ -36,6 +36,10 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
      * Initialize the Session
      */
     protected function _initSession() {
+        $configSession = $this->getApplication()->getOption("session");
+        if(is_array($configSession)){
+            Zend_Session::setOptions($configSession);
+        }
         Zend_Session::start();
     }
 
