@@ -60,6 +60,8 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
                 break;
             case "zip": $contentType = 'application/zip';
                 break;
+            case "pvz": $contentType = 'application/pvz';
+                break;            
             case "doc": $contentType = 'application/force-download';
                 break;
             case "xls": $contentType = 'application/force-download';
