@@ -57,6 +57,17 @@
         <seg>Anmelden</seg>
       </tuv>
     </tu>
+    <tu tuid="Logout">
+      <tuv xml:lang="fr">
+        <seg>Déloguer</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>Logout</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Abmelden</seg>
+      </tuv>
+    </tu>
     <tu tuid="Password">
       <tuv xml:lang="fr">
         <seg>Mot de passe</seg>

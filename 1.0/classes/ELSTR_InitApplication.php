@@ -14,7 +14,7 @@ $application = new Zend_Application(
                 APPLICATION_PATH . '/application/configs/config.ini'
 );
 $application->bootstrap()
-        ->run();
+            ->run();
 
 // Get the frontend configruations
 $configPublic = $application->getOption("public");
@@ -37,13 +37,17 @@ if (strpos($yuiVersion, "2.") === 0) {
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/$yuiVersion/build/yuiloader/yuiloader-min.js' ></script>\n";
 } else {
     // Load the YUI3 used with elstr 2.0 on frontend
-    $elstrHeader .= "<script type='text/javascript' src='".$yuiSrcBase.$yuiVersion."/build/yui/yui-min.js' ></script>\n";
+    $elstrHeader .= "<script type='text/javascript' src='" . $yuiSrcBase . $yuiVersion . "/build/yui/yui-min.js' ></script>\n";
     require_once ('ELSTR_ApplicationDataServer.php');
+    if (isset($languageModulesToRegister)) {
+        $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
+        $translations = $application->getBootstrap()->getResource("language")->getTranslation();
+    }
     $applicationDataServer = new ELSTR_ApplicationDataServer($application);
     $elstrHeader .= "<script  type='text/javascript'>\n";
     $elstrHeader .= "ELSTR = {\n";
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",\n";
-    $elstrHeader .= "    modules : ".file_get_contents("jslib/elstr/".$configPublic['libs']['elstrVersion']."/build/modules.txt")."\n";
+    $elstrHeader .= "    modules : " . file_get_contents("jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . "\n";
     $elstrHeader .= "}\n";
     $elstrHeader .= "</script>\n";
 }
