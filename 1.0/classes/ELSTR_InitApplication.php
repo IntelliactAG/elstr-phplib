@@ -20,7 +20,6 @@ $application->bootstrap()
 $configPublic = $application->getOption("public");
 define('APPLICATION_VERSION', $configPublic['libs']['appVersion']);
 $yuiVersion = $configPublic['libs']['yuiVersion'];
-$yuiSrcBase = $configPublic['libs']['yuiSrcBase'];
 
 $elstrHeader = "";
 $elstrHeader .= "<script  type='text/javascript'>\n";
@@ -37,6 +36,7 @@ if (strpos($yuiVersion, "2.") === 0) {
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/$yuiVersion/build/yuiloader/yuiloader-min.js' ></script>\n";
 } else {
     // Load the YUI3 used with elstr 2.0 on frontend
+    $yuiSrcBase = $configPublic['libs']['yuiSrcBase'];
     $elstrHeader .= "<script type='text/javascript' src='" . $yuiSrcBase . $yuiVersion . "/build/yui/yui-min.js' ></script>\n";
     require_once ('ELSTR_ApplicationDataServer.php');
     if (isset($languageModulesToRegister)) {
