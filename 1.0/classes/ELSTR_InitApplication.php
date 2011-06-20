@@ -18,8 +18,14 @@ $application->bootstrap()
 
 // Get the frontend configruations
 $configPublic = $application->getOption("public");
+//Override default libs config values with application specific libs config values
+if(isset($configPublic[APPLICATION_NAME]['libs'])){
+    $configPublic['libs'] = array_merge($configPublic['libs'],$configPublic[APPLICATION_NAME]['libs']);
+}
+
 define('APPLICATION_VERSION', $configPublic['libs']['appVersion']);
 $yuiVersion = $configPublic['libs']['yuiVersion'];
+$elstrVersion = $configPublic['libs']['elstrVersion'];
 
 $elstrHeader = "";
 $elstrHeader .= "<script  type='text/javascript'>\n";
@@ -32,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['api'])) {
 $elstrHeader .= "</script>\n";
 
 // Load the correct YUI-Seedfile
-if (strpos($yuiVersion, "2.") === 0) {
+if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/$yuiVersion/build/yuiloader/yuiloader-min.js' ></script>\n";
 } else {
     // Load the YUI3 used with elstr 2.0 on frontend
