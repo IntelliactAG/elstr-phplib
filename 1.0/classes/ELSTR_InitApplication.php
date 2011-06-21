@@ -39,11 +39,10 @@ $elstrHeader .= "</script>\n";
 
 // Load the correct YUI-Seedfile
 if (strpos($elstrVersion, "1.") === 0) {
-    $elstrHeader .= "<script type='text/javascript' src='jslib/yui/$yuiVersion/build/yuiloader/yuiloader-min.js' ></script>\n";
+    $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yuiloader/yuiloader-min.js' ></script>\n";
 } else {
     // Load the YUI3 used with elstr 2.0 on frontend
-    $yuiSrcBase = $configPublic['libs']['yuiSrcBase'];
-    $elstrHeader .= "<script type='text/javascript' src='" . $yuiSrcBase . $yuiVersion . "/build/yui/yui-min.js' ></script>\n";
+    $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yui/yui-min.js' ></script>\n";
     require_once ('ELSTR_ApplicationDataServer.php');
     if (isset($languageModulesToRegister)) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
