@@ -39,7 +39,6 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         $configSession = $this->getApplication()->getOption("session");
         if(is_array($configSession)){
             Zend_Session::setOptions($configSession);
-            Zend_Session::rememberMe();
         }
         Zend_Session::start();
     }

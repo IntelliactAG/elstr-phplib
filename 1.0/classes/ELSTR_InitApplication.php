@@ -14,13 +14,13 @@ $application = new Zend_Application(
                 APPLICATION_PATH . '/application/configs/config.ini'
 );
 $application->bootstrap()
-            ->run();
+        ->run();
 
 // Get the frontend configruations
 $configPublic = $application->getOption("public");
 //Override default libs config values with application specific libs config values
-if(isset($configPublic[APPLICATION_NAME]['libs'])){
-    $configPublic['libs'] = array_merge($configPublic['libs'],$configPublic[APPLICATION_NAME]['libs']);
+if (isset($configPublic[APPLICATION_NAME]['libs'])) {
+    $configPublic['libs'] = array_merge($configPublic['libs'], $configPublic[APPLICATION_NAME]['libs']);
 }
 
 define('APPLICATION_VERSION', $configPublic['libs']['appVersion']);
