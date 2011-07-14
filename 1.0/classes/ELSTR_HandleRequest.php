@@ -6,7 +6,13 @@
  * Use the follwing URL to call services:
  * http://<myserver>/services/<classname of ELSTR_WidgetServer_Abstract implemetation>
  */
-$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+$protocol = "http://";
+if (isset($_SERVER["HTTPS"]) == true && $_SERVER["HTTPS"] == "on") {
+    $protocol = "https://";
+}
+
+$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $urlInfo = parse_url($url);
 $_PATHS = explode('/', substr($urlInfo['path'], 1));
 $key = array_search('services', $_PATHS);
