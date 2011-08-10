@@ -17,6 +17,7 @@ $urlInfo = parse_url($url);
 $_PATHS = explode('/', substr($urlInfo['path'], 1));
 $key = array_search('services', $_PATHS);
 
+
 if ($key > -1 && isset($_PATHS[$key + 1])) {
     // Read the service from the URL
     $servername = $_PATHS[$key + 1];
@@ -32,14 +33,17 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
         $content = file_get_contents('php://input');
         $post = json_decode($content);
         $params = $post->params;
-        
+        $logger = $application->getBootstrap()->getResource("logger");
+        if (isset($logger)) {
+            $logger->err('Request: ' . $content);
+        }
     }
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {        
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $params = $_GET;
     }
 
     try {
-        $widgetserver = new $servername($application, $params);                
+        $widgetserver = new $servername($application, $params);
         $widgetserver->handle();
     } catch (ELSTR_Exception $e) {
         header($e->getHeader());
