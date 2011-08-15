@@ -106,6 +106,8 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
                 break;
             case "avi": $contentType = 'video/x-msvideo';
                 break;
+            case "txt": $contentType = 'text/plain';
+                break;            
             default: $contentType = 'text/html';
                 break;
         }
