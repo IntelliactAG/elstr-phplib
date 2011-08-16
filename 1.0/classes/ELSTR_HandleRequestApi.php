@@ -25,7 +25,7 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
     $n = 0;
     $apiParameters = $_GET;
     for ($i = $key + 2; $i < count($_PATHS); $i++) {
-        $apiParameters["_" . $n] = $_PATHS[$i];
+        $apiParameters["_" . $n] = urldecode($_PATHS[$i]);
         $n += 1;
     }
 
