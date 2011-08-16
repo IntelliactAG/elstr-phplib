@@ -16,41 +16,28 @@ $urlInfo = parse_url($url);
 $_PATHS = explode('/', substr($urlInfo['path'], 1));
 $key = array_search('api', $_PATHS);
 
-
 if ($key > -1 && isset($_PATHS[$key + 1])) {
+    $isApiRequest = true;
+
     // Read the api name from the URL
-    $apiname = $_PATHS[$key + 1];
-
-    $parameterString = "?api";
-
+    $apiName = $_PATHS[$key + 1];
+    
     $n = 0;
+    $apiParameters = $_GET;
     for ($i = $key + 2; $i < count($_PATHS); $i++) {
-        $parameterString .= "&";
-        $parameterString .= "_" . $n;
-        $parameterString .= "=";
-        $parameterString .= $_PATHS[$i];
+        $apiParameters["_" . $n] = $_PATHS[$i];
         $n += 1;
     }
 
-    $getKeys = array_keys($_GET);
-    for ($i = 0; $i < count($getKeys); $i++) {
-        $parameterString .= "&";
-        $parameterString .= $getKeys[$i];
-        $parameterString .= "=";
-        $parameterString .= $_GET[$getKeys[$i]];
-    }
-
-    $redirectUrl = $protocol . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
+    $apiBase = $protocol . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
     for ($i = 0; $i < $key; $i++) {
-        $redirectUrl .= "/";
-        $redirectUrl .= $_PATHS[$i];
+        $apiBase .= "/";
+        $apiBase .= $_PATHS[$i];
     }
-    $redirectUrl .= "/";
-    $redirectUrl .= $apiname . ".php";
-    $redirectUrl .= $parameterString;
+    $apiBase .= "/";
 
-    if (file_exists("../" . $apiname . ".php")) {
-        header('Location: ' . $redirectUrl);
+    if (file_exists($apiName . ".php")) {
+        include_once($apiName . ".php");
     } else {
         // Application name does not exist
         header("HTTP/1.0 404 Not Found");

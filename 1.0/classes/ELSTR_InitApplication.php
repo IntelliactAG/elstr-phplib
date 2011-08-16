@@ -31,11 +31,23 @@ $elstrHeader = "";
 $elstrHeader .= "<script  type='text/javascript'>\n";
 $elstrHeader .= "LIBS = " . Zend_Json::encode($configPublic['libs']) . ";\n";
 $elstrHeader .= "LIBS.appName = '" . APPLICATION_NAME . "';\n";
-if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['api'])) {
-    $elstrHeader .= "API = " . Zend_Json::encode($_GET) . ";\n";
-}
-
+//if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['api'])) {
+//    $elstrHeader .= "API = " . Zend_Json::encode($_GET) . ";\n";
+//}
 $elstrHeader .= "</script>\n";
+
+
+if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($isApiRequest) && $isApiRequest == true) {
+    $elstrHeader .= "<script  type='text/javascript'>\n";
+    $elstrHeader .= "API = " . Zend_Json::encode($apiParameters) . ";\n";
+    $elstrHeader .= "</script>\n";
+    $elstrHeader .= "<base href='" . $apiBase . "' />";
+} elseif ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['api'])) {
+    // Needed for backward compatibility where an api call was redirected
+    $elstrHeader .= "<script  type='text/javascript'>\n";
+    $elstrHeader .= "API = " . Zend_Json::encode($_GET) . ";\n";
+    $elstrHeader .= "</script>\n";
+}
 
 // Load the correct YUI-Seedfile
 if (strpos($elstrVersion, "1.") === 0) {
@@ -52,7 +64,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "<script  type='text/javascript'>\n";
     $elstrHeader .= "ELSTR = {\n";
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",\n";
-    $elstrHeader .= "    modules : " . file_get_contents("jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . "\n";
+    $elstrHeader .= "    modules : " . file_get_contents(APPLICATION_PATH . "/public/jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . "\n";
     $elstrHeader .= "}\n";
     $elstrHeader .= "</script>\n";
 }
