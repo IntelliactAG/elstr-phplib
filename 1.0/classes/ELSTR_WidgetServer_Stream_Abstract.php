@@ -102,6 +102,8 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
                 break;
             case "mpe": $contentType = 'video/mpeg';
                 break;
+            case "mp4": $contentType = 'video/mp4';
+                break;            
             case "mov": $contentType = 'video/quicktime';
                 break;
             case "avi": $contentType = 'video/x-msvideo';
