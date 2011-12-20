@@ -17,8 +17,7 @@
          * @return
          */
         protected function _initServices() {
-        	$options = $this->m_application->getOption(get_class($this));
-        	$this->registerService(new ELSTR_Service_Alfresco($options));
+        	$this->registerService(new ELSTR_Service_Alfresco($this->m_options));
         }
         
         public function call($service, $method){

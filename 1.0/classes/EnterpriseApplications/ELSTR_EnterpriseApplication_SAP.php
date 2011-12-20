@@ -16,9 +16,8 @@
          *
          * @return
          */
-        protected function _initServices() {
-        	$options = $this->m_application->getOption(get_class($this));
-        	$this->registerService(new ELSTR_Service_SAP_SOAP($options));
+        protected function _initServices() {        	
+        	$this->registerService(new ELSTR_Service_SAP_SOAP($this->m_options));
         }
         
         public function call($service, $method){
