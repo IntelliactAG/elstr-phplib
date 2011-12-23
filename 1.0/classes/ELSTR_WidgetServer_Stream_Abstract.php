@@ -68,6 +68,8 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
                 break;
             case "ppt": $contentType = 'application/force-download';
                 break;
+            case "mpp": $contentType = 'application/force-download';
+                break;            
             case "xml": $contentType = 'application/xml';
                 break;
             case "exe": $contentType = 'application/force-download';
