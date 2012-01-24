@@ -143,11 +143,16 @@ class ELSTR_Language {
             if (!isset($this->m_session->language)) {
                 $locale = new Zend_Locale();
                 Zend_Registry::set('Zend_Locale', $locale);
-                if (!$this->m_translation->isAvailable($locale->getLanguage())) {
-                    // when user requests a not available language reroute to default
+                if (isset($this->m_options['forcedefault']) && $this->m_options['forcedefault'] == true) {
                     $this->m_session->language = $this->m_options['default'];
-                } else {
-                    $this->m_session->language = $locale->getLanguage();
+                } else
+                {
+                    if (!$this->m_translation->isAvailable($locale->getLanguage())) {
+                        // when user reque$this->m_session->language = $this->m_options['default'];sts a not available language reroute to default
+                        $this->m_session->language = $this->m_options['default'];
+                    } else {
+                        $this->m_session->language = $locale->getLanguage();
+                    }
                 }
             }
             $this->m_translation->setLocale($this->m_session->language);
