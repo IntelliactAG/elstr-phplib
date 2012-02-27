@@ -116,7 +116,17 @@ class ELSTR_ReportEngine {
 		$this->m_objPHPExcel->setActiveSheetIndex($index);
 	}
 
-
+	/**
+	 * Sets current sheet for adding elements
+	 *
+	 * @param integer $index
+	 * @return void
+	 */
+	public function removeSheetByIndex($index)
+	{
+		$this->m_objPHPExcel->removeSheetByIndex($index);
+	}
+        
 	/**
 	 * Get current sheet
 	 *
