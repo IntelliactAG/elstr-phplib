@@ -124,7 +124,9 @@ class ELSTR_ReportEngine {
 	 */
 	public function removeSheetByIndex($index)
 	{
-		$this->m_objPHPExcel->removeSheetByIndex($index);
+            $sheet['index'] = $index;
+	    $sheet['type'] = 'removeSheet';
+            $this->m_reportElements[] = $sheet;
 	}
         
 	/**
@@ -309,7 +311,7 @@ class ELSTR_ReportEngine {
 	public function createReport(){
 
 		foreach ($this->m_reportElements as $reportElement) {
-			$type = $reportElement['type'];
+                        $type = $reportElement['type'];
 			if ($type == 'table')
 			{
 				$this->setTableData($reportElement);
@@ -319,6 +321,9 @@ class ELSTR_ReportEngine {
 			{
 				$this->setCellData($reportElement);
 			}
+                        else if ($type == 'removeSheet') {
+                            $this->m_objPHPExcel->removeSheetByIndex($reportElement['index']);
+                        }
 		}
 
 		if (isset($this->m_title))
