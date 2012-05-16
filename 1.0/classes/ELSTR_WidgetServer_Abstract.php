@@ -38,9 +38,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
         }
         // Init
         $this->_initEnterpriseApplications($this->m_application);
-        if ($this->m_params != null) {
-            $this->m_params = $params;
-        }
+        $this->m_params = $params;
     }
 
     /**

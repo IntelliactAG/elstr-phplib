@@ -6,7 +6,6 @@
  * Use the follwing URL to call services:
  * http://<myserver>/services/<classname of ELSTR_WidgetServer_Abstract implemetation>
  */
-
 $protocol = "http://";
 if (isset($_SERVER["HTTPS"]) == true && $_SERVER["HTTPS"] == "on") {
     $protocol = "https://";
@@ -30,16 +29,15 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
 
     $params = null;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $content = file_get_contents('php://input');
-        $post = json_decode($content);
-        $params = $post->params;
-        $logger = $application->getBootstrap()->getResource("logger");
-        if (isset($logger)) {
-            $logger->err('Request: ' . $content);
-        }
+        $params = file_get_contents('php://input');
     }
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $params = $_GET;
+    }
+
+    $logger = $application->getBootstrap()->getResource("logger");
+    if (isset($logger)) {
+        $logger->debug('Request: ' . $params);
     }
 
     try {
@@ -48,6 +46,9 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
     } catch (ELSTR_Exception $e) {
         header($e->getHeader());
         print json_encode($e->getResponse());
+        if (isset($logger)) {
+            $logger->err('ELSTR_Exception: ' . $e);
+        }
     }
 } else {
     // No service was defined
