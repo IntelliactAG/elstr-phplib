@@ -21,11 +21,9 @@ class ELSTR_Service_SAP_SOAP extends ELSTR_Service_Abstract {
     function __construct($options) {
         parent::__construct();
 
-        $this->m_wsdl = $options['wsdl'];
-        
+        $this->m_wsdl = $options['wsdl'];       
         $this->m_login = $options['login'];
         $this->m_password = $options['password'];
-
     }
 
     /**
