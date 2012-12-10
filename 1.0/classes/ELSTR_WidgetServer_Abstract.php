@@ -114,7 +114,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      * @param $name String
      * @return ELSTR_Service_Abstract
      */
-    protected function getEnterpriseApplication($name) {
+    public function getEnterpriseApplication($name) {
         if (array_key_exists($name, $this->m_enterpriseApplications)) {
             return $this->m_enterpriseApplications[$name];
         }
