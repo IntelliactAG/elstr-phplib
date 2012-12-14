@@ -34,6 +34,12 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $params = $_GET;
     }
+    if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
+        if(isset($_REQUEST['header-content-type'])){
+            header("Content-Type: ".$_REQUEST['header-content-type']);
+        }
+        return;
+    }
 
     $logger = $application->getBootstrap()->getResource("logger");
     if (isset($logger)) {
