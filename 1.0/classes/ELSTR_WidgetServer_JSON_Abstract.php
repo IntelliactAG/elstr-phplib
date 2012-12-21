@@ -17,10 +17,11 @@ abstract class ELSTR_WidgetServer_JSON_Abstract extends ELSTR_WidgetServer_Abstr
     function __construct($application, $params = null) {
         parent::__construct($application, $params);
 
-        if ($this->m_params != null) {
+		if ($this->m_params != null && is_string($this->m_params)) {
             $post = json_decode($this->m_params);
             $this->m_params = $post->params;
         }
+
 
         $this->m_server = new ELSTR_JsonServer();
         $this->m_server->setClass($this);
