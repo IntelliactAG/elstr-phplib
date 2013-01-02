@@ -30,8 +30,7 @@ class ELSTR_Auth_Adapter_Beanstalk implements Zend_Auth_Adapter_Interface
 	/**
 	 * Performs an authentication attempt
 	 *
-	 * @throws Zend_Auth_Adapter_Exception If authentication cannot
-	 *                                     be performed
+	 * @throws Zend_Auth_Adapter_Exception If authentication cannot be performed                              
 	 * @return Zend_Auth_Result
 	 */
 	public function authenticate()
@@ -56,7 +55,7 @@ class ELSTR_Auth_Adapter_Beanstalk implements Zend_Auth_Adapter_Interface
 			$messages[0] = 'A password is required';
 			return new Zend_Auth_Result($code, '', $messages);
 		}
-		if (!$options['url']) {
+		if (!isset($options['url'])) {
 			// A password is required
 			throw new ELSTR_Exception('Missing url for Beanstalk authentication',0,null,$this);
 		}
@@ -81,8 +80,7 @@ class ELSTR_Auth_Adapter_Beanstalk implements Zend_Auth_Adapter_Interface
 			$messages[] = "$username authentication successful";
 			return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $username, $messages);
 		}
-		catch (ELSTR_Exception $e)
-		{
+		catch (ELSTR_Exception $e) {
 			// Invalid loing
 			$code = Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID;
 			$messages[0] = 'Invalid credentials';
