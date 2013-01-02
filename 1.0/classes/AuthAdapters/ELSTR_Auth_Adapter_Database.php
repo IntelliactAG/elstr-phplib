@@ -11,7 +11,19 @@
 
 /** Example configuration
  *
- *
+ * auth.method											= ELSTR_Auth_Adapter_Database
+ * auth.includeAdapter									= "AuthAdapters/ELSTR_Auth_Adapter_Database.php"
+ * auth.ELSTR_Auth_Adapter_Database.adapter           	= Pdo_Mysql
+ * auth.ELSTR_Auth_Adapter_Database.character 			= utf8
+ * auth.ELSTR_Auth_Adapter_Database.table				= users
+ * auth.ELSTR_Auth_Adapter_Database.col_username		= user_id
+ * auth.ELSTR_Auth_Adapter_Database.col_password		= passwort
+ * auth.ELSTR_Auth_Adapter_Database.hash_method			= crypt
+ * auth.ELSTR_Auth_Adapter_Database.crypt.salt			= salt
+ * auth.ELSTR_Auth_Adapter_Database.Pdo_Mysql.host     	= 127.0.0.1
+ * auth.ELSTR_Auth_Adapter_Database.Pdo_Mysql.dbname   	= mydb
+ * auth.ELSTR_Auth_Adapter_Database.Pdo_Mysql.username 	= mydbuser
+ * auth.ELSTR_Auth_Adapter_Database.Pdo_Mysql.password 	= mydbpassword 
  *
  */
 
