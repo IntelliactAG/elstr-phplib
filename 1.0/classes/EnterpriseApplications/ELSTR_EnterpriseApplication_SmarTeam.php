@@ -18,7 +18,7 @@
          */
         protected function _initServices() {
         	$options = $this->m_application->getOption(get_class($this));
-        	$this->registerService(new ELSTR_Service_SAP_SOAP($options));
+        	$this->registerService(new ELSTR_Service_SmarTeam_SOAP($options));
         }
         
         public function call($service, $method){
