@@ -36,14 +36,13 @@ class ELSTR_Service_SmarTeam_SOAP extends ELSTR_Service_Abstract {
     * @return object
     */
 	protected function request($method, $parameters) {
-	
 		// Set the soap options
 		$soapOptions = array('login' => $this->m_login,
 							'password' => $this->m_password,
 							'soap_version' => SOAP_1_1);
 		
 		// Create the soap client
-		$client = new Zend_Soap_Client($this->m_wsdl,$soapOptions);
+		$client = new Zend_Soap_Client($this->m_wsdl, $soapOptions);
 		$soapResponse = call_user_func_array(array($client, $method), array($parameters));
 	
 		return $soapResponse;
