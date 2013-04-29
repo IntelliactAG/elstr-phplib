@@ -42,8 +42,13 @@ class ELSTR_Service_SmarTeam_SOAP extends ELSTR_Service_Abstract {
 							'soap_version' => SOAP_1_1);
 		
 		// Create the soap client
-		$client = new Zend_Soap_Client($this->m_wsdl, $soapOptions);
-		$soapResponse = call_user_func_array(array($client, $method), array($parameters));
+		$client = new Zend_Soap_Client($this->m_wsdl, $soapOptions);		
+        try {
+            $soapResponse = call_user_func_array(array($client, $method), array($parameters));            
+        } catch (Exception $e) {
+            var_dump($e);
+            //print_r($client->getLastRequest());
+        }
 	
 		return $soapResponse;
 			
