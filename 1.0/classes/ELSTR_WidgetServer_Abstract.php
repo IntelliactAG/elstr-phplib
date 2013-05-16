@@ -68,11 +68,19 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
                 // check on method ressource is defined
                 if ($acl->isAllowed($username, $this->_getMethod() . '@' . get_class($this))) {
                     $this->_handle();
+                    $logger = $this->m_application->getBootstrap()->getResource("logger");
+                    if (isset($logger)) {
+                        $logger->debug('Response: ' . print_r($this->_getResponse(), true));
+                    }
                 } else {
                     throw new ELSTR_Exception(null, 1007, null, $this);
                 }
             } else {
                 $this->_handle();
+                $logger = $this->m_application->getBootstrap()->getResource("logger");
+                if (isset($logger)) {
+                    $logger->debug('Response: ' . print_r($this->_getResponse(), true));
+                }
             }
         } else {
             throw new ELSTR_Exception(null, 1006, null, $this);
@@ -80,7 +88,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
     }
 
     /**
-     * This method must returen the name of the method to be called by handle
+     * This method must return the name of the method to be called by handle
      * Depending on the request method (GET, POST) and the argument specification
      * this might be implemented in different flavours.
      *
@@ -96,6 +104,13 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      * @return void
      */
     abstract protected function _handle();
+
+    /**
+     * Get response object
+     *
+     * @return
+     */
+    abstract protected function _getResponse();
 
     /**
      * Register an application for this WidgetServer

@@ -49,6 +49,13 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
         $this->m_server->handle($this->m_params);
     }
 
+    /**
+     * Get response object
+     */
+    protected function _getResponse() {
+        return $this->m_server->getResponse();
+    }
+
 }
 
 ?>

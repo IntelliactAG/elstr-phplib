@@ -45,6 +45,13 @@ abstract class ELSTR_WidgetServer_JSON_Abstract extends ELSTR_WidgetServer_Abstr
         $this->m_server->handle();
     }
 
+    /**
+     * Get response object
+     */
+    protected function _getResponse() {
+        return $this->m_server->getResponse();
+    }
+
 }
 
 ?>
