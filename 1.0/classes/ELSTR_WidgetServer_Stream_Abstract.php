@@ -156,6 +156,13 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
         $this->m_response->appendBody($this->$callmethod($this->m_paramArray));
         $this->m_response->sendResponse();
     }
+
+    /**
+     * Get response object
+     */
+    protected function _getResponse() {
+        return $this->m_server->getResponse();
+    }    
 }
 
 ?>
