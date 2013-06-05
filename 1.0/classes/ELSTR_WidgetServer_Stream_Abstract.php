@@ -161,7 +161,7 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
      * Get response object
      */
     protected function _getResponse() {
-        // no implementation
+        return "ELSTR_WidgetServer_Stream_Abstract not implemented";
     }    
 }
 
