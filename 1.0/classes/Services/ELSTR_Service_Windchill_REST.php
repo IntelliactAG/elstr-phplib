@@ -39,12 +39,12 @@ class ELSTR_Service_Windchill_REST extends ELSTR_Service_Abstract {
 			$restClient->setUri($this->m_url.$serviceUrl);
 			$restClient->setConfig(array(
 			'maxredirects' => $this->m_maxredirects,
-			'timeout'      => $this->m_timeout));
-			
+			'timeout'      => $this->m_timeout));			
 			$restClient->setParameterGet($parameters);
-			return $restClient->request();
-	}
-	
+            $request = $restClient->request();
+            //print_r($restClient->getLastRequest());
+			return $request;
+	}	
 
 }
 ?>
