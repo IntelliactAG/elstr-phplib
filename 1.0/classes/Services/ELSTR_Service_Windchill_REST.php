@@ -41,9 +41,9 @@ class ELSTR_Service_Windchill_REST extends ELSTR_Service_Abstract {
 			'maxredirects' => $this->m_maxredirects,
 			'timeout'      => $this->m_timeout));			
 			$restClient->setParameterGet($parameters);
-            $request = $restClient->request();
+            $response = $restClient->request();
             //print_r($restClient->getLastRequest());
-			return $request;
+			return $response;
 	}	
 
 }
