@@ -43,7 +43,7 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
 
     $logger = $application->getBootstrap()->getResource("logger");
     if (isset($logger)) {
-        $logger->debug('Request: ' . $params);
+        $logger->debug('Request: ' . print_r($params,true));
     }
 
     try {
