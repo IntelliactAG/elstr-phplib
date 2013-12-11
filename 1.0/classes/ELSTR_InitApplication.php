@@ -14,7 +14,7 @@ $application = new Zend_Application(
                 APPLICATION_PATH . '/application/configs/config.ini'
 );
 $application->bootstrap()
-        ->run();
+            ->run();
 
 // Get the frontend configruations
 $configPublic = $application->getOption("public");
@@ -36,7 +36,6 @@ $elstrHeader .= "LIBS.appName = '" . APPLICATION_NAME . "';\n";
 //}
 $elstrHeader .= "</script>\n";
 
-
 if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($isApiRequest) && $isApiRequest == true) {
     $elstrHeader .= "<script  type='text/javascript'>\n";
     $elstrHeader .= "API = " . Zend_Json::encode($apiParameters) . ";\n";
@@ -52,14 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($isApiRequest) && $isApiRequest
 // Load the correct YUI-Seedfile
 if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yuiloader/yuiloader-min.js' ></script>\n";
+    $application->getBootstrap()->getResource("language")->cleanup();
 } else {
     // Load the YUI3 used with elstr 2.0 on frontend
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yui/yui-min.js' ></script>\n";
-    require_once ('ELSTR_ApplicationDataServer.php');
+    $application->getBootstrap()->getResource("language")->cleanup();
     if (isset($languageModulesToRegister)) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
         $translations = $application->getBootstrap()->getResource("language")->getTranslation();
     }
+    require_once ('ELSTR_ApplicationDataServer.php');
     $applicationDataServer = new ELSTR_ApplicationDataServer($application);
     $elstrHeader .= "<script  type='text/javascript'>\n";
     $elstrHeader .= "ELSTR = {\n";
@@ -71,5 +72,4 @@ if (strpos($elstrVersion, "1.") === 0) {
 
 $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 
-$application->getBootstrap()->getResource("language")->cleanup();
 ?>
