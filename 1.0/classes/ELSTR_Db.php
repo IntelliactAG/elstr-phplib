@@ -80,6 +80,18 @@ class ELSTR_Db {
 		return $this->m_dbAdapter->select();
 	}
 
+    public function beginTransaction(){
+        return $this->m_dbAdapter->beginTransaction();
+    }
+
+    public function commit(){
+        return $this->m_dbAdapter->commit();
+    }
+
+    public function rollBack(){
+        return $this->m_dbAdapter->rollBack();
+    }
+
     private function _getInsertDefaultData($table, $userId)
     {
         $creaUser = $userId;
