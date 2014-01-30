@@ -53,7 +53,7 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
      * Get response object
      */
     protected function _getResponse() {
-        return $this->m_server->getResponse();
+        //TODO: Return something. The method "$this->m_server->getResponse()" does not exist
     }
 
 }

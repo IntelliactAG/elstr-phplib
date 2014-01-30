@@ -43,7 +43,7 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
 
     $logger = $application->getBootstrap()->getResource("logger");
     if (isset($logger)) {
-        $logger->debug('Request: ' . print_r($params,true));
+        $logger->debug('ELSTR_HandleRequest params: ' . print_r($params,true));
     }
 
     try {
@@ -53,7 +53,7 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
         header($e->getHeader());
         print json_encode($e->getResponse());
         if (isset($logger)) {
-            $logger->err('ELSTR_Exception: ' . $e);
+            $logger->err('ELSTR_Exception: ' . print_r($e, true));
         }
     }
 } else {
