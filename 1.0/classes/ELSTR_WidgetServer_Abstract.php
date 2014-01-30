@@ -70,7 +70,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
                     $this->_handle();
                     $logger = $this->m_application->getBootstrap()->getResource("logger");
                     if (isset($logger)) {
-                        $logger->debug('Response: ' . print_r($this->_getResponse(), true));
+                        $logger->debug('ELSTR_WidgetServer_Abstract response: ' . print_r($this->_getResponse(), true));
                     }
                 } else {
                     throw new ELSTR_Exception(null, 1007, null, $this);
@@ -79,7 +79,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
                 $this->_handle();
                 $logger = $this->m_application->getBootstrap()->getResource("logger");
                 if (isset($logger)) {
-                    $logger->debug('Response: ' . print_r($this->_getResponse(), true));
+                    $logger->debug('ELSTR_WidgetServer_Abstract response: ' . print_r($this->_getResponse(), true));
                 }
             }
         } else {

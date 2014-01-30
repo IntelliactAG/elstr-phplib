@@ -13,6 +13,7 @@ require_once ('ELSTR_SoapServer.php');
 abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstract {
 
     protected $m_server;
+    protected $m_response;
     protected $m_isWsdlRequest = false;
 
     function __construct($application, $params = null) {
@@ -46,14 +47,16 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
      * @return void
      */
     protected function _handle() {        
-        $this->m_server->handle($this->m_params);
+        $this->m_response = $this->m_server->handle($this->m_params);
+        return $this->m_response;
     }
 
     /**
      * Get response object
      */
     protected function _getResponse() {
-        //TODO: Return something. The method "$this->m_server->getResponse()" does not exist
+        //The method "$this->m_server->getResponse()" does not exist
+        return $this->m_response;
     }
 
 }
