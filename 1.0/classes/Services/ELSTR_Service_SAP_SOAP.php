@@ -85,7 +85,8 @@ class ELSTR_Service_SAP_SOAP extends ELSTR_Service_Abstract {
         try {
             $soapResponse = call_user_func_array(array($client, $method), $soapParameters);
         } catch (Exception $e) {
-            var_dump($e);
+            throw new ELSTR_Exception($e->getMessage(),0,null,$this,array('errorObject' => $e, 'lastRequest' => $client->getLastRequest()));
+            //var_dump($e);
             //print_r($client->getLastRequest());
         }
 
