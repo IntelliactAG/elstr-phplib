@@ -253,7 +253,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
             $statusText = trim(substr($statusCodeStr, $iBlank));
 
             $contentLength = $this->getHttpValue($header, "Content-Length:");
-            //echo "$contentLength1:$contentLength<BR>";// for debugging only
+            // echo "contentLength:$contentLength<BR>";// for debugging only
             $contentLength = (int) $contentLength;
 
             //saveDataToFile("contentLength: $contentLength",IctConnectorDebug1.txt");
@@ -281,6 +281,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
             $numReceived = 0;
         	$dataBlock ="";
             while (!feof($fp)) {
+                set_time_limit ( 30 ); // repeatedly reset the time limit so that we can load an infinite amout of data as long as data is coming but run into a timeout if the sender dies
                 $numMissing = $contentLength - $numReceived;
 
                 if ($numMissing <= 0) {
