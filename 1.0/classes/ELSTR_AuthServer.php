@@ -199,7 +199,10 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
         $configAcl = $this->m_application->getOption("acl");
 
         // Remove any roles in the session for the user
-        $acl->getSession()->$username->roles = array();
+        if($acl->getSession()->$username){
+            $acl->getSession()->$username->roles = array();
+        }
+        
 
         if (isset($configAcl['getRoles']['method'])) {
             $getRolesMethod = $configAcl['getRoles']['method'];
