@@ -46,8 +46,9 @@ class ELSTR_Service_SmarTeam_SOAP extends ELSTR_Service_Abstract {
         try {
             $soapResponse = call_user_func_array(array($client, $method), array($parameters));            
         } catch (Exception $e) {
-            var_dump($e);
+            //var_dump($e);
             //print_r($client->getLastRequest());
+            throw new ELSTR_Exception('ELSTR_Service_SmarTeam_SOAP '.$e->getMessage(),0,null,$this,array('errorObject' => $e, 'lastRequest' => $client->getLastRequest()));
         }
 	
 		return $soapResponse;
