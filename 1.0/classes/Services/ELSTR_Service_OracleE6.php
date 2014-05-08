@@ -27,6 +27,10 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         $this->gTimeoutSeconds = $options['timeoutSeconds'];
         $this->gThisServer = $options['thisServer'];
         $this->gFileCache = array();
+        $this->throwExceptions = false;
+        if(isset($options['throwExceptions'])){
+            $this->throwExceptions = $options['throwExceptions'];
+        }
     }
 
     /**
@@ -70,8 +74,12 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         // wait for complete status
         do {
             if (time() > $timeLimit) {
-                echo "<H3>Request timed out</H3>Connector is responding but request $this->gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
-                exit();
+                if($this->throwExceptions){                    
+                    throw new ELSTR_Exception('ELSTR_Service_OracleE6 Request timed out. Connector is responding but request $this->gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds seconds time limit',0,null,null,$this);
+                } else {
+                    echo "<H3>Request timed out</H3>Connector is responding but request $this->gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
+                    exit();                    
+                }
             }
             $answer = $this->getConnectorStatus($this->gRequestID);
             $status = $answer[0];
@@ -112,10 +120,13 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      */
     private function getHttpResponse($request) {
 
-        $fp = stream_socket_client($this->gRemoteAddress, $errno, $errstr, 4);
+        $fp = @stream_socket_client($this->gRemoteAddress, $errno, $errstr, 4);
         if (!$fp) {
-            return array(-7000,
-                     "Could not connect to Intelliact Connector");
+            if($this->throwExceptions){                    
+                throw new ELSTR_Exception('ELSTR_Service_OracleE6 Could not connect to Intelliact Connector',-7000,null,null,$this);
+            } else {
+                return array(-7000,"Could not connect to Intelliact Connector");                  
+            }
         }
 
         $contentHeader = $this->getHttpResponseHeader($request, $fp);
@@ -174,8 +185,12 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * @return
      */
     private function showFatalError($title, $message, $errorCode) {
-        echo "<H3>$title</H3>$message<br><br>Error code: $errorCode<br>";
-        exit();
+        if($this->throwExceptions){                    
+            throw new ELSTR_Exception('ELSTR_Service_OracleE6 '.$title.' '.$message,$errorCode,null,null,$this);
+        } else {
+            echo "<H3>$title</H3>$message<br><br>Error code: $errorCode<br>";
+            exit();               
+        }
     }
 
     /**
@@ -196,12 +211,18 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
 
         if ($numWrittten === false) {
             fclose($fp);
-            return array(-7001,
-                     "Could not talk to Intelliact Connector");
+            if($this->throwExceptions){                    
+                throw new ELSTR_Exception('ELSTR_Service_OracleE6 Could not talk to Intelliact Connector',-7001,null,null,$this);
+            } else {
+                return array(-7001,"Could not talk to Intelliact Connector");           
+            }            
         } else if ($numWrittten < $numChar) {
             fclose($fp);
-            return array(-7002,
-                     "Could not talk to Intelliact Connector");
+            if($this->throwExceptions){                    
+                throw new ELSTR_Exception('ELSTR_Service_OracleE6 Could not talk to Intelliact Connector',-7001,null,null,$this);
+            } else {
+                return array(-7001,"Could not talk to Intelliact Connector");           
+            }
         }
         fflush($fp);
 
@@ -237,8 +258,11 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
                 $header = $header.$dataNew;
                 if (strlen($header) == 4) {
                     if ($header != "HTTP") {
-                        return array(-7004,
-                                 "Received Invalid response header $header");
+                        if($this->throwExceptions){                    
+                            throw new ELSTR_Exception('ELSTR_Service_OracleE6 Received Invalid response header $header',-7004,null,null,$this);
+                        } else {
+                            return array(-7004,"Received Invalid response header $header");
+                        }                        
                     }
                 }
                 $iLoop = $iLoop + 1;
@@ -273,8 +297,12 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
      * @return
      */
     private function getHttpResponseContent($statusCode, $contentLength, $fp) {
-        if (!$fp) { // this should never occur
-            return array(-7000, "Could not access content from Intelliact Connector");
+        if (!$fp) { // this should never occur            
+            if($this->throwExceptions){                    
+                throw new ELSTR_Exception('ELSTR_Service_OracleE6 Could not access content from Intelliact Connector',-7000,null,null,$this);
+            } else {
+                return array(-7000, "Could not access content from Intelliact Connector");
+            }
         }
         $data = "";
         if (!feof($fp)) {
@@ -303,8 +331,12 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         	$data .= $dataBlock;
 
             if ($numReceived != $contentLength) {
-                echo "Received invalid number of content bytes: $numReceived($contentLength),data:$data<BR>";
-                return array(-7005,"Received invalid number of content bytes: $numReceived($contentLength)");
+                if($this->throwExceptions){                    
+                    throw new ELSTR_Exception('ELSTR_Service_OracleE6 Received invalid number of content bytes: $numReceived($contentLength)',-7005,null,null,$this);
+                } else {
+                    echo "Received invalid number of content bytes: $numReceived($contentLength),data:$data<BR>";
+                    return array(-7005,"Received invalid number of content bytes: $numReceived($contentLength)");
+                }                
             }
         }
 
