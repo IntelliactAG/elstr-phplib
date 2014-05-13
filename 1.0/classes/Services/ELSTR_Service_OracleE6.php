@@ -75,7 +75,7 @@ class ELSTR_Service_OracleE6 extends ELSTR_Service_Abstract {
         do {
             if (time() > $timeLimit) {
                 if($this->throwExceptions){                    
-                    throw new ELSTR_Exception('ELSTR_Service_OracleE6 Request timed out. Connector is responding but request $this->gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds seconds time limit',0,null,null,$this);
+                    throw new ELSTR_Exception('ELSTR_Service_OracleE6 Request timed out. Connector is responding but request '.$this->gRequestID.' in session '.$this->gSessionID.' was not handled within '.$this->gTimeoutSeconds.' seconds time limit',0,null,null,$this);
                 } else {
                     echo "<H3>Request timed out</H3>Connector is responding but request $this->gRequestID in session $this->gSessionID was not handled within $this->gTimeoutSeconds  seconds time limit, last status:$lastStatus.<BR>Check PLM Server!<br>";
                     exit();                    
