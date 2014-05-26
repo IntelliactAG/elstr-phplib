@@ -151,6 +151,9 @@ class ELSTR_Acl extends Zend_Acl {
 		}
 		$sessionRoles[] = $role;
 		$this->getSession()->$username->roles = $sessionRoles;
+		// Using remove role and add role for update the roles
+		$this->removeRole($username);
+		$this->addRole(new Zend_Acl_Role($username), $sessionRoles);
 	}
 
 	/**
