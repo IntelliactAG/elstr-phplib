@@ -15,20 +15,34 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
     protected $m_server;
     protected $m_response;
     protected $m_isWsdlRequest = false;
+    protected $m_soapOptions;
 
     function __construct($application, $params = null) {
         parent::__construct($application, $params);
-
-        //echo $params;
+        // set options
+        $soapOptions = $application->getOption('ELSTR_WidgetServer_SOAP');
+        if (isset($soapOptions)) {
+            $this->m_soapOptions = $soapOptions;
+        }        
         
         if (isset($_GET['wsdl'])) {
             $this->m_isWsdlRequest = true;
-            $this->m_server = new Zend_Soap_AutoDiscover();
+            if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_Strategy'])){
+                // Example: ELSTR_WidgetServer_SOAP.Zend_Soap_AutoDiscover_Strategy = Zend_Soap_Wsdl_Strategy_ArrayOfTypeComplex
+                $this->m_server = new Zend_Soap_AutoDiscover($this->m_soapOptions['Zend_Soap_AutoDiscover_Strategy']);
+            } else {
+                $this->m_server = new Zend_Soap_AutoDiscover();
+            }
             $this->m_server->setClass(get_class($this));
         } else {
             //TODO: Add possibilities of $options loaded from configurations file
             $options = null;
-            $this->m_server = new ELSTR_SoapServer($_SERVER['SCRIPT_URI']."?wsdl",$options);
+
+            $protocol = "http://";
+            if (isset($_SERVER["HTTPS"]) == true && $_SERVER["HTTPS"] == "on") {
+                $protocol = "https://";
+            }
+            $this->m_server = new ELSTR_SoapServer($protocol.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']."/".$_SERVER['REQUEST_URI']."?wsdl",$options);
             $this->m_server->setClass(get_class($this));
             $this->m_server->setObject($this);
         }
