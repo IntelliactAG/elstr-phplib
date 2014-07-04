@@ -33,6 +33,13 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
             } else {
                 $this->m_server = new Zend_Soap_AutoDiscover();
             }
+
+            if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_OperationBodyStyle'])){
+                // http://framework.zend.com/issues/browse/ZF-6349
+                 $this->m_server->setOperationBodyStyle(array('use' => 'literal'));
+                //$this->m_server->setOperationBodyStyle($this->m_soapOptions['Zend_Soap_AutoDiscover_OperationBodyStyle']);
+            }
+
             $this->m_server->setClass(get_class($this));
         } else {
             //TODO: Add possibilities of $options loaded from configurations file
