@@ -108,7 +108,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
                 // Core values are not allowed to update
                 $result['newValue'] = $result[0]['access'];
                 $result['action'] = "failure";
-                throw new ELSTR_Exception(null,1009,null,$this);
+                throw new ELSTR_Exception('1009',1009,null,$this);
             } else {                
                 if ($accessRight == "inherit"){
                 	// Delete existing 
@@ -162,7 +162,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
                 if ($resultResources[$i]['isCore']) {
                     // Core values are not allowed to update
                     $result['action'] = "failure";
-                    throw new ELSTR_Exception(null,1009,null,$this);
+                    throw new ELSTR_Exception('1009',1009,null,$this);
                 } else {
                     $resourceId = $resultResources[$i]['_id'];
                     $db->delete("RoleResource", "RoleResource._id2 = '$resourceId'");
@@ -214,7 +214,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
                 if ($resultRoles[$i]['isCore']) {
                     // Core values are not allowed to update
                     $result['action'] = "failure";
-                    throw new ELSTR_Exception(null,1009,null,$this);
+                    throw new ELSTR_Exception('1009',1009,null,$this);
                 } else {
                     $roleId = $resultRoles[$i]['_id'];
                     $db->delete("RoleResource", "RoleResource._id1 = '$roleId'");

@@ -158,7 +158,7 @@ class ELSTR_Language {
             $this->m_translation->setLocale($this->m_session->language);
             return true;
         } else {
-        	throw new ELSTR_Exception(null,1010,null,$this);
+        	throw new ELSTR_Exception('1010',1010,null,$this);
             return false;
         }
     }
