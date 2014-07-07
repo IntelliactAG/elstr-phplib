@@ -53,7 +53,8 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
         header($e->getHeader());
         print json_encode($e->getResponse());
         if (isset($logger)) {
-            $logger->err('ELSTR_Exception: ' . print_r($e, true));
+            $logger->err('ELSTR_Exception: ' . print_r($e->getMessage(), true));
+            $logger->debug('ELSTR_Exception: ' . print_r($e, true));
         }
     }
 } else {
