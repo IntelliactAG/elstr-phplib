@@ -50,5 +50,18 @@ class ELSTR_Service_Harvest extends ELSTR_Service_Abstract {
 			return $restClient->request('POST');
 	}
 
+	protected function postRAW($serviceUrl, $xml) {
+			$sessionAuthHarvest = new Zend_Session_Namespace('Auth_Harvest');
+			$restClient = new ELSTR_HttpClient();
+	
+			$restClient->setUri($this->m_url.$serviceUrl);
+			$restClient->setHeaders('Accept', 'application/xml');
+			$authenticationString = "Basic (". base64_encode($this->m_username.':'.$this->m_password) .")";
+			$restClient->setHeaders('Authorization', $authenticationString);
+			
+			$restClient->setRawData($xml, 'text/xml');
+			return $restClient->request('POST');
+	}
+
 }
 ?>
