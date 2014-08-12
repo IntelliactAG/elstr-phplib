@@ -112,6 +112,20 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      */
     abstract protected function _getResponse();
 
+
+    /**
+     * Get a registered servcie
+     *
+     * @param  string $name
+     * @return object ELSTR_EnterpriseApplication_Abstract
+     */
+    protected function getEnterpriseApplication($name) {
+        if (array_key_exists($name, $this->m_enterpriseApplications)) {
+            return $this->m_enterpriseApplications[$name];
+        }
+        return false;
+    }
+
     /**
      * Register an application for this WidgetServer
      * Carefull: yet, only one instance of an application can be registered at a time
@@ -121,19 +135,6 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      */
     protected function registerEnterpriseApplication($enterpriseApplication) {
         $this->m_enterpriseApplications[get_class($enterpriseApplication)] = $enterpriseApplication;
-    }
-
-    /**
-     * Get a registered servcie
-     *
-     * @param  string $name
-     * @return object ELSTR_Service_Abstract
-     */
-    public function getEnterpriseApplication($name) {
-        if (array_key_exists($name, $this->m_enterpriseApplications)) {
-            return $this->m_enterpriseApplications[$name];
-        }
-        return false;
     }
 
     /**
