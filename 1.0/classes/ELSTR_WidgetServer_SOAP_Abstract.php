@@ -36,8 +36,13 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
 
             if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_OperationBodyStyle'])){
                 // http://framework.zend.com/issues/browse/ZF-6349
-                 $this->m_server->setOperationBodyStyle(array('use' => 'literal'));
-                //$this->m_server->setOperationBodyStyle($this->m_soapOptions['Zend_Soap_AutoDiscover_OperationBodyStyle']);
+                // $this->m_server->setOperationBodyStyle(array('use' => 'literal'));
+                $this->m_server->setOperationBodyStyle($this->m_soapOptions['Zend_Soap_AutoDiscover_OperationBodyStyle']);
+            }
+
+            if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_BindingStyle'])){                
+                 // $this->m_server->setBindingStyle(array('style' => 'document'));
+                 $this->m_server->setBindingStyle($this->m_soapOptions['Zend_Soap_AutoDiscover_BindingStyle']);
             }
 
             $this->m_server->setClass(get_class($this));
