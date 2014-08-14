@@ -54,8 +54,9 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
             if (isset($_SERVER["HTTPS"]) == true && $_SERVER["HTTPS"] == "on") {
                 $protocol = "https://";
             }
-            $this->m_server = new ELSTR_SoapServer($protocol.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']."/".$_SERVER['REQUEST_URI']."?wsdl",$options);
+            $this->m_server = new ELSTR_SoapServer($protocol.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI']."?wsdl",$options);
             $this->m_server->setClass(get_class($this));
+
             $this->m_server->setObject($this);
         }
     }
