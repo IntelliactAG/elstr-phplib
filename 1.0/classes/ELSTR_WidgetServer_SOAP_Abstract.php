@@ -27,11 +27,16 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
         
         if (isset($_GET['wsdl'])) {
             $this->m_isWsdlRequest = true;
+
             if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_Strategy'])){
                 // Example: ELSTR_WidgetServer_SOAP.Zend_Soap_AutoDiscover_Strategy = Zend_Soap_Wsdl_Strategy_ArrayOfTypeComplex
                 $this->m_server = new Zend_Soap_AutoDiscover($this->m_soapOptions['Zend_Soap_AutoDiscover_Strategy']);
             } else {
                 $this->m_server = new Zend_Soap_AutoDiscover();
+            }
+
+            if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_Namespace'])){
+                $this->m_server->setUri($this->m_soapOptions['Zend_Soap_AutoDiscover_Namespace']);
             }
 
             if(isset($this->m_soapOptions['Zend_Soap_AutoDiscover_OperationBodyStyle'])){
