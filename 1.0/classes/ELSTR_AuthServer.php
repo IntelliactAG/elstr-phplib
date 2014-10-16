@@ -209,6 +209,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
             switch ($getRolesMethod) {
                 case "Zend_Ldap":
                     $ldap = new Zend_Ldap();
+                    $definedRoles = $acl->getDefinedRoles();
                     $multiOptions = $configAcl['getRoles'][$getRolesMethod];
                     foreach ($multiOptions as $server => $options) {
                         //echo "Versuch zu binden un die Serveroptionen für '$server' zu verwenden\n";
@@ -217,37 +218,37 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                             $ldap->bind($username, $password);
                             $dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
                             //echo "Erfolgreich: $username authentifiziert\n";
+
+                            // Old structure with direct configuration with no server nodes
+                            // $ldap = new Zend_Ldap($configAcl['getRoles'][$getRolesMethod]);
+                            // $ldap->bind($username, $password);
+                            // $dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
+                            $adapterOptions = array(
+                                'group' => "", // the group the user must be member of; if NULL group-membership-check is disabled
+                                'groupDn' => $ldap->getBaseDn(), // the parent DN under which the groups are located; defaults to the baseDn of the underlying Zend_Ldap
+                                'groupScope' => Zend_Ldap::SEARCH_SCOPE_SUB, // the search scope when searching for groups
+                                'groupAttr' => 'cn', // the attribute name for the RDN
+                                'groupFilter' => '', // an additional group filter that's added to the search filter
+                                'memberAttr' => 'member', // the group attribute in which to look for the user
+                                'memberIsDn' => true // if TRUE then the account DN is used to check membership, otherwise the canonical account name is used
+                            );                            
+
+                            for ($i = 0; $i < count($definedRoles); $i++) {
+                                $adapterOptions['group'] = $definedRoles[$i];
+                                $groupResult = $this->_checkGroupMembership($ldap, $username, $dn, $adapterOptions);
+
+                                if ($groupResult === true) {
+                                    // Add Role to the session
+                                    $acl->getSession()->$username->roles[] = $definedRoles[$i];
+                                }
+                            }
+
                             break;
                         } catch (Zend_Ldap_Exception $zle) {
                             //echo '  ' . $zle->getMessage() . "\n";
                             if ($zle->getCode() === Zend_Ldap_Exception::LDAP_X_DOMAIN_MISMATCH) {
                                 continue;
                             }
-                        }
-                    }
-                    // Old structure with direct configuration with no server nodes
-                    // $ldap = new Zend_Ldap($configAcl['getRoles'][$getRolesMethod]);
-                    // $ldap->bind($username, $password);
-                    // $dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
-                    $adapterOptions = array(
-                        'group' => "", // the group the user must be member of; if NULL group-membership-check is disabled
-                        'groupDn' => $ldap->getBaseDn(), // the parent DN under which the groups are located; defaults to the baseDn of the underlying Zend_Ldap
-                        'groupScope' => Zend_Ldap::SEARCH_SCOPE_SUB, // the search scope when searching for groups
-                        'groupAttr' => 'cn', // the attribute name for the RDN
-                        'groupFilter' => '', // an additional group filter that's added to the search filter
-                        'memberAttr' => 'member', // the group attribute in which to look for the user
-                        'memberIsDn' => true // if TRUE then the account DN is used to check membership, otherwise the canonical account name is used
-                    );
-
-                    $definedRoles = $acl->getDefinedRoles();
-
-                    for ($i = 0; $i < count($definedRoles); $i++) {
-                        $adapterOptions['group'] = $definedRoles[$i];
-                        $groupResult = $this->_checkGroupMembership($ldap, $username, $dn, $adapterOptions);
-
-                        if ($groupResult === true) {
-                            // Add Role to the session
-                            $acl->getSession()->$username->roles[] = $definedRoles[$i];
                         }
                     }
 
