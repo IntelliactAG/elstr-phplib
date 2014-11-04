@@ -69,6 +69,22 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "    modules : " . file_get_contents(APPLICATION_PATH . "/public/jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . PHP_EOL;
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
+} elseif(strpos($elstrVersion, "3.") === 0) {
+    // Load future things
+
+    $application->getBootstrap()->getResource("language")->cleanup();
+    if (isset($languageModulesToRegister)) {
+        $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
+        $translations = $application->getBootstrap()->getResource("language")->getTranslation();
+    }
+    require_once ('ELSTR_ApplicationDataServer.php');
+    $applicationDataServer = new ELSTR_ApplicationDataServer($application);
+    $elstrHeader .= "<script  type='text/javascript'>".PHP_EOL;
+    $elstrHeader .= "ELSTR = {".PHP_EOL;
+    $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;
+    
+    $elstrHeader .= "}".PHP_EOL;
+    $elstrHeader .= "</script>".PHP_EOL;
 }
 
 $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
