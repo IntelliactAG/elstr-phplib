@@ -52,6 +52,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $yuiVersion = $configPublic['libs']['yuiVersion'];
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yuiloader/yuiloader-min.js' ></script>".PHP_EOL;
     $application->getBootstrap()->getResource("language")->cleanup();
+    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 } elseif(strpos($elstrVersion, "2.") === 0) {
     // Load the YUI3 used with elstr 2.0 on frontend
     $yuiVersion = $configPublic['libs']['yuiVersion'];
@@ -69,6 +70,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "    modules : " . file_get_contents(APPLICATION_PATH . "/public/jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . PHP_EOL;
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
+    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 } elseif(strpos($elstrVersion, "3.") === 0) {
     // Load future things
 
@@ -85,8 +87,8 @@ if (strpos($elstrVersion, "1.") === 0) {
     
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
+    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/dist/main.js' ></script>";
 }
 
-$elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 
 ?>
