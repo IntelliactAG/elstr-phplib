@@ -37,7 +37,7 @@ class ELSTR_LogServer  extends ELSTR_Server_Abstract {
         Zend_Session::writeClose(true);
         $logger = $this->m_application->getBootstrap()->getResource("logger");
         if (isset($logger)) {
-            $logger->$level(strtoupper($level). ': ' . print_r($arguments, true));    
+            $logger->$level(strtoupper($level). ' [CLIENT] : ' . print_r($arguments, true));    
         }
 
         return null;
