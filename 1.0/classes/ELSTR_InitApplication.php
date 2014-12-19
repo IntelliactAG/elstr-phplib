@@ -66,14 +66,14 @@ if (strpos($elstrVersion, "1.") === 0) {
     $applicationDataServer = new ELSTR_ApplicationDataServer($application);
     $elstrHeader .= "<script  type='text/javascript'>".PHP_EOL;
     $elstrHeader .= "ELSTR = {".PHP_EOL;
+    $elstrHeader .= "    applicationEnv : \"" . APPLICATION_ENV . "\",".PHP_EOL;    
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;
     $elstrHeader .= "    modules : " . file_get_contents(APPLICATION_PATH . "/public/jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . PHP_EOL;
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 } elseif(strpos($elstrVersion, "3.") === 0) {
-    // Load future things
-
+    // Load the Elstr 3.0 frontend
     $application->getBootstrap()->getResource("language")->cleanup();
     if (isset($languageModulesToRegister)) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
@@ -83,8 +83,8 @@ if (strpos($elstrVersion, "1.") === 0) {
     $applicationDataServer = new ELSTR_ApplicationDataServer($application);
     $elstrHeader .= "<script  type='text/javascript'>".PHP_EOL;
     $elstrHeader .= "ELSTR = {".PHP_EOL;
-    $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;
-    
+    $elstrHeader .= "    applicationEnv : \"" . APPLICATION_ENV . "\",".PHP_EOL; 
+    $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;    
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/dist/main.js' ></script>";
