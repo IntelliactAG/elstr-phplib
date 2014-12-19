@@ -9,6 +9,9 @@
       <tuv xml:lang="en">
         <seg>A password is required</seg>
       </tuv>
+      <tuv xml:lang="es">
+        <seg>Se necesita una contraseña</seg>
+      </tuv>
       <tuv xml:lang="de">
         <seg>Ein Passwort muss eingegeben werden</seg>
       </tuv>
@@ -19,6 +22,9 @@
       </tuv>
       <tuv xml:lang="en">
         <seg>A username is required</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Se necesita un nombre de usuario</seg>
       </tuv>
       <tuv xml:lang="de">
         <seg>Ein Benutzername muss eingegeben werden</seg>
@@ -31,8 +37,25 @@
       <tuv xml:lang="en">
         <seg>Cancel</seg>
       </tuv>
+      <tuv xml:lang="es">
+        <seg>Cancelar</seg>
+      </tuv>
       <tuv xml:lang="de">
         <seg>Abbrechen</seg>
+      </tuv>
+    </tu>
+    <tu tuid="Checking credentials ...">
+      <tuv xml:lang="fr">
+        <seg>Vérification de qualifications ...</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>Checking credentials ...</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Comprobación de credenciales ...</seg>
+      </tuv>
+      <tuv xml:lang="de">
+        <seg>Benutzername und Passwort werden geprüft ...</seg>
       </tuv>
     </tu>
     <tu tuid="Invalid credentials">
@@ -41,6 +64,9 @@
       </tuv>
       <tuv xml:lang="en">
         <seg>Invalid credentials</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nombre de usuario o contraseña incorrectos</seg>
       </tuv>
       <tuv xml:lang="de">
         <seg>Ungültiger Benutzername oder falsches Passwort</seg>
@@ -53,6 +79,9 @@
       <tuv xml:lang="en">
         <seg>Login</seg>
       </tuv>
+      <tuv xml:lang="es">
+        <seg>Abrir sesión</seg>
+      </tuv>
       <tuv xml:lang="de">
         <seg>Anmelden</seg>
       </tuv>
@@ -63,6 +92,9 @@
       </tuv>
       <tuv xml:lang="en">
         <seg>Logout</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Cerrar sesión</seg>
       </tuv>
       <tuv xml:lang="de">
         <seg>Abmelden</seg>
@@ -75,6 +107,9 @@
       <tuv xml:lang="en">
         <seg>Password</seg>
       </tuv>
+      <tuv xml:lang="es">
+        <seg>Contraseña</seg>
+      </tuv>
       <tuv xml:lang="de">
         <seg>Passwort</seg>
       </tuv>
@@ -85,6 +120,9 @@
       </tuv>
       <tuv xml:lang="en">
         <seg>Username</seg>
+      </tuv>
+      <tuv xml:lang="es">
+        <seg>Nombre de usuario</seg>
       </tuv>
       <tuv xml:lang="de">
         <seg>Benutzername</seg>
