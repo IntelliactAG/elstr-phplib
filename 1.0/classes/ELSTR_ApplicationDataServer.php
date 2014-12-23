@@ -56,9 +56,10 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
 		$result['user']['enterpriseApplicationData'] = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
     	
     	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getLocale();
-    	$result['language']['modules'] = $this->m_application->getBootstrap()->getResource("language")->getRegisteredModules();
+    	$result['language']['default'] = $this->m_application->getBootstrap()->getResource("language")->defaultLanguage();
+        $result['language']['modules'] = $this->m_application->getBootstrap()->getResource("language")->getRegisteredModules();
+        $result['language']['dataOptions'] = $this->m_application->getBootstrap()->getResource("language")->dataOptions();
     	$result['language']['translations'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getMessages();
-    	
 
     	return $result;
     }

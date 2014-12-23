@@ -97,6 +97,28 @@ class ELSTR_Language {
         return $this->m_translation;
     }
 
+    /**
+    * Get the default language
+    *
+    * @return objecct
+    */
+    public function defaultLanguage() {
+        return $this->m_options['default'];
+    }
+
+    /**
+    * Get the language options for the data
+    *
+    * @return objecct
+    */
+    public function dataOptions() {
+        $dataOptions = new stdClass();
+        if(isset($this->m_options['data'])){
+            $dataOptions = $this->m_options['data'];
+        }
+        return $dataOptions;
+    }
+
     private function _addModules($modules, $type)
     {
         for ($i = 0; $i < count($modules); $i++) {
