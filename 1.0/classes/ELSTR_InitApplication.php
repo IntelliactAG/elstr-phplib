@@ -87,7 +87,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;    
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
-    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/dist/main.js' ></script>";
+    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/dist/" . APPLICATION_NAME . ".main.js' ></script>";
 }
 
 
