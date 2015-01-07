@@ -50,7 +50,9 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
         $widgetserver = new $servername($application, $params);
         $widgetserver->handle();
     } catch (ELSTR_Exception $e) {
+
         header($e->getHeader());
+        header('Content-type: application/json');
         print json_encode($e->getResponse());
         if (isset($logger)) {
             $logger->err('ELSTR_Exception: ' . print_r($e->getMessage(), true));
