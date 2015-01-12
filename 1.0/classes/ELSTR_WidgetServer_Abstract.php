@@ -48,6 +48,18 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      */
     abstract protected function _initEnterpriseApplications();
 
+    private function _logResponse() {
+        $logger = $this->m_application->getBootstrap()->getResource("logger");
+        if (isset($logger)) {
+            $byteLimit = 100000;
+            $response = print_r($this->_getResponse(), true);
+            if (strlen($response)>$byteLimit) {
+                $response = substr($response,0,$byteLimit)."... (response truncated at $byteLimit bytes)";
+            }
+            $logger->debug('ELSTR_WidgetServer_Abstract response: ' . $response);
+        }
+    }
+
     /**
      * This function will be called by the RequestHandler. Inside the handle
      * function the response musst be generated and returned. This method will
@@ -68,19 +80,13 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
                 // check on method ressource is defined
                 if ($acl->isAllowed($username, $this->_getMethod() . '@' . get_class($this))) {
                     $this->_handle();
-                    $logger = $this->m_application->getBootstrap()->getResource("logger");
-                    if (isset($logger)) {
-                        $logger->debug('ELSTR_WidgetServer_Abstract response: ' . print_r($this->_getResponse(), true));
-                    }
+                    $this->_logResponse();
                 } else {
                     throw new ELSTR_Exception('1007', 1007, null, $this);
                 }
             } else {
                 $this->_handle();
-                $logger = $this->m_application->getBootstrap()->getResource("logger");
-                if (isset($logger)) {
-                    $logger->debug('ELSTR_WidgetServer_Abstract response: ' . print_r($this->_getResponse(), true));
-                }
+                $this->_logResponse();
             }
         } else {
             throw new ELSTR_Exception('1006', 1006, null, $this);
