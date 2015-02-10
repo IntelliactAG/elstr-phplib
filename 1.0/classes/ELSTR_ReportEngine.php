@@ -540,6 +540,7 @@ class ELSTR_ReportEngine {
 				/** PHPExcel_Writer_Excel5 */
 				include_once 'PHPExcel/Writer/Excel5.php';
 				$objWriter = new PHPExcel_Writer_Excel5($this->m_objPHPExcel);
+				$objWriter->setPrecalculateFormulas(false);
 				break;
 			default:
 				/** PHPExcel_Writer_Excel2007 */
