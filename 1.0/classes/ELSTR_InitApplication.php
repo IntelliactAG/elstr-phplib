@@ -49,12 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($isApiRequest) && $isApiRequest
 
 // Load the correct YUI-Seedfile
 if (strpos($elstrVersion, "1.") === 0) {
+    // Load the Elstr 1.x frontend with YUI2
+    $elstrHeader .= "<!-- Elstr 1.x frontend with YUI2 -->".PHP_EOL;     
     $yuiVersion = $configPublic['libs']['yuiVersion'];
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yuiloader/yuiloader-min.js' ></script>".PHP_EOL;
     $application->getBootstrap()->getResource("language")->cleanup();
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 } elseif(strpos($elstrVersion, "2.") === 0) {
-    // Load the YUI3 used with elstr 2.0 on frontend
+    // Load the Elstr 2.x frontend with YUI3
+    $elstrHeader .= "<!-- Elstr 2.x frontend with YUI3 -->".PHP_EOL;    
     $yuiVersion = $configPublic['libs']['yuiVersion'];
     $elstrHeader .= "<script type='text/javascript' src='jslib/yui/" . $yuiVersion . "/build/yui/yui-min.js' ></script>".PHP_EOL;
     $application->getBootstrap()->getResource("language")->cleanup();
@@ -73,7 +76,9 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "</script>".PHP_EOL;
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 } elseif(strpos($elstrVersion, "3.") === 0) {
-    // Load the Elstr 3.0 frontend
+    // Load the Elstr 3.x frontend with React
+    $elstrHeader .= "<!-- Elstr 3.x frontend with React -->".PHP_EOL;
+    define('APPLICATION_BUILD_FOLDER', $configPublic['libs']['appBuildFolder']);
     $application->getBootstrap()->getResource("language")->cleanup();
     if (isset($languageModulesToRegister)) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
@@ -87,7 +92,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;    
     $elstrHeader .= "}".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
-    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/dist/" . APPLICATION_NAME . ".main.js' ></script>";
+    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/".APPLICATION_BUILD_FOLDER."/" . APPLICATION_NAME . ".main.js' ></script>";
 }
 
 
