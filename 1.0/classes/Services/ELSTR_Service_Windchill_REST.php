@@ -41,11 +41,12 @@ class ELSTR_Service_Windchill_REST extends ELSTR_Service_Abstract {
 	protected function request($serviceUrl, $parameters) {
 
 		$restClient = new ELSTR_HttpClient();
-		$restClient->setAuth($this->m_username, $this->m_password);
+		$restClient->setAuth($this->m_username, $this->m_password, Zend_Http_Client::AUTH_BASIC);
 		$restClient->setUri($this->m_url.$serviceUrl);
 		$restClient->setConfig(array(
-		'maxredirects' => $this->m_maxredirects,
-		'timeout'      => $this->m_timeout));			
+    		'maxredirects' => $this->m_maxredirects,
+    		'timeout'      => $this->m_timeout)
+            );			
 		$restClient->setParameterGet($parameters);
 
         if($this->m_cookieJarCache) {
@@ -70,15 +71,18 @@ class ELSTR_Service_Windchill_REST extends ELSTR_Service_Abstract {
         }
 
         $response = $restClient->request();
+
         //print_r($restClient->getLastRequest());
+        //print_r($restClient->getLastResponse());
+
+        $responseCookieJar = Zend_Http_CookieJar::fromResponse($restClient->getLastResponse(),$this->m_url.$serviceUrl);
 
         if($this->m_cookieJarCache) {
-            if ($restClient->getCookieJar() !== $cookieJar){
-                $cache->save($restClient->getCookieJar(),'cookieJar_'.Zend_Session::getId());
+            if ($responseCookieJar !== $cookieJar && $responseCookieJar->isEmpty() === false){
+                $cache->save($responseCookieJar,'cookieJar_'.Zend_Session::getId());
             }
         }
 
-        
 		return $response;
 	}
 
