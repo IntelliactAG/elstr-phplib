@@ -18,10 +18,28 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $db = $this->m_application->getBootstrap()->getResource('db');
         // Select all roles from db
         $select = $db->select();
-        $select->from('Role');
-    	$select->order('Role.name');
+        $select->from(array('r' => 'Role'),
+        			  array('r.name','r._id'));
+    	$select->order('r.name');
         $stmt = $db->query($select);
         $resultRoles = $stmt->fetchAll();
+
+		for ($n = 0; $n < count($resultRoles); $n++) {
+
+			$select = $db->select();
+
+			$select->from(array('rr' => 'RoleRole'),array('rr._id1','rr._id2'));
+			$select->from(array('r' => 'Role'),array('r.name','r._id'));
+
+			$select->where('rr._id2 = ? AND rr._id1 = r._id', $resultRoles[$n]["_id"]);
+
+			$stmt = $db->query($select);
+			$resultParentRoles = $stmt->fetchAll();
+
+			if (count($resultParentRoles)>0){
+				$resultRoles[$n]["parent"] = $resultParentRoles[0]["name"];
+			}
+		}
 
         return $resultRoles;
     }
@@ -35,15 +53,19 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     {
         $db = $this->m_application->getBootstrap()->getResource('db');
         $acl = $this->m_application->getBootstrap()->getResource('acl');
+
         // Select all roles from db
         $select = $db->select();
-        $select->from('Role');
+        $select->from(array('r' => 'Role'),
+        			  array('r.name'));
         $stmt = $db->query($select);
         $resultRoles = $stmt->fetchAll();
+
         // Select all resources from db
         $select = $db->select();
-        $select->from('Resource');
-        $select->order(array('Resource.type', 'Resource.name'));
+        $select->from(array('r' => 'Resource'),
+                      array('r.type','r.name','r.isCore'));
+        $select->order(array('r.isCore DESC','r.type', 'r.name'));
         $stmt = $db->query($select);
         $resultResources = $stmt->fetchAll();
 
@@ -52,17 +74,66 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
             for ($n = 0; $n < count($resultRoles); $n++) {
                 $resourceName = $resultResources[$i]['name'];
                 $roleName = $resultRoles[$n]['name'];
+
                 $isAllowed = $acl->isAllowed($roleName, $resourceName);
                 if ($isAllowed) {
                     $resultResources[$i][$roleName] = "allow";
                 } else {
                     $resultResources[$i][$roleName] = "deny";
                 }
+
+                $resultResources[$i][$roleName."_original"] = $this->getCurrentRole($resourceName, $roleName);
+
             }
         }
 
         return $resultResources;
     }
+
+
+	function getCurrentRole($resourceName, $roleName){
+
+		$db = $this->m_application->getBootstrap()->getResource('db');
+
+		// Select the resourceId from db
+		$select = $db->select();
+		$select->from(array('r' => 'Resource'),
+					  array('r.name','r._id'));
+
+		$select->where('r.name = ?', $resourceName);
+		$stmt = $db->query($select);
+		$resultResources = $stmt->fetchAll();
+		$resourceId = $resultResources[0]['_id'];
+
+		// Select the roleId from db
+		$select = $db->select();
+		$select->from(array('r' => 'Role'),
+					  array('r.name','r._id'));
+		$select->where('r.name = ?', $roleName);
+		$stmt = $db->query($select);
+		$resultRoles = $stmt->fetchAll();
+		$roleId = $resultRoles[0]['_id'];
+
+		// Select the roleId from db
+		$select = $db->select();
+		$select->from(array('rr' => 'RoleResource'),
+					  array('rr._id1','rr._id2','rr.access'));
+		$select->where('rr._id1 = ?', $roleId);
+		$select->where('rr._id2 = ?', $resourceId);
+
+		// $select->where(array ("rr._id1 = '$roleId' rr._id2 = '$resourceId'"));
+
+		$stmt = $db->query($select);
+		$result = $stmt->fetchAll();
+
+		if ($result && count($result)>0){
+			return $result[0]["access"];
+		}else{
+			return null;
+		}
+
+
+	}
 
     /**
     * Get the preview for an item or document or project
@@ -79,41 +150,47 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
 
         $db = $this->m_application->getBootstrap()->getResource('db');
         $user = $this->m_application->getBootstrap()->getResource('user');
-        
+
         // Select the resourceId from db
         $select = $db->select();
-        $select->from('Resource');
-        $select->where('Resource.name = ?', $resourceName);
+		$select->from(array('r' => 'Resource'),
+					  array('r.name','r._id'));
+
+        $select->where('r.name = ?', $resourceName);
         $stmt = $db->query($select);
         $resultResources = $stmt->fetchAll();
         $resourceId = $resultResources[0]['_id'];
         
         // Select the roleId from db
         $select = $db->select();
-        $select->from('Role');
-        $select->where('Role.name = ?', $roleName);
+		$select->from(array('r' => 'Role'),
+					  array('r.name','r._id'));
+        $select->where('r.name = ?', $roleName);
         $stmt = $db->query($select);
         $resultRoles = $stmt->fetchAll();
         $roleId = $resultRoles[0]['_id'];
         
         // Select the roleId from db
         $select = $db->select();
-        $select->from('RoleResource');
-        $select->where('RoleResource._id1 = ?', $roleId);
-        $select->where('RoleResource._id2 = ?', $resourceId);
+		$select->from(array('rr' => 'RoleResource'),
+					  array('rr._id1','rr._id2','rr.isCore','rr.access'));
+        $select->where('rr._id1 = ?', $roleId);
+        $select->where('rr._id2 = ?', $resourceId);
         $stmt = $db->query($select);
         $result = $stmt->fetchAll();
+
         if (count($result) > 0) {
             if ($result[0]['isCore']) {
+
                 // Core values are not allowed to update
                 $result['newValue'] = $result[0]['access'];
                 $result['action'] = "failure";
                 throw new ELSTR_Exception('1009',1009,null,$this);
+
             } else {                
                 if ($accessRight == "inherit"){
                 	// Delete existing 
-			        $deleteTableData = array ('_id1' => $roleId,
-		                '_id2' => $resourceId);
+			        $deleteTableData = array ("RoleResource._id1 = '$roleId'", "RoleResource._id2 = '$resourceId'");
 		            $result = $db->delete('RoleResource', $deleteTableData);
                 } else {
 					// Update existing
@@ -149,10 +226,12 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $user = $this->m_application->getBootstrap()->getResource('user');
 
         if ($mode == 'add') {
+
             $insertTableData = array ('name' => $resourceName, 'type' => $type);
             $result = $db->insert('Resource', $insertTableData, $user->getUsername());
-        }
-        if ($mode == 'delete') {
+
+        }else if ($mode == 'delete') {
+
             $select = $db->select();
             $select->from('Resource');
             $select->where('Resource.name = ?', $resourceName);
@@ -169,6 +248,12 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
                     $db->delete("Resource", "Resource._id = '$resourceId'");
                 }
             }
+
+        }else{
+
+        	$result['action'] = "failure";
+        	throw new ELSTR_Exception('Unknown mode provided');
+
         }
         return $result;
     }
@@ -188,6 +273,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $user = $this->m_application->getBootstrap()->getResource('user');
 
         if ($mode == 'add') {
+
             $insertTableData = array ('name' => $roleName);
             $result = $db->insert('Role', $insertTableData, $user->getUsername());
             $roleAddedId = $result['_id'];
@@ -203,8 +289,9 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
             $insertTableData = array ('_id1' => $roleAnonymousId,
                 '_id2' => $roleAddedId);
             $result = $db->insert('RoleRole', $insertTableData, $user->getUsername());
-        }
-        if ($mode == 'delete') {
+
+        }else if ($mode == 'delete') {
+
             $select = $db->select();
             $select->from('Role');
             $select->where('Role.name = ?', $roleName);
@@ -223,7 +310,13 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
                     $db->delete("Role", "Role._id = '$roleId'");
                 }
             }
-        }
+
+        }else{
+
+			$result['action'] = "failure";
+			throw new ELSTR_Exception('Unknown mode provided');
+
+	 	}
         return $result;
     }
 
