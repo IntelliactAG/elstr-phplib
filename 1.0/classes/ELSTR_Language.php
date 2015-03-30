@@ -54,6 +54,16 @@ class ELSTR_Language {
     }
 
     /**
+	* Gets the current selected language from the session
+	*
+	* @return string $lang
+	*/
+    public function getCurrentLanguage()
+	{
+		return $this->m_session->language;
+	}
+
+    /**
     * Add Language Modules for use over session
     *
     * @param array $modules
