@@ -47,6 +47,20 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($isApiRequest) && $isApiRequest
     $elstrHeader .= "</script>".PHP_EOL;
 }
 
+// Only mandatory for Elstr 2.x and 3.x projects
+require_once ('ELSTR_ApplicationDataServer.php');
+$applicationDataServer = new ELSTR_ApplicationDataServer($application);
+
+// Redirect to HTTPS
+if(isset($applicationDataServer->load(APPLICATION_NAME)['config']['forceHttps']) && $applicationDataServer->load(APPLICATION_NAME)['config']['forceHttps']){
+    if(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == ""){
+        $redirect = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        header("HTTP/1.1 301 Moved Permanently");
+        header("Location: $redirect");
+        exit();
+    }
+} 
+
 // Load the correct YUI-Seedfile
 if (strpos($elstrVersion, "1.") === 0) {
     // Load the Elstr 1.x frontend with YUI2
@@ -65,8 +79,6 @@ if (strpos($elstrVersion, "1.") === 0) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
         $translations = $application->getBootstrap()->getResource("language")->getTranslation();
     }
-    require_once ('ELSTR_ApplicationDataServer.php');
-    $applicationDataServer = new ELSTR_ApplicationDataServer($application);
     $elstrHeader .= "<script  type='text/javascript'>".PHP_EOL;
     $elstrHeader .= "ELSTR = {".PHP_EOL;
     $elstrHeader .= "    applicationEnv : \"" . APPLICATION_ENV . "\",".PHP_EOL;    
@@ -84,8 +96,6 @@ if (strpos($elstrVersion, "1.") === 0) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
         $translations = $application->getBootstrap()->getResource("language")->getTranslation();
     }
-    require_once ('ELSTR_ApplicationDataServer.php');
-    $applicationDataServer = new ELSTR_ApplicationDataServer($application);
     $elstrHeader .= "<script  type='text/javascript'>".PHP_EOL;
     $elstrHeader .= "ELSTR = {".PHP_EOL;
     $elstrHeader .= "    applicationEnv : \"" . APPLICATION_ENV . "\",".PHP_EOL; 
