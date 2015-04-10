@@ -52,6 +52,7 @@ require_once ('ELSTR_ApplicationDataServer.php');
 $applicationDataServer = new ELSTR_ApplicationDataServer($application);
 
 // Redirect to HTTPS
+/*
 if(isset($applicationDataServer->load(APPLICATION_NAME)['config']['forceHttps']) && $applicationDataServer->load(APPLICATION_NAME)['config']['forceHttps']){
     if(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == ""){
         $redirect = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -60,6 +61,7 @@ if(isset($applicationDataServer->load(APPLICATION_NAME)['config']['forceHttps'])
         exit();
     }
 } 
+*/
 
 // Load the correct YUI-Seedfile
 if (strpos($elstrVersion, "1.") === 0) {
