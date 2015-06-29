@@ -76,6 +76,8 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
                 break;
             case "slddrw": $contentType = 'application/force-download';
                 break;
+            case "step": $contentType = 'application/force-download';
+                break;
             case "dxf": $contentType = 'application/force-download';
                 break;
             case "tif": $contentType = "image/tif";
