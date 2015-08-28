@@ -141,6 +141,20 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         return $m_logger;
     }
 
+
+    /**
+     * Helper function that converts both, an object or an array, into an array
+     * @param array or object $thing
+     * @return array
+     */
+    static public function getArrayForObjectOrArray($thing) {
+        if (is_array($thing)) {
+            return $thing;
+        } else {
+            return array($thing);
+        }
+    }
+
 }
 
 ?>
