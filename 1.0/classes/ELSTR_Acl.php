@@ -21,6 +21,7 @@ class ELSTR_Acl extends Zend_Acl {
 
 	public function loadFromDb() {
 		$db = $this->m_application->getBootstrap()->getResource('db');
+		if (is_array($db)) $db = $db['elstr'];
 		// Select all roles from db
 		$select = $db->select();
 		$select->from('Role', array('_id', 'name'));
@@ -114,6 +115,7 @@ class ELSTR_Acl extends Zend_Acl {
 	}
 
 	public function getResourcesAllowed($db, $roleName) {
+		if (is_array($db)) $db = $db['elstr'];
 		$resourcesAllowed = array();
 		// Select all roles from db
 		$select = $db->select();

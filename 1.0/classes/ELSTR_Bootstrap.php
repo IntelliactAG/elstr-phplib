@@ -51,6 +51,32 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
      */
     protected function _initDb() {
         $configDb = $this->getApplication()->getOption("database");
+        // Es sind mehrere Datenbanken konfiguriert
+        if (!isset($configDb['adapter']) && count($configDb) > 1) {
+            $m_db = array();
+
+            foreach ($configDb as $instance => $options) {
+                $adapter = $options['adapter'];
+                $params = $options[$adapter];
+
+                $dbAdapter = Zend_Db::factory($adapter, $params);
+                $dbAdapter->getConnection();
+
+                $m_db[$instance] = new ELSTR_Db($dbAdapter);
+                // Alle Operatione sollen in UTF-8 codiert werden
+                switch ($adapter) {
+                    case "Pdo_Mysql":
+                        $m_db[$instance]->query("set character set utf8;");
+                        break;
+                    case "Sqlsrv":
+                        ini_set('mssql.charset', 'UTF-8');
+                        break;
+                }
+            }
+
+            return $m_db;
+        }
+
         $adapter = $configDb['adapter'];
         $params = $configDb[$configDb['adapter']];
 
