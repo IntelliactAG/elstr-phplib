@@ -15,7 +15,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     */
     public function getRoleList()
     {
-        $db = $this->m_application->getBootstrap()->getResource('db')['elstr'];
+        $db = $this->m_application->getBootstrap()->getResource('db');
 		if (is_array($db)) $db = $db['elstr'];
         // Select all roles from db
         $select = $db->select();
@@ -52,7 +52,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     */
     public function getResourceDataTable()
     {
-        $db = $this->m_application->getBootstrap()->getResource('db')['elstr'];
+        $db = $this->m_application->getBootstrap()->getResource('db');
 		if (is_array($db)) $db = $db['elstr'];
         $acl = $this->m_application->getBootstrap()->getResource('acl');
 
@@ -95,7 +95,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
 
 	function getCurrentRole($resourceName, $roleName){
 
-		$db = $this->m_application->getBootstrap()->getResource('db')['elstr'];
+		$db = $this->m_application->getBootstrap()->getResource('db');
 		if (is_array($db)) $db = $db['elstr'];
 
 		// Select the resourceId from db
@@ -151,7 +151,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
         $result = array('action' => 'success',
             'newValue' => $accessRight);
 
-        $db = $this->m_application->getBootstrap()->getResource('db')['elstr'];
+        $db = $this->m_application->getBootstrap()->getResource('db');
 		if (is_array($db)) $db = $db['elstr'];
         $user = $this->m_application->getBootstrap()->getResource('user');
 
@@ -226,7 +226,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     {
         $result = array('action' => 'success');
 
-        $db = $this->m_application->getBootstrap()->getResource('db')['elstr'];
+        $db = $this->m_application->getBootstrap()->getResource('db');
 		if (is_array($db)) $db = $db['elstr'];
         $user = $this->m_application->getBootstrap()->getResource('user');
 
@@ -274,7 +274,7 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     {
         $result = array('action' => 'success');
 
-        $db = $this->m_application->getBootstrap()->getResource('db')['elstr'];
+        $db = $this->m_application->getBootstrap()->getResource('db');
 		if (is_array($db)) $db = $db['elstr'];
         $user = $this->m_application->getBootstrap()->getResource('user');
 
