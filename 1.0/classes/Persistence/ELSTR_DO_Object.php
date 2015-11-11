@@ -12,6 +12,7 @@
 		protected $user;
 		protected $logger;
 
+		protected $map;
 		protected $table;
 
 		public $_id;
@@ -42,8 +43,8 @@
 			$invalidProps = array();
 			foreach ($properties as $property) {
 				$name = $property->getName();
-				if (array_key_exists($name, $row)) {
-					$this->$name = $row[$name];
+				if (array_key_exists($this->map($name), $row)) {
+					$this->$name = $row[$this->map($name)];
 				} else {
 					$invalidProps[] = $name;
 				}
@@ -52,7 +53,7 @@
 			if ($strInvalidProps) {
 				$dbname = $this->db->m_dbAdapter->getConfig()['dbname'];
 				$message = "Properties '$strInvalidProps' of class '$class->name' are not valid fields in table '$this->table' of database '$dbname'. ";
-				$message .= "Please check the name of the properties or make the properties private. ";
+				$message .= "Please check the name and mapping of the properties or make the properties private. ";
 				throw new ELSTR_Exception($message);
 			}
 		}
@@ -69,7 +70,7 @@
 				$name = $property->getName();
 				// Set only properties of subclass
 				if ($property->class == $class->name) {
-					$row[$name] = $this->$name;
+					$row[$this->map($name)] = $this->$name;
 				}
 			}
 
@@ -84,21 +85,21 @@
 				$columns = $this->db->m_dbAdapter->describeTable($this->table);
 				foreach ($properties as $property) {
 					$name = $property->getName();
-					if (!array_key_exists($name, $columns)) {
+					if (!array_key_exists($this->map($name), $columns)) {
 						$invalidProps[] = $name;
 					}
 				}
 				foreach ($columns as $name => $column) {
 					if (!$column['NULLABLE']) {
-						if (!$class->hasProperty($name)) {
+						if (!$class->hasProperty($this->map($name))) {
 							$superClass = new ReflectionObject($class->getParentClass());
-							if (!$superClass->hasProperty($name)) {
+							if (!$superClass->hasProperty($this->map($name))) {
 								$undefinedProps[] = $name;
 							}
-						} else if (is_null($this->$name)) {
-							$property = $class->getProperty($name);
+						} else if (is_null($this[$this->map($name)])) {
+							$property = $class->getProperty($this->map($name));
 							if ($property->class == $class->name) {
-								$nullProps[] = $name;
+								$nullProps[] = $this->map($name);
 							}
 						}
 					}
@@ -110,11 +111,11 @@
 				$message = "The provided SQL statement is invalid. ";
 				if ($strInvalidProps) {
 					$message .= "Properties '$strInvalidProps' of class '$class->name' are not valid fields in table '$this->table' of database '$dbname'. ";
-					$message .= "Please check the name of the properties or make the properties private. ";
+					$message .= "Please check the name and mapping of the properties or make the properties private. ";
 				}
 				if ($strUndefinedProps) {
 					$message .= "Fields '$strUndefinedProps' of table '$this->table' of database '$dbname' are undefined in class '$class->name'. ";
-					$message .= "Please add properties for all fields which do not allow nulls. ";
+					$message .= "Please add properties or check the mapping for all fields which do not allow nulls. ";
 				}
 				if ($strNullProps) {
 					$message .= "Properties '$strNullProps' of class '$class->name' are null. ";
@@ -137,7 +138,7 @@
 				// Set only DO field names of subclass
 				if ($property->class == $class->name) {
 					if (!is_null($this->$name)) {
-						$row[$name] = $this->$name;
+						$row[$this->map($name)] = $this->$name;
 					}
 				}
 			}
@@ -150,7 +151,7 @@
 				$columns = $this->db->m_dbAdapter->describeTable($this->table);
 				foreach ($properties as $property) {
 					$name = $property->getName();
-					if (!array_key_exists($name, $columns)) {
+					if (!array_key_exists($this->map($name), $columns)) {
 						$invalidProps[] = $name;
 					}
 				}
@@ -158,7 +159,7 @@
 				$message = "The provided SQL statement is invalid. ";
 				if ($strInvalidProps) {
 					$message .= "Properties '$strInvalidProps' of class '$class->name' are not valid fields in table '$this->table' of database '$dbname'. ";
-					$message .= "Please check the name of the properties or make the properties private. ";
+					$message .= "Please check the name and mapping of the properties or make the properties private. ";
 				}
 				throw new ELSTR_Exception($message);
 			}
@@ -196,7 +197,8 @@
 				// Set only DO field names of subclass
 				if ($property->class == $class->name) {
 					if (!is_null($this->$name)) {
-						$select->where("$name = ?", $this->$name);
+						$columnName = $this->map($name);
+						$select->where("$columnName = ?", $this->$name);
 					}
 				}
 			}
@@ -204,8 +206,18 @@
 			$select->from($this->table);
 			$stmt = $this->db->query($select);
 			$rs = $stmt->fetchAll();
-			require_once ('ELSTR_ReadOnlyResultSet.php');
-			return new ELSTR_ReadOnlyResultSet($rs);
+
+			$dataobjects = array();
+			foreach ($rs as $row) {
+				$dataobject = new $class->name($this->app);
+				reset($properties);
+				foreach ($properties as $property) {
+					$name = $property->getName();
+					$dataobject->$name = $row[$this->map($name)];
+				}
+				$dataobjects[] = $dataobject;
+			}
+			return $dataobjects;
 		}
 
 		public function children($child, $reference) {
@@ -215,14 +227,8 @@
 				$message = "Object of class '$class->name' has not been initialized. Please call get() or set the id.";
 				throw new ELSTR_Exception($message);
 			}
-			$children = array();
 			$child->$reference = $this->_id;
-			$rs = $child->find();
-			for ($i = 0; $i < $rs->rowCount(); $i++) {
-				require_once ("$childClass->name.php");
-				$nextChild = new $childClass->name($this->app);
-				$children[] = $rs->getNext($nextChild);
-			}
+			$children = $child->find();
 			return $children;
 		}
 
@@ -234,6 +240,29 @@
 			}
 			$parent->get($this->$reference);
 			return $parent;
+		}
+
+		protected function setMap($map) {
+			if (!is_null($map) && count($map) > 0) {
+				$flipMap = array_flip($map);
+				if (array_intersect_key($map, $flipMap)) {
+					$message = "Values of mapping are not allowed to have the same value as one of the keys. ";
+					$message .= "Please provide another key or value, or remove keys which are equal to their own values. ";
+					throw new ELSTR_Exception($message);
+				}
+				$this->map = array_merge($map, $flipMap);
+			}
+		}
+
+		protected function map($property) {
+			if (is_null($this->map)) {
+				return $property;
+			} else if (!array_key_exists($property, $this->map)) {
+				return $property;
+			} else {
+				return $this->map[$property];
+			}
+
 		}
 
 	}
