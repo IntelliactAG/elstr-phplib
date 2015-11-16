@@ -54,6 +54,14 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
 		$result['user']['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($result['user']['username'],'role_admin',false);
     	$result['user']['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'),$result['user']['username']);
 		$result['user']['enterpriseApplicationData'] = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
+        $memberOf = array();
+        $definedRoles = $this->m_application->getBootstrap()->getResource('acl')->getDefinedRoles();
+        foreach($definedRoles as $role){
+            if($this->m_application->getBootstrap()->getResource('acl')->inheritsRole($result['user']['username'],$role,false)){
+                $memberOf[] = $role;
+            }
+        }
+        $result['user']['memberOf'] = $memberOf;
     	
     	$result['language']['current'] = $this->m_application->getBootstrap()->getResource("language")->getTranslation()->getLocale();
     	$result['language']['default'] = $this->m_application->getBootstrap()->getResource("language")->defaultLanguage();

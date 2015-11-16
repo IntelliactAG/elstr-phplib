@@ -108,6 +108,15 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                 $response['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'), $username);
                 $response['enterpriseApplicationData'] = $this->m_application->getBootstrap()->getResource('user')->getEnterpriseApplicationData();
 
+                $memberOf = array();
+                $definedRoles = $this->m_application->getBootstrap()->getResource('acl')->getDefinedRoles();
+                foreach($definedRoles as $role){
+                    if($this->m_application->getBootstrap()->getResource('acl')->inheritsRole($username,$role,false)){
+                        $memberOf[] = $role;
+                    }
+                }
+                $response['memberOf'] = $memberOf;
+
                 break;
 
             default:
