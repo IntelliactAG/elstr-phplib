@@ -598,7 +598,7 @@ class ELSTR_ReportEngine {
 			// convert using OpenOffice
 			$openOfficeExecutable = $openOfficeOptions["executable"]; // something like: soffice ($tempFileNameXls)"
 			$openOfficePdfMacro = $openOfficeOptions["pdfMacro"]; // something like: ///Standard.ConvertWordToPDF.ConvertWordToPDF
-			$openOfficeConvertCommand = $openOfficeExecutable .' -writer -invisible "'. $openOfficePdfMacro .'('. $tempFileNameXls .')"';
+			$openOfficeConvertCommand = $openOfficeExecutable .' --writer --invisible "'. $openOfficePdfMacro .'('. $tempFileNameXls .')"';
 
 			//echo "openOfficeConvertCommand: $openOfficeConvertCommand, tempFileNamePdf: $tempFileNamePdf\n";
 			$output = shell_exec($openOfficeConvertCommand);
