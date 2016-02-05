@@ -86,7 +86,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "    applicationEnv : \"" . APPLICATION_ENV . "\",".PHP_EOL;    
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;
     $elstrHeader .= "    modules : " . file_get_contents(APPLICATION_PATH . "/public/jslib/elstr/" . $configPublic['libs']['elstrVersion'] . "/build/modules.txt") . PHP_EOL;
-    $elstrHeader .= "}".PHP_EOL;
+    $elstrHeader .= "};".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/" . APPLICATION_NAME . "/" . APPLICATION_NAME . ".js' ></script>";
 } elseif(strpos($elstrVersion, "3.") === 0) {
@@ -102,7 +102,7 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "ELSTR = {".PHP_EOL;
     $elstrHeader .= "    applicationEnv : \"" . APPLICATION_ENV . "\",".PHP_EOL; 
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;    
-    $elstrHeader .= "}".PHP_EOL;
+    $elstrHeader .= "};".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/".APPLICATION_BUILD_FOLDER."/" . APPLICATION_NAME . ".main.js' ></script>";
 }
