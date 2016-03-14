@@ -13,7 +13,7 @@
  */
 
 
-class Elstr_Auth_Adapter_NoAuth implements Zend_Auth_Adapter_Interface
+class ELSTR_Auth_Adapter_NoAuth implements Zend_Auth_Adapter_Interface
 {
 	var $m_options;
 	var $m_username;

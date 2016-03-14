@@ -16,6 +16,16 @@ $application = new Zend_Application(
 $application->bootstrap()
             ->run();
 
+
+// Ge the sso configuration
+$configSso = $application->getOption("sso");
+if(!$application->getBootstrap()->getResource('auth')->hasIdentity() && $configSso){
+    include_once 'ELSTR_AuthServer.php';
+    $ELSTR_AuthServer = new ELSTR_AuthServer($application);
+    $ELSTR_AuthServer->sso();
+}
+
+
 // Get the frontend configruations
 $configPublic = $application->getOption("public");
 //Override default libs config values with application specific libs config values

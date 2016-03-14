@@ -95,9 +95,9 @@ class ELSTR_Exception extends Exception{
 				break;
 			case 1012:
 				$response['error']['message'] = 'Access to file denied:  ';
-                                $this->m_header = 'HTTP/1.0 401 Unauthorized';
+                $this->m_header = 'HTTP/1.0 401 Unauthorized';
 				break;
-                        case 1011:
+            case 1011:
 				$status = $this->m_details['status'];
 				$response['error']['message'] = 'Request failed with status '.$status;
 				if ($status == 401) {

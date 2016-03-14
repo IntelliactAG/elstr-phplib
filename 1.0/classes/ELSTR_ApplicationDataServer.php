@@ -49,7 +49,13 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
 
         $result['config'] = $appConfigPublic;
 
-    	$result['user']['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
+        if($this->m_application->getBootstrap()->getResource('auth')->hasIdentity()){
+            $result['user']['username'] = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
+            // used username from identity becuase of sso. user cannot be recreated after sso authentication
+            //$result['user']['username'] = $this->m_application->getBootstrap()->getResource('user')->getUsername();
+        } else {
+            $result['user']['username'] = "anonymous";
+        }
     	$result['user']['isAuth'] = $this->m_application->getBootstrap()->getResource('auth')->hasIdentity();
 		$result['user']['isAdmin'] = $this->m_application->getBootstrap()->getResource('acl')->inheritsRole($result['user']['username'],'role_admin',false);
     	$result['user']['resourcesAllowed'] = $this->m_application->getBootstrap()->getResource('acl')->getResourcesAllowed($this->m_application->getBootstrap()->getResource('db'),$result['user']['username']);

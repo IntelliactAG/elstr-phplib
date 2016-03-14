@@ -24,36 +24,11 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
         $server->handle();
     }
 
-    /**
-     * Service method to handle auth request
-     * If user can be authenticated, save user into session
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $enterpriseApplication
-     * @return Array Response messages
-     */
-    public function auth($username, $password, $enterpriseApplication) {
-        $response = array();
 
-        if ($enterpriseApplication == null) {
-            // Login to Elstr application
-            $result = $this->_auth($username, $password);
-        } else {
-            require_once ("EnterpriseApplications/" . $enterpriseApplication . ".php");
-            $enterpriseApp = new $enterpriseApplication($this->m_application);
-            $result = $enterpriseApp->authenticate($username, $password);
-        }
-
-
-        if (!$result->isValid()) {
-            // Authentication failed; print the reasons why
-            foreach ($result->getMessages() as $message) {
-                $response['message'][] = $message;
-            }
-        }
+    private function _addResponseParamsFromResults(&$response, $result, $enterpriseApplication, $password) {
 
         switch ($result->getCode()) {
+
             case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND:
                 /**
                  * * do stuff for nonexistent identity *
@@ -72,6 +47,8 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                 /**
                  * do stuff for successful authentication *
                  */
+                $username = $result->getIdentity();
+
                 $configSession = $this->m_application->getOption("session");
                 if (is_array($configSession) && isset($configSession['remember_me_seconds'])) {
                     Zend_Session::rememberMe();
@@ -126,6 +103,62 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                 $response['action'] = "failure";
                 break;
         }
+    }
+
+    /**
+     * Service method to handle auth request
+     * If user can be authenticated, save user into session
+     *
+     * @param string $username
+     * @param string $password
+     * @param string $enterpriseApplication
+     * @return Array Response messages
+     */
+    public function auth($username, $password, $enterpriseApplication) {
+        $response = array();
+
+        if ($enterpriseApplication == null) {
+            // Login to Elstr application
+            $result = $this->_auth($username, $password);
+        } else {
+            require_once ("EnterpriseApplications/" . $enterpriseApplication . ".php");
+            $enterpriseApp = new $enterpriseApplication($this->m_application);
+            $result = $enterpriseApp->authenticate($username, $password);
+        }
+
+
+        if (!$result->isValid()) {
+            // Authentication failed; print the reasons why
+            foreach ($result->getMessages() as $message) {
+                $response['message'][] = $message;
+            }
+        }
+
+        $this->_addResponseParamsFromResults($response, $result, $enterpriseApplication, $password);
+
+        return $response;
+    }
+
+    /**
+     * Service method to handle sso request
+     * If user can be authenticated, save user into session
+     *
+     * @return Array Response messages
+     */
+    public function sso() {
+        $response = array();
+
+        $configAuth['method'] = "Elstr_Sso_Adapter_Ntlm";
+
+        $configAuth = $this->m_application->getOption("auth");
+        $configSso = $this->m_application->getOption("sso");
+
+        $result = $this->_auth(null, null, array_merge($configAuth,$configSso));
+
+        $enterpriseApplication ="";
+        $password ="";
+
+        $this->_addResponseParamsFromResults($response, $result, $enterpriseApplication, $password);
 
         return $response;
     }
@@ -187,8 +220,13 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
      * @param  $username String username
      * @param  $password String password
      */
-    private function _auth($username, $password) {
-        $configAuth = $this->m_application->getOption("auth");
+    private function _auth($username, $password, $configAuth = null) {
+
+        // $configAuth must be NULL for all not SSO cases
+        // in every normal auth case $configAuth must be NULL
+        if($configAuth === null){
+            $configAuth = $this->m_application->getOption("auth");
+        }
 
         if (isset($configAuth['includeAdapter'])) {
             include_once($configAuth['includeAdapter']);
