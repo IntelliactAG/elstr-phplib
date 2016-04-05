@@ -154,5 +154,3 @@ abstract class ELSTR_Controller_Abstract extends ELSTR_Server_Abstract {
     }
 
 }
-
-?>

@@ -116,6 +116,3 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "</script>".PHP_EOL;
     $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/".APPLICATION_BUILD_FOLDER."/" . APPLICATION_NAME . ".main.js' ></script>";
 }
-
-
-?>

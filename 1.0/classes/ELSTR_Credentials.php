@@ -32,4 +32,3 @@ class ELSTR_Credentials
 		return $this->m_username;
 	}
 }
-?>

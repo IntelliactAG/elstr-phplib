@@ -41,13 +41,14 @@ class ELSTR_Db {
         } catch (Exception $e) {
             $this->kurs->logger->err($e);
             $exception = e;
-        } finally {
-            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
-                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
-            }
-            if ($exception !== null) throw $e;
-            return array('count' => $affectedRows, '_id' => $insertDefaultValues['_id']);
         }
+
+        if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+            $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+        }
+        if ($exception !== null) throw $e;
+        return array('count' => $affectedRows, '_id' => $insertDefaultValues['_id']);
+
     }
 
 	/**
@@ -72,13 +73,14 @@ class ELSTR_Db {
         } catch (Exception $e) {
             $this->kurs->logger->err($e);
             $exception = e;
-        } finally {
-            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
-                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
-            }
-            if ($exception !== null) throw $e;
-            return $affectedRows;
         }
+
+        if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+            $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+        }
+        if ($exception !== null) throw $e;
+        return $affectedRows;
+
 	}
 
 
@@ -98,13 +100,14 @@ class ELSTR_Db {
         } catch (Exception $e) {
             $this->kurs->logger->err($e);
             $exception = e;
-        } finally {
-            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
-                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
-            }
-            if ($exception !== null) throw $e;
-            return $affectedRows;
         }
+
+        if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+            $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+        }
+        if ($exception !== null) throw $e;
+        return $affectedRows;
+
 	}
 
 
@@ -125,13 +128,14 @@ class ELSTR_Db {
         } catch (Exception $e) {
             $this->kurs->logger->err($e);
             $exception = e;
-        } finally {
-            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
-                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
-            }
-            if ($exception !== null) throw $e;
-            return $result;
         }
+        
+        if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+            $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+        }
+        if ($exception !== null) throw $e;
+        return $result;
+
     }
 
 	public function select(){
@@ -181,4 +185,3 @@ class ELSTR_Db {
 
 }
 
-?>

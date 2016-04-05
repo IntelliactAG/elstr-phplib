@@ -46,4 +46,3 @@ if ($key > -1 && isset($_PATHS[$key + 1])) {
     // No api was defined
     header("HTTP/1.0 404 Not Found");
 }
-?>

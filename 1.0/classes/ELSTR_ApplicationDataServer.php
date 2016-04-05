@@ -78,5 +78,3 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
     	return $result;
     }
 }
-
-?>

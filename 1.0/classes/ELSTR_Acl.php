@@ -209,5 +209,3 @@ class ELSTR_Acl extends Zend_Acl {
 	}
 
 }
-
-?>

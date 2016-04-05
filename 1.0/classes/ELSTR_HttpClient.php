@@ -39,5 +39,3 @@ public function request($request=null,$transmit_details=true)
 		return $response;
 	}
 }
-
-?>

@@ -53,5 +53,3 @@ abstract class ELSTR_Controller_JSON_Abstract extends ELSTR_Controller_Abstract 
     }
 
 }
-
-?>

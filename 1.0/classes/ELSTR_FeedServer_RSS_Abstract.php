@@ -63,4 +63,3 @@ abstract class ELSTR_FeedServer_RSS_Abstract extends ELSTR_WidgetServer_Abstract
     }
 }
 
-?>

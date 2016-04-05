@@ -120,4 +120,3 @@ class ELSTR_Exception extends Exception{
 	}
 }
 
-?>

@@ -188,4 +188,3 @@ abstract class ELSTR_EnterpriseApplication_Abstract {
 
 }
 
-?>

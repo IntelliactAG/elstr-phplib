@@ -349,5 +349,3 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
     }
 
 }
-
-?>
