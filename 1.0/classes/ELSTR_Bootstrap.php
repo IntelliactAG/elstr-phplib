@@ -110,9 +110,8 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
                 $dbAdapter->getProfiler()->setEnabled($profilerEnabled);
             }
             $dbAdapter->getConnection();
-            $m_db[$instance] = new ELSTR_Db($dbAdapter,$this->getApplication()->getBootstrap()->getResource("logger"), $profilerEnabled);
+            $m_db = new ELSTR_Db($dbAdapter,$this->getApplication()->getBootstrap()->getResource("logger"), $profilerEnabled);
 
-            $m_db = new ELSTR_Db($dbAdapter);
             // Alle Operatione sollen in UTF-8 codiert werden
             $m_db->query('set character set utf8;');
 
