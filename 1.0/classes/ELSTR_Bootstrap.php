@@ -80,16 +80,12 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
                 $params = $options[$adapter];
 
                 $dbAdapter = Zend_Db::factory($adapter, $params);
-
                 $profilerEnabled = false;
-
                 if(isset($options['profiler']) && ($options['profiler'] === "1" || $options['profiler'] === 1 || $options['profiler'] === true)){
                     $profilerEnabled = true;
                     $dbAdapter->getProfiler()->setEnabled($profilerEnabled);
                 }
-
                 $dbAdapter->getConnection();
-
                 $m_db[$instance] = new ELSTR_Db($dbAdapter,$this->getApplication()->getBootstrap()->getResource("logger"), $profilerEnabled);
                 // Alle Operatione sollen in UTF-8 codiert werden
                 switch ($adapter) {
@@ -103,19 +99,25 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
             }
 
             return $m_db;
+        } else {
+            $adapter = $configDb['adapter'];
+            $params = $configDb[$configDb['adapter']];
+
+            $dbAdapter = Zend_Db::factory($adapter, $params);
+            $profilerEnabled = false;
+            if(isset($options['profiler']) && ($options['profiler'] === "1" || $options['profiler'] === 1 || $options['profiler'] === true)){
+                $profilerEnabled = true;
+                $dbAdapter->getProfiler()->setEnabled($profilerEnabled);
+            }
+            $dbAdapter->getConnection();
+            $m_db[$instance] = new ELSTR_Db($dbAdapter,$this->getApplication()->getBootstrap()->getResource("logger"), $profilerEnabled);
+
+            $m_db = new ELSTR_Db($dbAdapter);
+            // Alle Operatione sollen in UTF-8 codiert werden
+            $m_db->query('set character set utf8;');
+
+            return $m_db;
         }
-
-        $adapter = $configDb['adapter'];
-        $params = $configDb[$configDb['adapter']];
-
-        $dbAdapter = Zend_Db::factory($adapter, $params);
-        $dbAdapter->getConnection();
-
-        $m_db = new ELSTR_Db($dbAdapter);
-        // Alle Operatione sollen in UTF-8 codiert werden
-        $m_db->query('set character set utf8;');
-
-        return $m_db;
     }
 
     /**
