@@ -34,6 +34,26 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
 
     }
 
+
+    /**
+     * Initialize the Logger
+     * @return Zend_Logger
+     */
+    protected function _initLogger() {
+        $options = $this->getApplication()->getOption("logger");
+        $m_logger = null;
+        // Create language object
+        //$m_language = new ELSTR_Language($options);
+        if (isset($options)) {
+            $writer = new Zend_Log_Writer_Stream($options['file']);
+            $m_logger = new Zend_Log($writer);
+            $filter = new Zend_Log_Filter_Priority((int) $options['level']);
+            $m_logger->addFilter($filter);
+        }
+        return $m_logger;
+    }
+
+
     /**
      * Initialize the Session
      */
@@ -60,9 +80,17 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
                 $params = $options[$adapter];
 
                 $dbAdapter = Zend_Db::factory($adapter, $params);
+
+                $profilerEnabled = false;
+
+                if(isset($options['profiler']) && ($options['profiler'] === "1" || $options['profiler'] === 1 || $options['profiler'] === true)){
+                    $profilerEnabled = true;
+                    $dbAdapter->getProfiler()->setEnabled($profilerEnabled);
+                }
+
                 $dbAdapter->getConnection();
 
-                $m_db[$instance] = new ELSTR_Db($dbAdapter);
+                $m_db[$instance] = new ELSTR_Db($dbAdapter,$this->getApplication()->getBootstrap()->getResource("logger"), $profilerEnabled);
                 // Alle Operatione sollen in UTF-8 codiert werden
                 switch ($adapter) {
                     case "Pdo_Mysql":
@@ -147,24 +175,6 @@ class ELSTR_Bootstrap extends Zend_Application_Bootstrap_BootstrapAbstract {
         $m_acl->currentUserHasRole($this->getResource("user")->getUsername());
 
         return $m_acl;
-    }
-
-    /**
-     * Initialize the Logger
-     * @return Zend_Logger
-     */
-    protected function _initLogger() {
-        $options = $this->getApplication()->getOption("logger");
-        $m_logger = null;
-        // Create language object
-        //$m_language = new ELSTR_Language($options);
-        if (isset($options)) {
-            $writer = new Zend_Log_Writer_Stream($options['file']);
-            $m_logger = new Zend_Log($writer);
-            $filter = new Zend_Log_Filter_Priority((int) $options['level']);
-            $m_logger->addFilter($filter);
-        }
-        return $m_logger;
     }
 
 

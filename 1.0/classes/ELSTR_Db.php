@@ -9,10 +9,14 @@
 */
 class ELSTR_Db {
     var $m_dbAdapter;
+    var $m_logger;
+    var $m_profilerEnabled;
 
-    function __construct($dbAdapter)
+    function __construct($dbAdapter,$logger,$profilerEnabled)
     {
         $this->m_dbAdapter = $dbAdapter;
+        $this->m_logger = $logger;
+        $this->m_profilerEnabled = $profilerEnabled;
     }
 
     /**
@@ -25,10 +29,25 @@ class ELSTR_Db {
     */
     public function insert($table, $bind, $userId = '')
     {
-        $insertDefaultValues = $this->_getInsertDefaultData($table, $userId);
-        $bind = array_merge($bind, $insertDefaultValues);
-        $affectedRows = $this->m_dbAdapter->insert($table, $bind);
-        return array('count' => $affectedRows, '_id' => $insertDefaultValues['_id']);
+        //$insertDefaultValues = $this->_getInsertDefaultData($table, $userId);
+        //$bind = array_merge($bind, $insertDefaultValues);
+        //$affectedRows = $this->m_dbAdapter->insert($table, $bind);
+
+        $exception = null;
+        try {
+            $insertDefaultValues = $this->_getInsertDefaultData($table, $userId);
+            $bind = array_merge($bind, $insertDefaultValues);
+            $affectedRows = $this->m_dbAdapter->insert($table, $bind);
+        } catch (Exception $e) {
+            $this->kurs->logger->err($e);
+            $exception = e;
+        } finally {
+            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+            }
+            if ($exception !== null) throw $e;
+            return array('count' => $affectedRows, '_id' => $insertDefaultValues['_id']);
+        }
     }
 
 	/**
@@ -40,12 +59,26 @@ class ELSTR_Db {
 	 * @param string $userId
 	 * @return integer $affectedRows Number of affected rows
 	 */
-	public function update($table, $bind, $where, $userId = '')
-	{
-		$updateDefaultValues = $this->_getUpdateDefaultData($userId);
-		$bind = array_merge($bind, $updateDefaultValues);
-		$affectedRows = $this->m_dbAdapter->update($table, $bind, $where);
-		return $affectedRows;
+	public function update($table, $bind, $where, $userId = '')	{
+		//$updateDefaultValues = $this->_getUpdateDefaultData($userId);
+		//$bind = array_merge($bind, $updateDefaultValues);
+		//$affectedRows = $this->m_dbAdapter->update($table, $bind, $where);
+
+        $exception = null;
+        try {
+            $updateDefaultValues = $this->_getUpdateDefaultData($userId);
+            $bind = array_merge($bind, $updateDefaultValues);
+            $affectedRows = $this->m_dbAdapter->update($table, $bind, $where);
+        } catch (Exception $e) {
+            $this->kurs->logger->err($e);
+            $exception = e;
+        } finally {
+            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+            }
+            if ($exception !== null) throw $e;
+            return $affectedRows;
+        }
 	}
 
 
@@ -56,10 +89,22 @@ class ELSTR_Db {
 	 * @param mixes $where update where clause
 	 * @return integer $affectedRows Number of affected rows
 	 */
-	public function delete($table, $where)
-	{
-		$affectedRows = $this->m_dbAdapter->delete($table, $where);
-		return $affectedRows;
+	public function delete($table, $where) {
+		// $affectedRows = $this->m_dbAdapter->delete($table, $where);
+
+        $exception = null;
+        try {
+            $affectedRows = $this->m_dbAdapter->delete($table, $where);
+        } catch (Exception $e) {
+            $this->kurs->logger->err($e);
+            $exception = e;
+        } finally {
+            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+            }
+            if ($exception !== null) throw $e;
+            return $affectedRows;
+        }
 	}
 
 
@@ -71,9 +116,22 @@ class ELSTR_Db {
     * @param mixed $bind An array of data to bind to the placeholders.
     * @return Zend_Db_Statement_Interface
     */
-    public function query($sql, $bind = array())
-    {
-        return $this->m_dbAdapter->query($sql, $bind);
+    public function query($sql, $bind = array()) {
+        //return $this->m_dbAdapter->query($sql, $bind);
+
+        $exception = null;
+        try {
+            $result = $this->m_dbAdapter->query($sql, $bind);
+        } catch (Exception $e) {
+            $this->kurs->logger->err($e);
+            $exception = e;
+        } finally {
+            if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+                $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+            }
+            if ($exception !== null) throw $e;
+            return $result;
+        }
     }
 
 	public function select(){
