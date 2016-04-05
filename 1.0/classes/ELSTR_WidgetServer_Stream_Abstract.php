@@ -166,5 +166,3 @@ abstract class ELSTR_WidgetServer_Stream_Abstract extends ELSTR_WidgetServer_Abs
         return $this->m_response->getBody();
     }    
 }
-
-?>

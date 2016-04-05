@@ -12,4 +12,3 @@ class ELSTR_Response extends Zend_Controller_Response_Abstract {
 
 
 }
-?>

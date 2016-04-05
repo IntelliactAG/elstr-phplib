@@ -154,5 +154,3 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
     }
 
 }
-
-?>

@@ -35,5 +35,3 @@ abstract class ELSTR_Service_Abstract {
     }
 
 }
-
-?>

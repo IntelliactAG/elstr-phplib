@@ -338,5 +338,3 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
 
 
 }
-
-?>

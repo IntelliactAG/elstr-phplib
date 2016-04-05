@@ -19,4 +19,3 @@ class ELSTR_SoapServer extends Zend_Soap_Server {
     // TODO: Implement Elstr specific protected function _handle()
 }
 
-?>

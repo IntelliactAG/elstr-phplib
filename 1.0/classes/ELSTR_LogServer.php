@@ -45,5 +45,3 @@ class ELSTR_LogServer  extends ELSTR_Server_Abstract {
 
 }
 
-
-?>

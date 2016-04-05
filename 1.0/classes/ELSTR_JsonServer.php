@@ -77,4 +77,3 @@ class ELSTR_JsonServer extends Zend_Json_Server
     }
 
 }
-?>

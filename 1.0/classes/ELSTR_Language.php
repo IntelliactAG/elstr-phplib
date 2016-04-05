@@ -207,4 +207,3 @@ class ELSTR_Language {
     }
 }
 
-?>

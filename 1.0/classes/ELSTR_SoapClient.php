@@ -14,4 +14,3 @@ class ELSTR_SoapClient extends Zend_Soap_Client {
     }    
 }
 
-?>

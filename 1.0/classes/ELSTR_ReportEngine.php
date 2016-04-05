@@ -644,5 +644,3 @@ class ELSTR_ReportEngine {
             $objWriter->save($filename);
         }
 }
-
-?>

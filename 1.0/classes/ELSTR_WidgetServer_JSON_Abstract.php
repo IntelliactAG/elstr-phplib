@@ -53,5 +53,3 @@ abstract class ELSTR_WidgetServer_JSON_Abstract extends ELSTR_WidgetServer_Abstr
     }
 
 }
-
-?>

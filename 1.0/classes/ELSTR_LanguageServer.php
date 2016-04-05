@@ -80,5 +80,3 @@ class ELSTR_LanguageServer  extends ELSTR_Server_Abstract {
 
 }
 
-
-?>

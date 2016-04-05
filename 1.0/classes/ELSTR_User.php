@@ -55,5 +55,3 @@ class ELSTR_User {
     	return $this->m_session->enterpriseApplicationData;
     }
 }
-
-?>

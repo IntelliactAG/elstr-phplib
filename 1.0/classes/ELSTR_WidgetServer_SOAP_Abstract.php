@@ -92,5 +92,3 @@ abstract class ELSTR_WidgetServer_SOAP_Abstract extends ELSTR_WidgetServer_Abstr
     }
 
 }
-
-?>
