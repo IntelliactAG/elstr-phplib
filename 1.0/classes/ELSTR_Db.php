@@ -40,7 +40,7 @@ class ELSTR_Db {
             $affectedRows = $this->m_dbAdapter->insert($table, $bind);
         } catch (Exception $e) {
             $this->kurs->logger->err($e);
-            $exception = e;
+            $exception = $e;
         }
 
         if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
@@ -71,8 +71,8 @@ class ELSTR_Db {
             $bind = array_merge($bind, $updateDefaultValues);
             $affectedRows = $this->m_dbAdapter->update($table, $bind, $where);
         } catch (Exception $e) {
-            $this->kurs->logger->err($e);
-            $exception = e;
+            $this->m_logger->err($e);
+            $exception = $e;
         }
 
         if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
@@ -98,8 +98,8 @@ class ELSTR_Db {
         try {
             $affectedRows = $this->m_dbAdapter->delete($table, $where);
         } catch (Exception $e) {
-            $this->kurs->logger->err($e);
-            $exception = e;
+            $this->m_logger->err($e);
+            $exception = $e;
         }
 
         if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
@@ -126,8 +126,8 @@ class ELSTR_Db {
         try {
             $result = $this->m_dbAdapter->query($sql, $bind);
         } catch (Exception $e) {
-            $this->kurs->logger->err($e);
-            $exception = e;
+            $this->m_logger->err($e);
+            $exception = $e;
         }
         
         if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
