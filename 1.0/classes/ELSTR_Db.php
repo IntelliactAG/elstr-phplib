@@ -39,7 +39,7 @@ class ELSTR_Db {
             $bind = array_merge($bind, $insertDefaultValues);
             $affectedRows = $this->m_dbAdapter->insert($table, $bind);
         } catch (Exception $e) {
-            $this->kurs->logger->err($e);
+            $this->m_logger->err($e);
             $exception = $e;
         }
 
