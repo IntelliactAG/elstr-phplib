@@ -83,7 +83,26 @@ class ELSTR_Db {
 
 	}
 
+    public function updateSilent($table, $bind, $where){
 
+        $exception = null;
+        try {
+            $affectedRows = $this->m_dbAdapter->update($table, $bind, $where);
+        } catch (Exception $e) {
+            $this->m_logger->err($e);
+            $exception = $e;
+        }
+
+        if (isset($this->m_logger) && $this->m_profilerEnabled === true) {
+            $this->m_logger->debug($this->m_dbAdapter->getProfiler()->getLastQueryProfile()->getQuery());
+        }
+        if ($exception !== null) throw $e;
+        return $affectedRows;
+
+    }
+    
+    
+    
 	/**
 	 * Override: delete
 	 *
