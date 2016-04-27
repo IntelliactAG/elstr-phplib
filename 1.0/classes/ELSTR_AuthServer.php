@@ -25,7 +25,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
     }
 
 
-    private function _addResponseParamsFromResults(&$response, $result, $enterpriseApplication, $password) {
+    private function _addResponseParamsFromResults(&$response, $result, $enterpriseApplication, $password, $configSso = null) {
 
         switch ($result->getCode()) {
 
@@ -59,7 +59,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                     $username = $this->m_application->getBootstrap()->getResource('auth')->getIdentity();
 
                     // Load the roles from LDAP or any given adapter
-                    $this->_loadRolesToSession($username, $password);
+                    $this->_loadRolesToSession($username, $password, $configSso);
 
                     // Check if the current user has at least one role
                     // If not - add it to the role_anonymous
@@ -148,8 +148,6 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
     public function sso() {
         $response = array();
 
-        $configAuth['method'] = "Elstr_Sso_Adapter_Ntlm";
-
         $configAuth = $this->m_application->getOption("auth");
         $configSso = $this->m_application->getOption("sso");
 
@@ -158,7 +156,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
         $enterpriseApplication ="";
         $password ="";
 
-        $this->_addResponseParamsFromResults($response, $result, $enterpriseApplication, $password);
+        $this->_addResponseParamsFromResults($response, $result, $enterpriseApplication, $password, $configSso);
 
         return $response;
     }
@@ -241,7 +239,7 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
         return $result;
     }
 
-    private function _loadRolesToSession($username, $password) {
+    private function _loadRolesToSession($username, $password, $configSso = null) {
         $acl = $this->m_application->getBootstrap()->getResource('acl');
         $configAcl = $this->m_application->getOption("acl");
 
@@ -262,7 +260,14 @@ class ELSTR_AuthServer extends ELSTR_Server_Abstract {
                         //echo "Versuch zu binden un die Serveroptionen für '$server' zu verwenden\n";
                         $ldap->setOptions($options);
                         try {
-                            $ldap->bind($username, $password);
+                            // Normally LDAP bind is done on login with user that loges in.
+                            // SSO is an exception
+                            if(isset($configSso['ELSTR_Sso_Adapter_Ntlm'])){
+                                $ldap->bind($configSso['ELSTR_Sso_Adapter_Ntlm']['user'], $configSso['ELSTR_Sso_Adapter_Ntlm']['password']);
+                            } else {
+                                $ldap->bind($username, $password);
+                            }
+
                             $dn = $ldap->getCanonicalAccountName($username, Zend_Ldap::ACCTNAME_FORM_DN);
                             //echo "Erfolgreich: $username authentifiziert\n";
 
