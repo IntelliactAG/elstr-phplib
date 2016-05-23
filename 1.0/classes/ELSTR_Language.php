@@ -177,8 +177,10 @@ class ELSTR_Language {
                 Zend_Registry::set('Zend_Locale', $locale);
                 if (isset($this->m_options['forcedefault']) && $this->m_options['forcedefault'] == true) {
                     $this->m_session->language = $this->m_options['default'];
-                } else
-                {
+                } else if(count($locale->getBrowser()) === 0) {
+                    // For all non browser requests
+                    $this->m_session->language = $this->m_options['default'];
+                } else {
                     if (!$this->m_translation->isAvailable($locale->getLanguage())) {
                         // when user reque$this->m_session->language = $this->m_options['default'];sts a not available language reroute to default
                         $this->m_session->language = $this->m_options['default'];
