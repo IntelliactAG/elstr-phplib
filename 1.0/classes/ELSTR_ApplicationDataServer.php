@@ -27,7 +27,7 @@ class ELSTR_ApplicationDataServer  extends ELSTR_Server_Abstract {
     /**
     * Get the preview for an item or document or project
     *
-    * @param string $appNam Name of the application
+    * @param string $appName Name of the application
     * @return array
     */
     public function load($appName)

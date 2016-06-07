@@ -182,7 +182,6 @@ class ELSTR_Acl extends Zend_Acl {
 	 * @param mixed $db database
 	 * @param string $roleId database _id of the role
 	 * @param string $roleName database name of the role, the role identifier
-	 * @param array $configRoles
 	 * @return void
 	 */
 	private function _createRoleFromDb($db, $roleId, $roleName) {

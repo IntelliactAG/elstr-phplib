@@ -305,7 +305,6 @@ class ELSTR_ReportEngine {
 	/**
 	 * Creates the report object
 	 *
-	 * @param array $data
 	 * @return void
 	 */
 	public function createReport(){

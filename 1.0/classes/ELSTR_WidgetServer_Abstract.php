@@ -4,6 +4,7 @@ require_once ('ELSTR_EnterpriseApplication_Abstract.php');
 require_once ('ELSTR_Server_Abstract.php');
 require_once ('Zend/Session.php');
 require_once ('ELSTR_Exception.php');
+require_once ('ELSTR_Exception_Handling.php');
 
 /**
  * This is the abstract class every WidgetServer must implement.
@@ -25,8 +26,8 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
     /**
      * Constructor of the WidgetServer
      *
-     * @param <type> $application ZEND Application
-     * @param <type> $params Get/JSON Poste parameters from the request
+     * @param $application ZEND Application
+     * @param $params Get/JSON Poste parameters from the request
      */
     function __construct($application, $params = null) {
         parent::__construct($application);
@@ -44,7 +45,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
     /**
      * The implementation class must implement this method in order
      * to add all the applications needed to the $m_enterpriseApplications array
-     * [OPTIPON] This could later be replaced by pure configuration
+     * [OPTION] This could later be replaced by pure configuration
      */
     abstract protected function _initEnterpriseApplications();
 
@@ -65,7 +66,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      * function the response musst be generated and returned. This method will
      * first Check against the ACL, if the user is allowed to handle the request.
      *
-     * @return void
+     * @throws ELSTR_Exception
      */
     public function handle() {
         // Get acl and user object from application
@@ -136,7 +137,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
      * Register an application for this WidgetServer
      * Carefull: yet, only one instance of an application can be registered at a time
      *
-     * @param $application ELSTR_EnterpriseApplication_Abstract
+     * @param $enterpriseApplication ELSTR_EnterpriseApplication_Abstract
      * @return void
      */
     protected function registerEnterpriseApplication($enterpriseApplication) {
@@ -146,7 +147,7 @@ abstract class ELSTR_WidgetServer_Abstract extends ELSTR_Server_Abstract {
     /**
      * Remove a service from the application
      *
-     * @param $service ELSTR_Service_Abstract
+     * @param $enterpriseApplication ELSTR_Service_Abstract
      * @return void
      */
     protected function unregisterEnterpriseApplication($enterpriseApplication) {

@@ -53,6 +53,8 @@ abstract class ELSTR_EnterpriseApplication_Abstract {
      * Performs an authentication attempt, first check if credetials are present,
      * then check if is authenticated allreadey then try to authenticated.
      *
+     * @param null $username
+     * @param null $password
      * @return true if authentication attempt was successful
      */
     public function authenticate($username = null, $password = null) {

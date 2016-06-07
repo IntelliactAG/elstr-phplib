@@ -39,7 +39,6 @@ class ELSTR_Exception extends Exception{
 	 * Todo: Load messages from language file
 	 *
 	 * @return Array error object to return to the service consumer
-	 * @param  $message Object
 	 */
 	private function createResponse()
 	{

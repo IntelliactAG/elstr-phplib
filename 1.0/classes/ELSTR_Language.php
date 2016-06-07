@@ -42,7 +42,7 @@ class ELSTR_Language {
     /**
     * Change the language in the session
     *
-    * @param string $newLang
+    * @param string $lang
     * @return void
     */
     public function changeLanguage($lang)

@@ -139,13 +139,14 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
 	}
 
     /**
-    * Get the preview for an item or document or project
-    *
-    * @param string $resourceName
-    * @param string $roleName
-    * @param string $accessRight
-    * @return array
-    */
+     * Get the preview for an item or document or project
+     *
+     * @param string $resourceName
+     * @param string $roleName
+     * @param string $accessRight
+     * @return array
+     * @throws ELSTR_Exception
+     */
     public function updateAccessRight($resourceName, $roleName, $accessRight)
     {
         $result = array('action' => 'success',
@@ -215,13 +216,14 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     }
 
     /**
-    * Get the preview for an item or document or project
-    *
-    * @param string $mode
-    * @param string $resourceName
-    * @param string $type
-    * @return array
-    */
+     * Get the preview for an item or document or project
+     *
+     * @param string $mode
+     * @param string $resourceName
+     * @param string $type
+     * @return array
+     * @throws ELSTR_Exception
+     */
     public function updateResource($mode, $resourceName, $type)
     {
         $result = array('action' => 'success');
@@ -264,12 +266,13 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     }
 
     /**
-    * Get the preview for an item or document or project
-    *
-    * @param string $mode
-    * @param string $roleName
-    * @return array
-    */
+     * Get the preview for an item or document or project
+     *
+     * @param string $mode
+     * @param string $roleName
+     * @return array
+     * @throws ELSTR_Exception
+     */
     public function updateRole($mode, $roleName)
     {
         $result = array('action' => 'success');
@@ -329,7 +332,6 @@ class ELSTR_WidgetServer_JSON_Admin extends ELSTR_WidgetServer_JSON_Abstract {
     /**
     * This method must be implemented to initialize the applications
     *
-    * @return
     */
 	protected function _initEnterpriseApplications()
 	{

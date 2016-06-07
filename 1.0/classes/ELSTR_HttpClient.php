@@ -13,13 +13,14 @@ class ELSTR_HttpClient extends Zend_Http_Client {
 		parent::__construct();
 	}
 
-    /**
-    * extends standard request mechanism so that server errors are transformed into an ELSTR_Exception.
-    *
-    * @param string $request
-    * @param boolean $transmit_details The server response is handed over to the ELSTR_Exception (and later to the client), only if $transmit_details is true (default)
-    * @return Array request response
-    */
+	/**
+	 * extends standard request mechanism so that server errors are transformed into an ELSTR_Exception.
+	 *
+	 * @param string $request
+	 * @param boolean $transmit_details The server response is handed over to the ELSTR_Exception (and later to the client), only if $transmit_details is true (default)
+	 * @return Array request response
+	 * @throws ELSTR_Exception
+	 */
 public function request($request=null,$transmit_details=true)
 	{
 		$response = parent::request($request);

@@ -10,7 +10,7 @@ require_once ('ELSTR_Server_Abstract.php');
  * @copyright 2014 Intelliact AG
  */
 
-class ELSTR_LogServer  extends ELSTR_Server_Abstract {
+class ELSTR_LogServer extends ELSTR_Server_Abstract {
 
 	/**
 	 * Create a JSON Server and handle itselfs

@@ -11,7 +11,7 @@ require_once ('ELSTR_Server_Abstract.php');
  * @copyright 2009 Intelliact AG
  */
 
-class ELSTR_LanguageServer  extends ELSTR_Server_Abstract {
+class ELSTR_LanguageServer extends ELSTR_Server_Abstract {
 
 	/**
 	 * Create a JSON Server and handle itselfs
