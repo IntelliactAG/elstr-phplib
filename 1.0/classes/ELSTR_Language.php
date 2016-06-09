@@ -170,6 +170,23 @@ class ELSTR_Language {
     {
         $filename = APPLICATION_PATH . $this->m_options['module']['default'];
         if (file_exists($filename)) {
+            
+            if (!isset($this->m_translation)){
+
+                if (isset($this->m_options['cache'])){
+
+                    $cacheOptions = $this->m_options['cache'];
+                    $cache = Zend_Cache::factory('Core','File',
+                        $cacheOptions['frontendOptions'],
+                        $cacheOptions['backendOptions']);
+
+                    Zend_Translate::setCache($cache);
+                }
+
+                $this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
+
+            }
+
             $this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
 
             if (!isset($this->m_session->language)) {
