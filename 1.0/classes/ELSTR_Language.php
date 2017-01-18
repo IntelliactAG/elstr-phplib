@@ -107,6 +107,11 @@ class ELSTR_Language {
         return $this->m_translation;
     }
 
+    /**
+     * Get all translation messages including messages in the fallback language
+     *
+     * @return array
+     */
     public function getTranslationMessages()
     {
         if(isset($this->m_options['fallback'])){
@@ -120,7 +125,6 @@ class ELSTR_Language {
             return $this->m_translation->getMessages();
         }
     }
-
 
     /**
     * Get the default language
