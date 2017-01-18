@@ -107,6 +107,21 @@ class ELSTR_Language {
         return $this->m_translation;
     }
 
+    public function getTranslationMessages()
+    {
+        if(isset($this->m_options['fallback'])){
+            $messageIds = $this->m_translation->getMessageIds($this->m_options['fallback']);
+            $len = count($messageIds);
+            for ($i = 0; $i < $len; $i++) {
+                $messages[$messageIds[$i]] = $this->m_translation->_($messageIds[$i]);
+            }
+            return $messages;
+        } else {
+            return $this->m_translation->getMessages();
+        }
+    }
+
+
     /**
     * Get the default language
     *
@@ -183,11 +198,24 @@ class ELSTR_Language {
                     Zend_Translate::setCache($cache);
                 }
 
-                $this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
+                //$this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
 
             }
 
-            $this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
+            //$this->m_translation = new Zend_Translate('tmx', $filename, $this->m_options['default']);
+
+            $route = array();
+            if (isset($this->m_options['route'])){
+                $route = $this->m_options['route'];
+            }
+
+            $this->m_translation = new Zend_Translate(array(
+                'adapter' => 'tmx',
+                'content' => $filename,
+                'locale'  => $this->m_options['default'],
+                'route'   => $route
+            ));
+
 
             if (!isset($this->m_session->language)) {
                 $locale = new Zend_Locale();

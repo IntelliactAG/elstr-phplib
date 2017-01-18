@@ -40,7 +40,8 @@ class ELSTR_LanguageServer extends ELSTR_Server_Abstract {
 
     	if ($file == "") {
     		$this->m_application->getBootstrap()->getResource("language")->changeLanguage($lang);
-			$translations = $this->m_application->getBootstrap()->getResource("language")->getTranslation();
+			//$translations = $this->m_application->getBootstrap()->getResource("language")->getTranslation();
+			return $this->m_application->getBootstrap()->getResource("language")->getTranslationMessages();
     	} else {
     		$translations = new Zend_Translate('tmx', $file, 'de');
     		$defaultlanguage = 'de';
@@ -54,11 +55,10 @@ class ELSTR_LanguageServer extends ELSTR_Server_Abstract {
     		}
     		// Spracheinstellung der Uebersetzungen (Objekte) aendern
     		$translations->setLocale($_SESSION['language']);
+
+            // returns all the complete translation data (with no fallback!)
+            return $translations->getMessages();
     	}
-
-
-        // returns all the complete translation data
-        return $translations->getMessages();
     }
 
 	/**
