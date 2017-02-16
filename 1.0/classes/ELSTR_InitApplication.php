@@ -16,7 +16,6 @@ $application = new Zend_Application(
 $application->bootstrap()
             ->run();
 
-
 // Ge the sso configuration
 $configSso = $application->getOption("sso");
 if(!$application->getBootstrap()->getResource('auth')->hasIdentity() && $configSso){
@@ -102,7 +101,9 @@ if (strpos($elstrVersion, "1.") === 0) {
 } elseif(strpos($elstrVersion, "3.") === 0) {
     // Load the Elstr 3.x frontend with React
     $elstrHeader .= "<!-- Elstr 3.x frontend with React -->".PHP_EOL;
+
     define('APPLICATION_BUILD_FOLDER', $configPublic['libs']['appBuildFolder']);
+
     $application->getBootstrap()->getResource("language")->cleanup();
     if (isset($languageModulesToRegister)) {
         $application->getBootstrap()->getResource("language")->registerModules($languageModulesToRegister);
@@ -114,5 +115,13 @@ if (strpos($elstrVersion, "1.") === 0) {
     $elstrHeader .= "    applicationData : " . Zend_Json::encode($applicationDataServer->load(APPLICATION_NAME)) . ",".PHP_EOL;    
     $elstrHeader .= "};".PHP_EOL;
     $elstrHeader .= "</script>".PHP_EOL;
-    $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/".APPLICATION_BUILD_FOLDER."/" . APPLICATION_NAME . ".main.js' ></script>";
+
+    if (isset($configPublic['libs']) &&
+        isset($configPublic['libs']['liveReloadHost'])) {
+
+        $elstrHeader .= "<script type='text/javascript' src='" . $configPublic['libs']['liveReloadHost'] . "public/app.dev/".APPLICATION_BUILD_FOLDER."/" . APPLICATION_NAME . ".main.js' ></script>";
+
+    }else{
+        $elstrHeader .= "<script type='text/javascript' src='" . APPLICATION_VERSION . "/".APPLICATION_BUILD_FOLDER."/" . APPLICATION_NAME . ".main.js' ></script>";
+    }
 }
