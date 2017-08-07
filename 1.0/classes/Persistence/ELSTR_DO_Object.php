@@ -21,9 +21,9 @@
 		public $_updateUser;
 		public $_updateDate;
 
-		function __construct($app) {
+		function __construct($app, $server) {
 			$this->app = $app;
-			$this->db = $app->getBootstrap()->getResource('db')['btext'];
+			$this->db = $app->getBootstrap()->getResource('db')[$server];
 			$this->user = $app->getBootstrap()->getResource('user');
 		}
 
