@@ -10,7 +10,7 @@
 
 	abstract class ELSTR_Server_Abstract
 	{
-		protected $m_application;
+		public $m_application;
 		
 		/** 
 		 * The constructure requires $application to be handled

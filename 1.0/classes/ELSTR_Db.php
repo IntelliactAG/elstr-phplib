@@ -12,6 +12,8 @@ class ELSTR_Db {
     var $m_logger;
     var $m_profilerEnabled;
 
+    private $transactionStarted = false;
+
     function __construct($dbAdapter,$logger,$profilerEnabled)
     {
         $this->m_dbAdapter = $dbAdapter;
@@ -100,9 +102,7 @@ class ELSTR_Db {
         return $affectedRows;
 
     }
-    
-    
-    
+
 	/**
 	 * Override: delete
 	 *
@@ -128,7 +128,6 @@ class ELSTR_Db {
         return $affectedRows;
 
 	}
-
 
     /**
     * Prepares and executes an SQL statement with bound data.
@@ -162,10 +161,16 @@ class ELSTR_Db {
 	}
 
     public function beginTransaction(){
+        if ($this->transactionStarted) throw new ELSTR_Exception("Transaction already started");
+        $this->transactionStarted = true;
+
         return $this->m_dbAdapter->beginTransaction();
     }
 
     public function commit(){
+        if (!$this->transactionStarted) throw new ELSTR_Exception("Transaction was not started");
+        $this->transactionStarted = false;
+
         return $this->m_dbAdapter->commit();
     }
 
@@ -193,7 +198,6 @@ class ELSTR_Db {
             '_updateUser' => $updaUser);
     }
 
-
 	private function _getUpdateDefaultData($userId)
 	{
 		$updaUser = $userId;
@@ -203,4 +207,3 @@ class ELSTR_Db {
 	}
 
 }
-
