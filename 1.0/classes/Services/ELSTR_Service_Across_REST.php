@@ -20,7 +20,7 @@ class ELSTR_Service_Across_REST extends ELSTR_Service_Abstract {
         $this->m_url = $options['url'];
     }
 
-	protected function get($object, $expand, $select) {
+	protected function get($object, $id, $expand, $select) {
         $restClient = new ELSTR_HttpClient();
 
         // Example: .../Entries(80999)?$expand=Instance,Properties,Terms,Terms/Properties,Definitions
@@ -31,9 +31,9 @@ class ELSTR_Service_Across_REST extends ELSTR_Service_Abstract {
         if (is_array($select) && count($select) > 0) {
             $parameters['$select'] = implode(',', $select);
         }
-        $restClient->setUri($this->m_url.$object);
+        $restClient->setUri($this->m_url.$object."($id)");
         $restClient->setHeaders('Accept', 'application/json');
-        
+
         $restClient->setParameterGet($parameters);
         $response = $restClient->request('GET');
         $status = $response->getStatus();
@@ -41,4 +41,3 @@ class ELSTR_Service_Across_REST extends ELSTR_Service_Abstract {
     }
 
 }
-?>
